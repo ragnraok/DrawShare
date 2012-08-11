@@ -1,15 +1,19 @@
-package com.drawshare;
+package com.drawshare.activities.userprofile;
+
+import com.drawshare.R;
+import com.drawshare.R.layout;
+import com.drawshare.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class MainActivity extends Activity {
+public class LoginActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
     }
 
     @Override

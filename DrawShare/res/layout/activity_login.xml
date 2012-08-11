@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    >
+
+    <TextView android:id="@+id/login_drawshare_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="DrawShare"
+        tools:context=".MainActivity" 
+        android:textSize="40dp"
+        android:paddingTop="100dp"/>
+   
+    <LinearLayout android:layout_below="@id/login_drawshare_text"
+        android:orientation="vertical"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+  		android:layout_marginTop="70dp">
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/login_username_text"
+                android:text="username/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <EditText android:id="@+id/login_username_edit"
+                android:layout_toRightOf="@id/login_username_text"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/login_password_text"
+                android:text="password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="34dp"/>
+            <EditText android:id="@+id/login_password_edit"
+                android:layout_toRightOf="@id/login_password_text"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+        <Button android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"
+            android:layout_gravity="right"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
