@@ -1,15 +1,17 @@
 package com.drawshare.activities.userprofile;
 
-import com.drawshare.R;
-import com.drawshare.R.layout;
-import com.drawshare.R.menu;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 
-public class LoginActivity extends Activity {
+import com.drawshare.R;
+import com.drawshare.activities.base.BaseActivity;
+import com.drawshare.application.DrawShareApplication;
 
+public class LoginActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
