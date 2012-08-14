@@ -28,7 +28,7 @@ public abstract class BaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		application = (DrawShareApplication) this.getApplication();
+		application = (DrawShareApplication) this.getApplication(); // set the application object
 		super.onCreate(savedInstanceState);
 	}
 	

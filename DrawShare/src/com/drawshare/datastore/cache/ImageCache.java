@@ -17,17 +17,17 @@ public class ImageCache extends BaseCache{
 	
 	private static ImageCache imageCache = null;
 	
-	private ImageCache(Context context) {
-		super(context);
+	private ImageCache() {
+		//super(context);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static ImageCache getImageCacheHandler(Context context) {
+	public static ImageCache getImageCache() {
 		if (imageCache != null) {
 			return imageCache;
 		}
 		else {
-			imageCache = new ImageCache(context);
+			imageCache = new ImageCache();
 			return imageCache;
 		}
 	}

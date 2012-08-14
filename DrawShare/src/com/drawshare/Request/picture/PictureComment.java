@@ -28,10 +28,10 @@ public class PictureComment {
 	 * @param pictureId 图片的id
 	 * @return 一个JSONObject,格式如下:
 	 * {'pict_id': pict_id, 
-     *                {'pict_comments': [{'pict_comment': comment, 'comment_user_id': user_id, 
-     *                   'comment_date': YYYY/MM/DD}, 
-     *                   ........]
-     *               }}
+     *                   {'pict_comments': [{'pict_comment': comment, 'comment_user_id': user_id, 
+     *                   'comment_date': YYYY/MM/DD, 'comment_user_name': username}, 
+     *                       ........]
+     *                   }}
 	 * @throws PictureNotExistException，当picutureId对应的图片不存在的时候,抛出此异常
 	 */
 	public static JSONObject getPictComments(String pictureId

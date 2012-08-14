@@ -1,6 +1,7 @@
 package com.drawshare.datastore.cache;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Environment;
 
 public class JsonCache extends BaseCache {
 	
@@ -25,18 +27,18 @@ public class JsonCache extends BaseCache {
 	
 	private static JsonCache jsonCache = null;
 	
-	public JsonCache getJsonCache(Context context) {
+	public static JsonCache getJsonCache() {
 		if (jsonCache != null) {
 			return jsonCache;
 		}
 		else {
-			jsonCache = new JsonCache(context);
+			jsonCache = new JsonCache();
 			return jsonCache;
 		}
 	}
 	
-	private JsonCache(Context context) {
-		super(context);
+	private JsonCache() {
+		//super(context);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -141,6 +143,8 @@ public class JsonCache extends BaseCache {
      *               'picture_url': picture_url, 
      *                   'thumbnail_url': thumbnail_url, 'edit_type': edit_type, 'edit_date': YYYY/MM/DD}, ...
      *                   ]}
+     * the edit_type 1 is create, 2 is fork
+     * 若缓存不存在，返回null
 	 */
 	public JSONObject getFriendNewsJsonCache() {
 		try {
@@ -154,5 +158,16 @@ public class JsonCache extends BaseCache {
 		
 	}
 	
+	public boolean ifExistFriendNewsCache() {
+		String filePathName = FRIENDS_NEWS_DIR + this.getFileNameFromType(FRIEND_NEWS);
+		File file = new File(Environment.getExternalStorageDirectory() + filePathName);
+		return file.isFile() && file.exists();
+	}
+	
+	public boolean ifExistHotestPictCache() {
+		String filePathName = FRIENDS_NEWS_DIR + this.getFileNameFromType(HOTEST_PICT);
+		File file = new File(Environment.getExternalStorageDirectory() + filePathName);
+		return file.isFile() && file.exists();
+	}
 	
 }

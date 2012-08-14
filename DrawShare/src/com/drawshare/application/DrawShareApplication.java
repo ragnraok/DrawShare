@@ -27,6 +27,7 @@ public class DrawShareApplication extends Application {
 	}
 	
 	public boolean getNetworkState() {
+		detectNetState(); // first redetect the network state then get the variable
 		return this.ifNetAvailable;
 	}
 

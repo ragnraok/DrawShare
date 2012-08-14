@@ -19,6 +19,16 @@ import android.util.Log;
 public class UserPicture {
 	private static final String getUserPictURL = Constant.SITE + Constant.Picture.GET_USER_PICT;
 	
+	/**
+	 * 获取某个用户的所有图片
+	 * @param userId
+	 * @return 一个JSONObject，格式为:
+	 * 					{'pictures':
+     *                           [{'picture_id': picture_id, 'title':title, 'picture_url': picture_url,
+     *                              'picture_thumbnail_url': picture_thumbnail_url}, ...]
+     *                           }
+	 * @throws UserNotExistException
+	 */
 	public static JSONObject getUserPict(String userId) throws UserNotExistException {
 		Log.d(Constant.LOG_TAG, "in get user picture, the url is " + getUserPictURL + userId + "/");
 		

@@ -10,10 +10,9 @@ import android.content.Context;
 import android.os.Environment;
 
 public abstract class BaseCache {
-	protected Context context;
+	//protected Context context;
 	
-	public BaseCache(Context context) {
-		this.context = context;
+	public BaseCache() {
 	}
 	
 	/**
