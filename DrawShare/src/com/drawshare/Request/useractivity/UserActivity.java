@@ -29,7 +29,7 @@ public class UserActivity {
 	 * {activities:[
      *        {'userid': userid, 'username': username, 'picture_id': picture_id, 'picture_title': title, 
      *               'picture_url': picture_url, 
-     *                   'thumbnail_url': thumbnail_url, 'edit_type': edit_type, 'edit_date': YYYY/MM/DD}, ...
+     *                   'edit_type': edit_type, 'edit_date': YYYY/MM/DD}, ...
      *                   ]}
      * the edit_type 1 is create, 2 is fork
 	 * @throws AuthFailException 如果apiKey错误,抛出此异常

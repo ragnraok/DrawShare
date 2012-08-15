@@ -35,7 +35,7 @@ public class UserProfile {
 	 * @param userId 用户的id（服务器端的ID）
 	 * @return 一个JSONObject，格式如下：
 	 *                         {'username':username, 'email':email, 'short_description':short_description, 
-     *                   'user_id': user_id, 'avatar_url': avatar_url, 'thumbnail_url': thumbnail_url, 
+     *                   'user_id': user_id, 'avatar_url': avatar_url, 
      *                   'collect_num': collect_num}
      * 其中，avatar_url和thumbnail_url即为头像，以及头像缩略图的地址，可以通过这个地址下载到相应的图片,
      * 而collect_num为用户收藏图片的数目
@@ -88,7 +88,7 @@ public class UserProfile {
 	 * @return 一个JSONObject，格式如下：
 	 * {'user_name':username, 'short_description':short_description,
      *                           'email': email, 'avatar_url': avatar_url, 
-     *                           'thumbnail_url': thumbnail_url}
+     *                           }
 	 * @throws UserNotExistException 如果该userId对应的用户不存在的话，抛出此异常
 	 * @throws AuthFailException 如果apiKey错误的话，抛出此异常
 	 */
@@ -236,7 +236,7 @@ public class UserProfile {
 	 * @return 一个JSONObject, 格式如下:
 	 * {collect_pictures:
      *            [{'picture_id': picture_id, 'title':title, 'create_username': username,
-     *                         'picture_url':picture_url, 'picture_thumbnail_url':thumbnail_url},
+     *                         'picture_url':picture_url},
      *                      ...]
      * }
      *

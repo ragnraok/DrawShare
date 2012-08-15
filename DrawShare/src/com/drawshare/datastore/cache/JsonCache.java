@@ -165,9 +165,23 @@ public class JsonCache extends BaseCache {
 	}
 	
 	public boolean ifExistHotestPictCache() {
-		String filePathName = FRIENDS_NEWS_DIR + this.getFileNameFromType(HOTEST_PICT);
+		String filePathName = HOTEST_PICT_DIR + this.getFileNameFromType(HOTEST_PICT);
 		File file = new File(Environment.getExternalStorageDirectory() + filePathName);
 		return file.isFile() && file.exists();
 	}
+
+	@Override
+	public boolean clearCache() {
+		// TODO Auto-generated method stub
+		//return super.clearCache();
+		if (
+				this.deleteAllUnderPath(HOTEST_PICT_DIR) &&
+				this.deleteAllUnderPath(FRIENDS_NEWS_DIR) 
+		) 
+			return true;
+		return false;
+	}
+	
+	
 	
 }

@@ -12,7 +12,5 @@ public class User {
 	public int collectNum = NO_COLLECT_PICT;
 	public String avatarUrl = null;
 	public Bitmap avatar = null;
-	public String avatarThumbnailUrl = null;
-	public Bitmap avatarThumbnail = null;
 	
 }

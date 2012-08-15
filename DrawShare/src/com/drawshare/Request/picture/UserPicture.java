@@ -25,7 +25,7 @@ public class UserPicture {
 	 * @return 一个JSONObject，格式为:
 	 * 					{'pictures':
      *                           [{'picture_id': picture_id, 'title':title, 'picture_url': picture_url,
-     *                              'picture_thumbnail_url': picture_thumbnail_url}, ...]
+     *                              }, ...]
      *                           }
 	 * @throws UserNotExistException
 	 */

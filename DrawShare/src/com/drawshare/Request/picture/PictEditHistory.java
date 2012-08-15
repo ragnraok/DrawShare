@@ -30,10 +30,10 @@ public class PictEditHistory {
 	 * @return 一个JSONObject,格式如下:
 	 * {'origin_picture': 
      *          {'picture_id': pict_id, 'picture_url': url, 
-     *                    'picture_thumbnail_url': thumbnail_url, 'edit_date': YYYY/MM/DD,
+     *                     'edit_date': YYYY/MM/DD,
      *                        'create_username': username, 'title': title},
      *                         'fork_picture': [{'picture_id': picture_id, 'picture_url': url,
-     *                          'picture_thumbnail_url': thumbnail_url, 'create_username': username, 'edit_date': YYYY/MM/DD,
+     *                          'create_username': username, 'edit_date': YYYY/MM/DD,
      *                           'title': title},
      *                  ....]
      *  }

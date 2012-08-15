@@ -25,7 +25,7 @@ public class TopPict {
 	 *	 {'pictures': 
      *            [{'picture_id': picture_id, 'create_user_id': user_id, 'create_username': username, 
      *                   'create_user_avatar_url': avatar_url, 'title': title, 'picture_url': picture_url, 
-     *                      'picture_thumbnail_url': picture_thumbnail_url, 'picture_score': score}, ......]
+     *                      'picture_score': score}, ......]
      *    }
 	 */
 	public static JSONObject getTopScorePict(int num) {

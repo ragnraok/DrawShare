@@ -24,7 +24,6 @@ public class HotestPictCacheRenderer extends CacheRender<Picture> {
 			picture.creatUserName = json.getString("create_username");
 			picture.title = json.getString("title");
 			picture.pictURL = json.getString("picture_url");
-			picture.pictThumbnailURL = json.getString("picture_thumbnail_url");
 			picture.avgScore = (float) json.getDouble("picture_score");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -39,13 +38,6 @@ public class HotestPictCacheRenderer extends CacheRender<Picture> {
 			picture.pict = null;
 		}
 		
-		try {
-			picture.pictThumbnail = ImageCache.getImageCache().getCacheImage(picture.pictThumbnailURL);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			picture.pictThumbnail = null;
-		}
 		return picture;
 	}
 

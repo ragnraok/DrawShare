@@ -31,7 +31,7 @@ public class PictEdit {
 	 * @return 一个JSONObject,格式如下:
 	 * {'picture_id':picture_id, 'create_user_id': create_user_id,
      *                   'picture_intro': picture_intro, 'picture_url': picture_url, 
-     *                   'picture_thumbnail_url': picture_thumbnail_url, 'picture_score': picture_score,
+     *                   'picture_score': picture_score,
      *                   'picture_create_date': YYYY/MM/DD, 'create_username': username, 
      *                   'title':title}
 	 * @throws PictureNotExistException, 如果pictureId对应的图片不存在的话,抛出此异常

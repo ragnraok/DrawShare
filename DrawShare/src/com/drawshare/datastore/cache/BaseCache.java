@@ -62,4 +62,37 @@ public abstract class BaseCache {
 		return fins;
 	}
 	
+	/**
+	 * 删除某一个文件夹下的所有内容
+	 * @param path
+	 * @return
+	 */
+	public boolean deleteAllUnderPath(String path) {
+		boolean bool = false; 
+	     File f = new File(path);
+	     if(f.exists() && f.isDirectory()){
+	       if(f.listFiles().length==0)
+	       	return true;
+	       else{
+	         File[] flist = f.listFiles();
+	         for(int i = 0; i < flist.length; i++){
+	           if(flist[i].isDirectory()){
+	           	deleteAllUnderPath(flist[i].getAbsolutePath());
+	           }
+	           flist[i].delete();
+	         }
+	       }
+	       bool = true;
+	    }
+	    return bool;
+	}
+	
+	/**
+	 * 清空缓存
+	 * @return
+	 */
+	public boolean clearCache() {
+		return false;
+	}
+	
 }

@@ -24,7 +24,6 @@ public class FriendsNewsCacheRenderer extends CacheRender<FriendActivity> {
 			activity.pictureId = json.getString("pictureId");
 			activity.pictureTitle = json.getString("picture_title");
 			activity.pictureURL = json.getString("picture_url");
-			activity.pictureThumbnailURL = json.getString("thumbnail_url");
 			activity.editType = json.getInt("edit_type");
 			SimpleDateFormat dateFormat = new SimpleDateFormat(json.getString("yyyy/MM/dd"));
 			activity.editDate = dateFormat.getCalendar();

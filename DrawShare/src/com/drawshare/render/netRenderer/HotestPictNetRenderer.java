@@ -32,7 +32,6 @@ public class HotestPictNetRenderer extends NetRender<Picture> {
 			picture.creatUserName = json.getString("create_username");
 			picture.title = json.getString("title");
 			picture.pictURL = json.getString("picture_url");
-			picture.pictThumbnailURL = json.getString("picture_thumbnail_url");
 			picture.avgScore = (float) json.getDouble("picture_score");
 			return picture;
 		} catch (JSONException e) {

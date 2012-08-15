@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 
 public class ImageCache extends BaseCache{
 	
+
 	private static final String IMG_CACHE_DIR = "/" + CacheConstant.CACHE_BASE_DIR + "/" + 
 			CacheConstant.IMAGE_CACHE + "/";
 	
@@ -86,5 +87,15 @@ public class ImageCache extends BaseCache{
 		String pictFileName = getPictFileNameFromURL(pictureURL);
 		Bitmap bitmap = this.readImageFromFile(IMG_CACHE_DIR + pictureURL);
 		return bitmap;
+	}
+	
+	@Override
+	public boolean clearCache() {
+		// TODO Auto-generated method stub
+		//return super.clearCache();
+		if (this.deleteAllUnderPath(IMG_CACHE_DIR)) {
+			return true;
+		}
+		return false;
 	}
 }

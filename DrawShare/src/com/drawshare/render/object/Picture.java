@@ -13,8 +13,6 @@ public class Picture {
 	public Calendar createDate = null;
 	public Bitmap pict = null;
 	public String pictURL = null;
-	public Bitmap pictThumbnail = null;
-	public String pictThumbnailURL = null;
 	public float avgScore = 0;
 
 	public Picture() {
