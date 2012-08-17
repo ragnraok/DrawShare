@@ -29,14 +29,14 @@ public class HotestPictCacheRenderer extends CacheRender<Picture> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		/**
 		try {
 			picture.pict = ImageCache.getImageCache().getCacheImage(picture.pictURL);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			picture.pict = null;
-		}
+		}**/
 		
 		return picture;
 	}
@@ -53,7 +53,7 @@ public class HotestPictCacheRenderer extends CacheRender<Picture> {
 		if (hotestPictObject != null) {
 			try {
 				JSONArray hotestPictArray = hotestPictObject.getJSONArray("pictures");
-				ArrayList<Picture> hotestPictList = new ArrayList<Picture>();
+				ArrayList<Picture> hotestPictList = new ArrayList<Picture>(10);
 				for (int i = 0; i < hotestPictArray.length(); i++) {
 					Picture pict = this.JSONtoObject(hotestPictArray.getJSONObject(i));
 					hotestPictList.add(pict);

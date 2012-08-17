@@ -31,20 +31,15 @@ public class FriendsNewsCacheRenderer extends CacheRender<FriendActivity> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		/**
 		try {
 			activity.picture = ImageCache.getImageCache().getCacheImage(activity.pictureURL);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			activity.picture = null;
-		}
-		try {
-			activity.pictureThumbnail = ImageCache.getImageCache().getCacheImage(activity.pictureThumbnailURL);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			activity.pictureThumbnail = null;
-		}
+		}**/
+		
 		return activity;
 	}
 

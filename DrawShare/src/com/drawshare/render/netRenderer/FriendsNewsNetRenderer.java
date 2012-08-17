@@ -73,7 +73,7 @@ public class FriendsNewsNetRenderer extends NetRender<FriendActivity> {
 		JSONObject activityObject = UserActivity.getFollowActivities(userId, apiKey, num);
 		if (activityObject != null) {
 			// first cache the json
-			JsonCache.getJsonCache().cacheFriendNewsJson(activityObject.toString());
+			//JsonCache.getJsonCache().cacheFriendNewsJson(activityObject.toString());
 			// then parser it
 			JSONArray activityArray;
 			try {

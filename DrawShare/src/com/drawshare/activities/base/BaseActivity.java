@@ -32,4 +32,25 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	}
 	
+	/**
+	 * 将所有的控件通过findViewById实例化
+	 */
+	protected void findAllView() {
+		
+	}
+	
+	/**
+	 * 
+	 */
+	protected void setUpView() {
+		
+	}
+	
+	/**
+	 * 
+	 */
+	protected void setViewAction() {
+		
+	}
+	
 }

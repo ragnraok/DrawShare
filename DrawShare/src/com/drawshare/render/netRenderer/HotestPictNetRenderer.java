@@ -50,11 +50,11 @@ public class HotestPictNetRenderer extends NetRender<Picture> {
 		JSONObject pictsObject = TopPict.getTopScorePict(num);
 		if (pictsObject != null) {
 			// first cache it
-			JsonCache.getJsonCache().cacheHotestPictJson(pictsObject.toString());
+			//JsonCache.getJsonCache().cacheHotestPictJson(pictsObject.toString());
 			// then parser it
 			try {
 				JSONArray pictArray = pictsObject.getJSONArray("pictures");
-				ArrayList<Picture> pictList = new ArrayList<Picture>();
+				ArrayList<Picture> pictList = new ArrayList<Picture>(this.num);
 				
 				for (int i = 0; i < pictArray.length(); i++) {
 					Picture pict = this.JSONtoObject(pictArray.getJSONObject(i));

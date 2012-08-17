@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	<ImageView android:id="@+id/register_head_image"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="-6.5dp"
+	    android:src="@drawable/register_head"/>
+	<LinearLayout android:layout_width="250dp"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="vertical"
+	    android:layout_marginTop="30dp"
+	    android:layout_below="@id/register_head_image">
+	    <EditText android:id="@+id/register_username_edit"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:maxLines="1"
+	        android:hint="Username"/>
+	    <EditText android:id="@+id/register_email_edit"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:maxLines="1"
+	        android:hint="Email"
+	        android:layout_marginTop="5dp"/>
+	    <EditText android:id="@+id/register_password_edit"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"
+	        android:maxLines="1"
+	        android:hint="Password"
+	        android:layout_marginTop="5dp"
+	        android:password="true"/>
+	    <EditText android:id="@+id/register_confirm_password_edit"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="Confirm Password"
+	        android:layout_marginTop="5dp"
+	        android:maxLines="1"
+	        android:password="true"/>
+	    <Button android:id="@+id/register_register_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:background="@drawable/confirm_register_button_selector"
+	        android:layout_marginTop="15dp"/>
+	</LinearLayout>
+
+
+</RelativeLayout>

@@ -13,9 +13,7 @@ public class FriendActivity {
 	public String pictureId = null;
 	public String pictureTitle = null;
 	public String pictureURL = null;
-	public String pictureThumbnailURL = null;
 	public Bitmap picture = null;
-	public Bitmap pictureThumbnail = null;
 	public int editType = 0;
 	public Calendar editDate = null;
 }

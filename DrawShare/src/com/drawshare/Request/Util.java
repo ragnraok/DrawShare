@@ -7,11 +7,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.drawshare.util.DrawShareConstant;
+
+import android.R.integer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 public class Util {
+	
+	private static final String LOG_TAG = "Util";
 	
 	/**
 	 * Let the server return json string can be worked in the fucking org.json package
@@ -25,7 +31,7 @@ public class Util {
 	
 	public static String bitmapToBase64String(Bitmap bitmap) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 		byte[] bitmapArray = baos.toByteArray();
 		
 		String encodeString = Base64.encodeToString(bitmapArray, Base64.DEFAULT);
@@ -37,25 +43,78 @@ public class Util {
 	 * 将网址中的内容转换成Bitmap
 	 * @param siteUrl
 	 * @return
+	 * @throws Exception 
 	 */
-	public static Bitmap urlToBitmap(String siteUrl) {
-		try {
-			URL url = new URL(siteUrl);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
+	public static Bitmap urlToBitmap(String siteUrl, int requireSize) throws Exception {
+			Log.d(LOG_TAG, "call the urlToBitmap"); // called 8 times..
 			
-			InputStream inputStream = connection.getInputStream();
-			Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+			if (siteUrl == null) {
+				Log.d(LOG_TAG, "the url is null, throw Exception");
+				throw new Exception();
+			}
+				
+			
+			URL url = new URL(siteUrl);
+			//HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			//connection.setDoInput(true);
+			//connection.connect();
+			
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(url.openStream(), null, options);
+			
+			// determinte the scale size
+			int scale = 1;
+			Log.d(Constant.LOG_TAG, "the outHeight is " + options.outHeight + ", the outWidth is " + options.outWidth);
+			 
+			scale = computeSampleSize(options, -1, requireSize * requireSize); 
+			options.inJustDecodeBounds = false;
+			Log.d(Constant.LOG_TAG, "the scale is " + scale);
+			options.inSampleSize = scale;
+			Bitmap bitmap = BitmapFactory.decodeStream(url.openStream(), null, options);
 			
 			return bitmap;
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 	}
+	
+	public static int computeSampleSize(BitmapFactory.Options options,  
+	        int minSideLength, int maxNumOfPixels) {  
+	    int initialSize = computeInitialSampleSize(options, minSideLength,maxNumOfPixels);  
+	  
+	    int roundedSize;  
+	    if (initialSize <= 8 ) {  
+	        roundedSize = 1;  
+	        while (roundedSize < initialSize) {  
+	            roundedSize <<= 1;  
+	        }  
+	    } else {  
+	        roundedSize = (initialSize + 7) / 8 * 8;  
+	    }  
+	  
+	    return roundedSize;  
+	}  
+	  
+	private static int computeInitialSampleSize(BitmapFactory.Options options,int minSideLength, int maxNumOfPixels) {  
+	    double w = options.outWidth;  
+	    double h = options.outHeight;  
+	  
+	    int lowerBound = (maxNumOfPixels == -1) ? 1 :  
+	            (int) Math.ceil(Math.sqrt(w * h / maxNumOfPixels));  
+	    int upperBound = (minSideLength == -1) ? 128 :  
+	            (int) Math.min(Math.floor(w / minSideLength),  
+	            Math.floor(h / minSideLength));  
+	  
+	    if (upperBound < lowerBound) {  
+	        // return the larger one when there is no overlapping zone.  
+	        return lowerBound;  
+	    }  
+	  
+	    if ((maxNumOfPixels == -1) &&  
+	            (minSideLength == -1)) {  
+	        return 1;  
+	    } else if (minSideLength == -1) {  
+	        return lowerBound;  
+	    } else {  
+	        return upperBound;  
+	    }  
+	}  
 }

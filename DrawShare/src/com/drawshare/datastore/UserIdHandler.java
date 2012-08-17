@@ -28,6 +28,11 @@ public class UserIdHandler {
 		
 	}
 	
+	/**
+	 * 获取目前登录用户的user id
+	 * @param context
+	 * @return 用户的user id，如果不存在，返回null
+	 */
 	public static String getUserId(Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(userIdPreferencesName, Context.MODE_WORLD_READABLE);
 		String userId  = preferences.getString(userIdKey, null);

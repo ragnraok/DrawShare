@@ -8,9 +8,12 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 public abstract class BaseCache {
 	//protected Context context;
+	
+	private static final String LOG_TAG = "BaseCache";
 	
 	public BaseCache() {
 	}
@@ -36,9 +39,12 @@ public abstract class BaseCache {
 		else {	
 			try {
 				//file.mkdirs();
-				File fileDirs = new File(file.getParent());
-				fileDirs.mkdirs();
-				file.createNewFile();
+				//File fileDirs = new File(file.getParent());
+				//fileDirs.mkdirs();
+				//Log.d(LOG_TAG, "make the fileDirs " + fileDirs.getPath());
+				//file.createNewFile();	
+				//File.createTempFile(file.getName(), "");
+				Log.d(LOG_TAG, "create a new file name " + file.getName());
 				fouts = new FileOutputStream(file);
 				return fouts;
 			} catch (IOException e) {

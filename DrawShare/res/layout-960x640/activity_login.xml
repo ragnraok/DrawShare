@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    >
+	<ImageView android:id="@+id/login_head_image"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/login_head"
+	    android:layout_marginTop="-6.5dp"
+	    />
+	<LinearLayout android:id="@+id/layout_login_username_and_password"
+	    android:layout_below="@id/login_head_image"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:orientation="vertical"
+	    android:layout_marginTop="80dp">
+	    <EditText android:id="@+id/login_uesrname_email_edit"
+	        android:layout_width="280dp"
+	        android:layout_height="wrap_content"
+	        android:maxLines="1"
+	        android:hint="Username/Email"/>
+	    <EditText android:id="@+id/login_password_edit"
+             android:layout_width="280dp"
+             android:layout_height="wrap_content"
+             android:hint="Password"
+             android:maxLines="1"
+             android:password="true"/>
+	</LinearLayout>
+   	<RelativeLayout android:layout_below="@id/layout_login_username_and_password"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="15dp">
+         <Button android:id="@+id/login_login_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:paddingLeft="20dp"
+             android:paddingRight="20dp"
+             android:background="@drawable/login_button_selector"/>
+     </RelativeLayout>
+
+</RelativeLayout>
