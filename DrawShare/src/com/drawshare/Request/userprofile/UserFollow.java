@@ -22,7 +22,14 @@ public class UserFollow {
 	private static final String followUserURL = Constant.SITE + Constant.UserProfile.FOLLOW_USER;
 	private static final String unfollowUserURL = Constant.SITE + Constant.UserProfile.UNFOLLOW_USER;
 	
-	
+	/**
+	 * 获取用户的所有关注信息
+	 * @param userId
+	 * @return 一个JSONObject，格式如下:
+	 * {"followers": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url}, .....],
+                        "following": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url}, .....]}
+	 * @throws UserNotExistException
+	 */
 	public static final JSONObject getFollowInfo(String userId) throws UserNotExistException {
 		Log.d(Constant.LOG_TAG, "the get follow info url is " + getFollowURL + userId);
 		try {

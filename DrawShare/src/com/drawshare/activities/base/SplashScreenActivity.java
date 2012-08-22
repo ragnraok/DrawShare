@@ -8,9 +8,13 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
+import com.drawshare.activities.userprofile.LoginActivity;
+import com.drawshare.activities.userprofile.UserIndexActivity;
+import com.drawshare.asyncloader.AsyncImageLoader;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
+import com.drawshare.util.DrawShareConstant;
 
 public class SplashScreenActivity extends BaseActivity {
 
@@ -32,16 +36,19 @@ public class SplashScreenActivity extends BaseActivity {
 				}
 				boolean login = ifLogin();
 				Intent nextIntent = null;
+				AsyncImageLoader.cleanRamCache();
 				if (login == true) {
 					// enter the userprofile activity
-					nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
+					//nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
+					nextIntent = new Intent(SplashScreenActivity.this, UserIndexActivity.class);
+					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, UserIdHandler.getUserId(SplashScreenActivity.this));
 					Log.d(Constant.LOG_TAG, "the userid is " + UserIdHandler.getUserId(SplashScreenActivity.this) + 
 							", the apikey is " + ApiKeyHandler.getApiKey(SplashScreenActivity.this) + ", the username is " +
 							UserNameHandler.getUserName(SplashScreenActivity.this));
 				}
 				else {
-					//nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-					nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
+					nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+					//nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
 					//nextIntent = new Intent(SplashScreenActivity.this, RegisterActivity.class);
 				}
 				startActivity(nextIntent);

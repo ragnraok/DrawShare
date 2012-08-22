@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
 
 import com.drawshare.util.DrawShareConstant;
@@ -18,6 +19,8 @@ import android.util.Log;
 public class Util {
 	
 	private static final String LOG_TAG = "Util";
+	
+	private static int callTime = 0;
 	
 	/**
 	 * Let the server return json string can be worked in the fucking org.json package
@@ -45,35 +48,43 @@ public class Util {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Bitmap urlToBitmap(String siteUrl, int requireSize) throws Exception {
-			Log.d(LOG_TAG, "call the urlToBitmap"); // called 8 times..
+	public static Bitmap urlToBitmap(String siteUrl, int requireSize) {
+			Log.d(LOG_TAG, "call the urlToBitmap " + ++callTime); // called 8 times..
 			
 			if (siteUrl == null) {
 				Log.d(LOG_TAG, "the url is null, throw Exception");
-				throw new Exception();
+				return null;
 			}
+			
+			URL url;
+			try {
+				url = new URL(siteUrl);
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inJustDecodeBounds = true;
+				BitmapFactory.decodeStream(url.openStream(), null, options);
+			
 				
+				// determinte the scale size
+				int scale = 1;
+				//Log.d(Constant.LOG_TAG, "the outHeight is " + options.outHeight + ", the outWidth is " + options.outWidth);
+				 
+				scale = computeSampleSize(options, -1, requireSize * requireSize); 
+				options.inJustDecodeBounds = false;
+				//Log.d(Constant.LOG_TAG, "the scale is " + scale);
+				options.inSampleSize = scale;
+				Bitmap bitmap = BitmapFactory.decodeStream(url.openStream(), null, options);
+				
+				return bitmap;
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			return null;
 			
-			URL url = new URL(siteUrl);
-			//HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			//connection.setDoInput(true);
-			//connection.connect();
 			
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeStream(url.openStream(), null, options);
-			
-			// determinte the scale size
-			int scale = 1;
-			Log.d(Constant.LOG_TAG, "the outHeight is " + options.outHeight + ", the outWidth is " + options.outWidth);
-			 
-			scale = computeSampleSize(options, -1, requireSize * requireSize); 
-			options.inJustDecodeBounds = false;
-			Log.d(Constant.LOG_TAG, "the scale is " + scale);
-			options.inSampleSize = scale;
-			Bitmap bitmap = BitmapFactory.decodeStream(url.openStream(), null, options);
-			
-			return bitmap;
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options,  

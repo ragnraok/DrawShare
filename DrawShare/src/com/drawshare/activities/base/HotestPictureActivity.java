@@ -32,7 +32,7 @@ public class HotestPictureActivity extends BaseActivity implements OnClickListen
 	private Button registerButton = null;
 	ArrayList<Picture> pictList = null;
 	private ProgressDialog dialog = null;
-	private Handler handler = null;
+	private Handler handler = new Handler();
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,11 +74,12 @@ public class HotestPictureActivity extends BaseActivity implements OnClickListen
 		}
 		else {
 			Toast.makeText(this, resources.getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
-			//HotestPictCacheRenderer renderer = new HotestPictCacheRenderer();
-			//pictList = renderer.renderToList();
+			HotestPictCacheRenderer renderer = new HotestPictCacheRenderer();
+			pictList = renderer.renderToList();
 			Log.d(Constant.LOG_TAG, "render from cache");
 		}
 		if (pictList == null) {
+			Log.d(Constant.LOG_TAG, "the pictList is null");
 			pictList = new ArrayList<Picture>(10);
 			setPictListSize(pictList);
 		}
@@ -95,38 +96,24 @@ public class HotestPictureActivity extends BaseActivity implements OnClickListen
 	
 	private void loadHotestPict() {
 		Resources resources = this.getResources();
-		dialog = ProgressDialog.show(this, resources.getString(R.string.waiting_title), resources.getString(R.string.waiting_title));
-		new Thread() {
-			ArrayList<Picture> picts = null;
+		dialog = ProgressDialog.show(this, resources.getString(R.string.waiting_title), 
+				resources.getString(R.string.waiting_title));
+		handler.post(new Runnable() {
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				super.run();
 				HotestPictNetRenderer renderer = new HotestPictNetRenderer(10);
-				picts = renderer.renderToList();
-				Message msg = Message.obtain();
-				msg.what = 1;
-				msg.obj = picts;
-				handler.sendMessage(msg);
+				HotestPictureActivity.this.pictList = renderer.renderToList();
+				Log.d(Constant.LOG_TAG, "get the render list");
+				dialog.dismiss();
 			}
 			
-		}.start();
-		handler = new Handler() {
-
-			@Override
-			public void handleMessage(Message msg) {
-				// TODO Auto-generated method stub
-				super.handleMessage(msg);
-				if (msg.what == 1) {
-					dialog.dismiss();
-					HotestPictureActivity.this.pictList = (ArrayList<Picture>) msg.obj;
-				}
-			}
-			
-		};
+		});
 	}
 	
 	private void setPictListSize(ArrayList<Picture> pictList) {
+		Log.d(Constant.LOG_TAG, "set the pictList size");
 		while (pictList.size() < 10) {
 			pictList.add(new Picture());
 		}

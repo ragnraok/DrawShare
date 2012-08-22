@@ -70,4 +70,10 @@ public class HotestPictNetRenderer extends NetRender<Picture> {
 		return null;
 	}
 
+	@Override
+	public Picture renderToObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

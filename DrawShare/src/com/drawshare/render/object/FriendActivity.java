@@ -1,6 +1,7 @@
 package com.drawshare.render.object;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import android.graphics.Bitmap;
 
@@ -10,10 +11,11 @@ public class FriendActivity {
 	
 	public String userId = null;
 	public String userName = null;
+	public String userAvatarUrl = null;
 	public String pictureId = null;
 	public String pictureTitle = null;
 	public String pictureURL = null;
 	public Bitmap picture = null;
 	public int editType = 0;
-	public Calendar editDate = null;
+	public Date editDate = null;
 }

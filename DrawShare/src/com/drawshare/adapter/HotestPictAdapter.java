@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 
 import com.drawshare.R;
 import com.drawshare.render.object.Picture;
@@ -33,8 +34,21 @@ public class HotestPictAdapter extends BaseAsyncAdapter<Picture> {
 		//	view.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
 		//}
 		//else {
-			this.imageLoader.loadImage(position, picture.pictURL, listener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
+			//this.imageLoader.loadImage(position, picture.pictURL, listener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
 		//}
+		if (this.defaultBitmapList[position] != null) {
+			ImageView pictView = (ImageView) convertView.findViewById(this.defaultImageViewId);
+			pictView.setImageBitmap(this.defaultBitmapList[position]);
+		}
+		else {
+			this.defaultImageLoader.loadImage(position, picture.pictURL, this.defaultListener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
+		}
+	}
+
+	@Override
+	public void setListener() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

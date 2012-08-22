@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.drawshare.Request.exceptions.AuthFailException;
+import com.drawshare.Request.exceptions.PictureNotExistException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.render.base.Renderer;
 
@@ -19,16 +20,10 @@ import com.drawshare.render.base.Renderer;
 public abstract class NetRender<T> extends Renderer<T> {
 
 	@Override
-	public T JSONtoObject(JSONObject json) {
-		// TODO Auto-generated method stub
-		return super.JSONtoObject(json);
-	}
+	public abstract T JSONtoObject(JSONObject json);
 
 	@Override
-	public ArrayList<T> renderToList() throws AuthFailException, UserNotExistException {
-		// TODO Auto-generated method stub
-		return super.renderToList();
-	}
+	public abstract ArrayList<T> renderToList() throws AuthFailException, UserNotExistException, PictureNotExistException;
 
 	protected Context context;
 }

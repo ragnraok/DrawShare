@@ -28,7 +28,7 @@ public class UserActivity {
 	 * @return 一个JSONObject,格式是:
 	 * {activities:[
      *        {'userid': userid, 'username': username, 'picture_id': picture_id, 'picture_title': title, 
-     *               'picture_url': picture_url, 
+     *               'picture_url': picture_url, 'avatar_url': 'avatar_url'
      *                   'edit_type': edit_type, 'edit_date': YYYY/MM/DD}, ...
      *                   ]}
      * the edit_type 1 is create, 2 is fork

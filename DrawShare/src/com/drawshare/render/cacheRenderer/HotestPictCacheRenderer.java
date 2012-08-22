@@ -66,5 +66,11 @@ public class HotestPictCacheRenderer extends CacheRender<Picture> {
 		}
 		return null;
 	}
+
+	@Override
+	public Picture renderToObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

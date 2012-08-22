@@ -1,6 +1,7 @@
 package com.drawshare.render.cacheRenderer;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -25,8 +26,8 @@ public class FriendsNewsCacheRenderer extends CacheRender<FriendActivity> {
 			activity.pictureTitle = json.getString("picture_title");
 			activity.pictureURL = json.getString("picture_url");
 			activity.editType = json.getInt("edit_type");
-			SimpleDateFormat dateFormat = new SimpleDateFormat(json.getString("yyyy/MM/dd"));
-			activity.editDate = dateFormat.getCalendar();
+			activity.editDate = new SimpleDateFormat("yyyy/MM/dd").parse(json.getString("edit_date"));
+			activity.userAvatarUrl = json.getString("avatar_url");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,7 +39,10 @@ public class FriendsNewsCacheRenderer extends CacheRender<FriendActivity> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			activity.picture = null;
-		}**/
+		}**/ catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return activity;
 	}
@@ -67,6 +71,12 @@ public class FriendsNewsCacheRenderer extends CacheRender<FriendActivity> {
 				e.printStackTrace();
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public FriendActivity renderToObject() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

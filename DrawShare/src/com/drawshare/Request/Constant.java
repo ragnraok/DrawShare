@@ -18,6 +18,7 @@ public class Constant {
 		public static final String UNFOLLOW_USER = BASE + "unfollow_user/";
 		public static final String GET_COLLECT_PICTURE = BASE + "get_collect_picture/";
 		public static final String ADD_COLLECT_PICTURE = BASE + "add_collect_picture/";
+		public static final String DELETE_COLLECT_PICTURE = BASE + "delete_collect_picture/";
 	}
 	
 	public static class Message {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.drawshare.Request.exceptions.AuthFailException;
+import com.drawshare.Request.exceptions.PictureNotExistException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 
 public abstract class Renderer<T> {
@@ -14,25 +15,20 @@ public abstract class Renderer<T> {
 	 * @param json
 	 * @return
 	 */
-	public T JSONtoObject(JSONObject json) {
-		return null;
-	}
+	public abstract T JSONtoObject(JSONObject json);
 	
 	/**
 	 * 进行实际的render，返回的是单独的一个对象
 	 * @return
 	 */
-	public T renderToObject() {
-		return null;
-	}
+	public abstract T renderToObject();
 	
 	/**
 	 * 进行实际的render, 返回ArrayList
 	 * @return
 	 * @throws UserNotExistException 
 	 * @throws AuthFailException 
+	 * @throws PictureNotExistException 
 	 */
-	public ArrayList<T> renderToList() throws AuthFailException, UserNotExistException {
-		return null;
-	}
+	public abstract ArrayList<T> renderToList() throws AuthFailException, UserNotExistException, PictureNotExistException;
 }

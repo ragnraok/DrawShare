@@ -1,6 +1,7 @@
 package com.drawshare.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,46 +23,95 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 
 	protected AbsListView listOrGridView = null;
 	protected ArrayList<T> dataSet = null; // this data set not contain the url
-	protected int imageViewId = -1;
+	protected int defaultImageViewId = -1;
 	protected Context context = null;
-	protected AsyncImageLoader.ImageLoadListener listener = null;
+	protected AsyncImageLoader.ImageLoadListener defaultListener = null;
 	protected int layoutId = -1;
-	protected AsyncImageLoader imageLoader = null;
+	protected AsyncImageLoader defaultImageLoader = null;
 	private LayoutInflater inflater = null;
 	
-	public BaseAsyncAdapter(final Context context, AbsListView view, ArrayList<T> dataSet, final int imageViewId, 
-			boolean netStatus, int layoutId) {
+	protected View[] viewList = null;
+	protected Bitmap[] defaultBitmapList = null;
+	
+	public BaseAsyncAdapter(final Context context, AbsListView view, final int defaultImageViewId, boolean netStatus, 
+			int layoutId) {
 		this.listOrGridView = view;
-		this.dataSet = dataSet;
-		this.imageViewId = imageViewId;
+		this.defaultImageViewId = defaultImageViewId;
 		this.context = context;
 		this.layoutId = layoutId;
 		this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.imageLoader = new AsyncImageLoader(netStatus);
-		this.listener = new ImageLoadListener() {
-			
-			@Override
-			public void onImageLoad(Integer rowNum, Bitmap bitmap) {
-				// TODO Auto-generated method stub
-				View view = listOrGridView.findViewWithTag(rowNum);
-				if (view != null) {
-					ImageView imageView = (ImageView) view.findViewById(imageViewId);
-					imageView.setImageBitmap(bitmap);
-				}
-			}
-			
-			@Override
-			public void onError(Integer rowNum) {
-				// TODO Auto-generated method stub
-				View view = listOrGridView.findViewById(rowNum);
-				if (view != null) {
-					ImageView imageView = (ImageView) view.findViewById(imageViewId);
-					imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
-				}
-			}
-		};
+		this.defaultImageLoader = new AsyncImageLoader(netStatus);
+		this.setDefaultListener();
 		
 		this.listOrGridView.setOnScrollListener(onScrollListener);
+		
+	}
+	
+	public BaseAsyncAdapter(final Context context, AbsListView view, ArrayList<T> dataSet, final int defaultImageViewId, 
+			boolean netStatus, int layoutId) {
+		this.listOrGridView = view;
+		this.dataSet = dataSet;
+		this.defaultImageViewId = defaultImageViewId;
+		this.context = context;
+		this.layoutId = layoutId;
+		this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.defaultImageLoader = new AsyncImageLoader(netStatus);
+		setDefaultListener();
+		
+		this.viewList = new View[this.dataSet.size()];
+		this.defaultBitmapList = new Bitmap[this.dataSet.size()];
+		
+		this.listOrGridView.setOnScrollListener(onScrollListener);
+	}
+	
+	/**
+	 * you can set more than one listener here
+	 */
+	public abstract void setListener();
+	
+	/**
+	 * set the default listener, that is, the first listener
+	 */
+	protected void setDefaultListener() {
+		this.defaultListener = new ImageLoadListener() {
+				
+				@Override
+				public void onImageLoad(Integer rowNum, Bitmap bitmap) {
+					// TODO Auto-generated method stub
+					//Log.d(Constant.LOG_TAG, "on ImageLoad " + rowNum);
+					View view = listOrGridView.findViewWithTag(rowNum);
+					if (view != null) {
+						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
+						imageView.setImageBitmap(bitmap);
+						viewList[rowNum]  = view;
+						
+						if (defaultBitmapList[rowNum] == null) {
+							defaultBitmapList[rowNum] = bitmap;
+							Log.d(Constant.LOG_TAG, "set the defaultBitmapList " + rowNum);
+						}
+					}
+				}
+				
+				@Override
+				public void onError(Integer rowNum) {
+					// TODO Auto-generated method stub
+					View view = listOrGridView.findViewById(rowNum);
+					if (view != null) {
+						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
+						imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
+					}
+				}
+			};
+	}
+	
+	/*
+	 * 设置数据，需要在setAdapter之前调用
+	 */
+	public void setData(ArrayList<T> dataSet) {
+		this.dataSet = dataSet;
+		
+		this.viewList = new View[this.dataSet.size()];
+		defaultBitmapList = new Bitmap[this.dataSet.size()];
 	}
 	
 	@Override
@@ -86,12 +136,18 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) { // called 16 times..
 		// TODO Auto-generated method stub
 		//Log.d(Constant.LOG_TAG, "in getView");
+		if (this.viewList[position] != null) {
+			//Log.d(Constant.LOG_TAG, "return from viewList");
+			return viewList[position];
+		}
+		
 		if (convertView == null) {
 			convertView = inflater.inflate(this.layoutId, parent, false);
 		}
 		setViewTag(position, convertView);
 		setImage(position, convertView);
 		bindView(position, convertView);
+		this.viewList[position] = convertView;
 		return convertView;
 	}
 	
@@ -99,14 +155,14 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 		convertView.setTag(position);
 	}
 	
-	public void loadImage(){
+	public void setLoadImageLimit(){
 		int start = this.listOrGridView.getFirstVisiblePosition();
 		int end = this.listOrGridView.getLastVisiblePosition();
 		if(end >= getCount()){
 			end = getCount() -1;
 		}
-		this.imageLoader.setLoadRowLimit(start, end);
-		this.imageLoader.unlock();
+		this.defaultImageLoader.setLoadRowLimit(start, end);
+		this.defaultImageLoader.unlock();
 	}
 	
 	AbsListView.OnScrollListener onScrollListener = new AbsListView.OnScrollListener() {
@@ -116,14 +172,14 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 			// TODO Auto-generated method stub
 			switch (scrollState) {
 			case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-				imageLoader.lock();
+				defaultImageLoader.lock();
 				break;
 			case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-				loadImage();
+				setLoadImageLimit();
 				//loadImage();
 				break;
 			case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				imageLoader.lock();
+				defaultImageLoader.lock();
 				break;
 
 			default:
@@ -154,6 +210,14 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	 * @param convertView
 	 */
 	protected abstract void setImage(int position, View convertView);
+	
+	public void stopLoad() {
+		this.defaultImageLoader.lock();
+	}
+	
+	public void resumeLoad() {
+		this.defaultImageLoader.unlock();
+	}
 	
 
 }

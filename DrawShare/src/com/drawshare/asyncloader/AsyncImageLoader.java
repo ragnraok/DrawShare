@@ -24,7 +24,7 @@ public class AsyncImageLoader {
 	private boolean netStatus = false;
 	
 	private final Handler handler = new Handler();
-	private HashMap<String, SoftReference<Bitmap>> ramImageCache = new HashMap<String, SoftReference<Bitmap>>();
+	private static HashMap<String, SoftReference<Bitmap>> ramImageCache = new HashMap<String, SoftReference<Bitmap>>();
 	
 	
 	public interface ImageLoadListener {
@@ -95,8 +95,8 @@ public class AsyncImageLoader {
 	
 	private void loadImagePri(final Integer rowNum, String imageUrl, final ImageLoadListener listener,
 			int requireSize) {
-		if (this.ramImageCache.containsKey(imageUrl)) {
-			SoftReference<Bitmap> sfBitmap = this.ramImageCache.get(imageUrl);
+		if (ramImageCache.containsKey(imageUrl)) {
+			SoftReference<Bitmap> sfBitmap = ramImageCache.get(imageUrl);
 			final Bitmap bitmap = sfBitmap.get();
 			//Log.d(Constant.LOG_TAG, "load from ramImageCache");
 			if (bitmap != null) {
@@ -114,11 +114,11 @@ public class AsyncImageLoader {
 		else {
 			if (this.netStatus == true) {
 				this.loadImageFromNet(rowNum, imageUrl, listener, requireSize);
-				Log.d(Constant.LOG_TAG, "load from net"); // called 8 times....
+				//Log.d(Constant.LOG_TAG, "load from net"); // called 8 times....
 			}
 			else {
 				this.loadImageFromCache(rowNum, imageUrl, listener, requireSize);
-				Log.d(Constant.LOG_TAG, "load from cache");
+				//Log.d(Constant.LOG_TAG, "load from cache");
 			}
 		}
 	}
@@ -126,7 +126,7 @@ public class AsyncImageLoader {
 	private void loadImageFromNet(final Integer rowNum, String imageUrl, final ImageLoadListener listener,
 			int requireSize) {
 		try {
-			Log.d(Constant.LOG_TAG, "in loadImageFromNet, the imageUrl is " + imageUrl);
+			//Log.d(Constant.LOG_TAG, "in loadImageFromNet, the imageUrl is " + imageUrl);
 			if (imageUrl != null) {
 				final Bitmap bitmap = Util.urlToBitmap(imageUrl, requireSize);
 				if (bitmap != null) {
@@ -186,5 +186,9 @@ public class AsyncImageLoader {
 				}
 			});
 		}
+	}
+	
+	public static void cleanRamCache() {
+		ramImageCache.clear();
 	}
 }

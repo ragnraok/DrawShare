@@ -1,5 +1,6 @@
 package com.drawshare.render.netRenderer;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -8,7 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.drawshare.Request.Constant;
 import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.useractivity.UserActivity;
@@ -48,13 +51,16 @@ public class FriendsNewsNetRenderer extends NetRender<FriendActivity> {
 		try {
 			activity.userName = json.getString("username");
 			activity.userId = json.getString("userid");
-			activity.pictureId = json.getString("pictureId");
+			activity.pictureId = json.getString("picture_id");
 			activity.pictureTitle = json.getString("picture_title");
 			activity.pictureURL = json.getString("picture_url");
 			activity.editType = json.getInt("edit_type");
-			SimpleDateFormat dateFormat = new SimpleDateFormat(json.getString("yyyy/MM/dd"));
-			activity.editDate = dateFormat.getCalendar();
+			activity.userAvatarUrl = json.getString("avatar_url");
+			activity.editDate = new SimpleDateFormat("yyyy/MM/dd").parse(json.getString("edit_date"));
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -71,6 +77,7 @@ public class FriendsNewsNetRenderer extends NetRender<FriendActivity> {
 		// TODO Auto-generated method stub
 		//return super.render();
 		JSONObject activityObject = UserActivity.getFollowActivities(userId, apiKey, num);
+		//Log.d(Constant.LOG_TAG, "the activityObject is " + activityObject.toString());
 		if (activityObject != null) {
 			// first cache the json
 			//JsonCache.getJsonCache().cacheFriendNewsJson(activityObject.toString());
@@ -89,6 +96,13 @@ public class FriendsNewsNetRenderer extends NetRender<FriendActivity> {
 				e.printStackTrace();
 			}
 		}
+		return null;
+	}
+
+
+	@Override
+	public FriendActivity renderToObject() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

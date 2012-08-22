@@ -29,6 +29,7 @@ public class UserProfile {
 	private static final String setAvatarURL = Constant.SITE + Constant.UserProfile.SET_AVATAR;
 	private static final String getCollectURL = Constant.SITE + Constant.UserProfile.GET_COLLECT_PICTURE;
 	private static final String addCollectURL = Constant.SITE + Constant.UserProfile.ADD_COLLECT_PICTURE;
+	private static final String deleteCollectURL = Constant.SITE + Constant.UserProfile.DELETE_COLLECT_PICTURE;
 	
 	/**
 	 * 获取用户资料的方法
@@ -76,6 +77,7 @@ public class UserProfile {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.d(Constant.LOG_TAG, "throw exeception when init the profileJson");
 		}
 		return null;
 	}
@@ -291,7 +293,7 @@ public class UserProfile {
 	 * @throws AuthFailException 如果apiKey错误，抛出此异常
 	 * @throws UserNotExistException 如果用户不存在，或者图片不存在，跑出此异常
 	 */
-	public static final boolean collectPicture(String userId, String pictureId, 
+	public static boolean collectPicture(String userId, String pictureId, 
 			String apiKey) throws AuthFailException, UserNotExistException {
 		Log.d(Constant.LOG_TAG, "in collect picture, the url is " + addCollectURL + userId + "/" + pictureId + "/");
 		
@@ -329,6 +331,49 @@ public class UserProfile {
 		return false;
 	}
 	
-	
+	/**
+	 * 取消收藏一张照片
+	 * @param apiKey
+	 * @param userId
+	 * @param pictureId
+	 * @return true如果取消成功
+	 * @throws AuthFailException 当apiKey错误时,抛出此异常
+	 * @throws UserNotExistException 当用户不存在时,抛出此异常
+	 */
+	public boolean deleteCollectPicture(String apiKey, String userId, String pictureId) throws AuthFailException, UserNotExistException {
+		Log.d(Constant.LOG_TAG, "in delete collect picture, the url is " + deleteCollectURL + userId + "/" + pictureId + "/");
+		
+		try {
+			URL url = new URL(deleteCollectURL + userId + "/" + pictureId + "/");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Authorization", apiKey);
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+			connection.setFollowRedirects(true);
+			connection.connect();
+			
+			Log.d(Constant.LOG_TAG, "in delete collect picture, the response message is " + connection.getResponseMessage());
+			
+			if (connection.getResponseCode() == 401) {
+				throw new AuthFailException("the apikey " + apiKey + " is error");
+			}
+			else if (connection.getResponseCode() == 404) {
+				throw new UserNotExistException("the user for id  " + userId + " is not exist");
+			}
+			else if (connection.getResponseCode() == 200) {
+				return true;
+			}
+			return false;
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 }

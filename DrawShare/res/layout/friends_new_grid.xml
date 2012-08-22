@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/user_head"
+        android:id="@+id/friends_new_grid_user_profile_layout">
+        <FrameLayout android:id="@+id/friends_new_grid_head_frame"
+            android:layout_width="62px"
+            android:layout_height="62px" 
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp">
+            <ImageView android:id="@+id/friends_news_grid_avatar_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/default_pict_temp"
+                android:scaleType="fitXY" />
+        	<ImageView android:layout_width="match_parent"
+        	    android:layout_height="match_parent"
+        	    android:src="@drawable/raidus_shadow_62px"
+        	    android:scaleType="fitXY"/>
+        </FrameLayout>
+        <TextView android:layout_toRightOf="@id/friends_new_grid_head_frame"
+            android:id="@+id/friends_new_grid_username_text"
+            android:text="Ragnarok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:textColor="#8F8F8F"
+            android:textSize="20dp"/>
+        <TextView android:layout_alignParentRight="true"
+            android:id="@+id/friends_new_grid_edit_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2012-8-21"
+            android:textColor="#8F8F8F"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"/>
+    </RelativeLayout>
+	<RelativeLayout android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/user_pict_line"
+	    android:id="@+id/friends_new_grid_pict_info_layout">
+        <FrameLayout android:id="@+id/friends_new_grid_user_line_frame"
+            android:layout_width="118px"
+            android:layout_height="118px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp">
+            <ImageView android:id="@+id/friends_news_grid_pict_image"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/default_pict_temp"/>
+            <ImageView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/radius_shadow_118"/>
+        </FrameLayout>
+        <TextView android:layout_toRightOf="@id/friends_new_grid_user_line_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My_Masterpiece"
+            android:layout_marginLeft="5dp"
+			android:layout_centerVertical="true"
+            android:textColor="#8F8F8F"
+            android:textSize="20dp"
+            android:id="@+id/friends_new_grid_pictname_text"/>
+	</RelativeLayout>
+</LinearLayout>

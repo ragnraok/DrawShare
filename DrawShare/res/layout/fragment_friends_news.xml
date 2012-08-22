@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListView android:id="@+id/friends_new_pict_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#80000000"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+    </ListView>
+	<ProgressBar android:id="@+id/friends_new_loading_bar"
+	    android:layout_width="50dp"
+	    android:layout_height="50dp"
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+	    android:indeterminate="true"/>
+</RelativeLayout>
