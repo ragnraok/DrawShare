@@ -35,6 +35,7 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 	private ListView listView = null;
 	private ProgressBar progressBar = null;
 	private FriendsNewAdapter adapter = null;
+	private boolean netStatus = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 		super.onActivityCreated(savedInstanceState);
 		
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		
-		if (application.getNetworkState())
+		this.netStatus = application.getNetworkState();
+		if (netStatus)
 			this.getLoaderManager().initLoader(0, null, this);
 		else {
 			//Toast.makeText(this.getActivity(), "", duration)
@@ -76,7 +77,8 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 		super.onPause();
 		if (this.adapter != null)
 			this.adapter.stopLoad();
-		this.getLoaderManager().getLoader(0).stopLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -85,7 +87,8 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 		super.onResume();
 		if (this.adapter != null)
 			this.adapter.resumeLoad();
-		this.getLoaderManager().getLoader(0).startLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override

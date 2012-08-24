@@ -186,7 +186,7 @@ public class UserProfile {
 			connection.connect();
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			if (bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)) {
+			if (bitmap.compress(Bitmap.CompressFormat.PNG, 80, baos)) {
 				byte[] bitmapArray = baos.toByteArray();
 				// output the bitmapArray
 				//OutputStream os = connection.getOutputStream();
@@ -340,7 +340,7 @@ public class UserProfile {
 	 * @throws AuthFailException 当apiKey错误时,抛出此异常
 	 * @throws UserNotExistException 当用户不存在时,抛出此异常
 	 */
-	public boolean deleteCollectPicture(String apiKey, String userId, String pictureId) throws AuthFailException, UserNotExistException {
+	public static boolean deleteCollectPicture(String apiKey, String userId, String pictureId) throws AuthFailException, UserNotExistException {
 		Log.d(Constant.LOG_TAG, "in delete collect picture, the url is " + deleteCollectURL + userId + "/" + pictureId + "/");
 		
 		try {

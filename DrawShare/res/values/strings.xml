@@ -13,6 +13,14 @@
     <!-- waiting string -->
     <string name="waiting_title">请稍候</string>
 
+    <!-- confrim -->
+    <string name="confirm">确定</string>
+    <!-- cancel -->
+    <string name="cancel">取消</string>
+    
+    <!-- Information not complete -->
+	<string name="info_not_complete">请输入完整信息</string>
+
     <!-- string value for register -->
     <string name="register_user_exist">用户已存在</string>
     <string name="register_failed">注册失败</string>
@@ -30,4 +38,23 @@
     <string name="login_success">登录成功</string>
     <string name="title_activity_user_index">UserIndexActivity</string>
 
+    <!-- string for delete collection -->
+    <string name="delete_collection_success">取消收藏成功</string>
+    <string name="delete_collection_failed">取消收藏失败</string>
+    <string name="delete_collection_confirm_title">取消收藏</string>
+    <string name="delete_collection_confirm_content">确定要取消收藏吗</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
+    
+    <!-- user avatar string -->
+	<string name="user_avatar">用户头像</string>
+	<string name="set_user_avatar">设置用户头像</string>
+	
+	<!-- My Friends List String -->
+	<string name="my_friends_list">我的好友列表</string>
+	
+	<!-- Lazy Boy... -->
+	<string name="lazy_boy">这家伙很懒，什么都没有留下</string>
+	
+	<!-- set user description -->
+	<string name="set_user_description">设置个性签名</string>
 </resources>

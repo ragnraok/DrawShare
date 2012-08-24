@@ -7,10 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,27 +18,27 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TabHost.OnTabChangeListener;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.userprofile.UserProfile;
-import com.drawshare.activities.base.BaseFragment;
 import com.drawshare.activities.base.BaseFragmentActivity;
 import com.drawshare.adapter.TabsAdapter;
-import com.drawshare.asyncloader.AsyncImageLoader;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
 import com.drawshare.util.DrawShareConstant;
+import com.drawshare.util.DrawShareUtil;
 
-public class UserIndexActivity extends BaseFragmentActivity implements OnTabChangeListener {
+public class UserIndexActivity extends BaseFragmentActivity implements OnTabChangeListener, OnClickListener {
 	
 	private TabHost tabHost = null;
 	private ViewPager viewPager = null;
@@ -63,6 +62,10 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	
 	private AsyncTask<Void, Void, Bitmap> bitmap = null;
 	
+	private String shortDescription = null;
+	private String email = null;
+	private String avatarURL = null;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
         findAllView();
         
         tabHost.setup();
-        dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(getWaitDialogView()).create();
+        dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
         tabsAdapter = new TabsAdapter(this, tabHost, viewPager);
         
         initDrawableList();
@@ -139,6 +142,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	else {
     		Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
     	}
+    	
+    	this.avatarImage.setOnClickListener(this);
     }
     
    
@@ -176,13 +181,6 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	
     	return view;
     }
-    
-    private View getWaitDialogView() {
-    	LayoutInflater inflater = this.getLayoutInflater();
-    	View view = inflater.inflate(R.layout.waiting_dialog, null, false);
-    	
-    	return view;
-    }
 
 	@Override
 	public void onTabChanged(String tabId) {
@@ -200,7 +198,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		this.viewPager.setCurrentItem(index);
 	}
 	
-	private String getAvatarURL() {
+	private String getAvatarURLAndSetOtherProfile() {
     	JSONObject profileObject;
 		try {
 			profileObject = UserProfile.getProfile(UserIdHandler.getUserId(this));
@@ -208,6 +206,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			if (profileObject != null) {
 				//Log.d(Constant.LOG_TAG,	"the profileObject is " + profileObject.toString());
 				String avatarUrl = profileObject.getString("avatar_url");
+				this.shortDescription = profileObject.getString("short_description");
+				this.email = profileObject.getString("email");
 				return avatarUrl;
 			}
 		} catch (UserNotExistException e) {
@@ -226,7 +226,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		protected Bitmap doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			//Log.d(Constant.LOG_TAG, "in doInBackground");
-			String avatarURL = getAvatarURL();
+			avatarURL = getAvatarURLAndSetOtherProfile();
 			//Log.d(Constant.LOG_TAG, "the avatarURL is " + avatarURL);
 			
 			Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
@@ -241,5 +241,23 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			
 		}
 		
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.user_index_avatar:
+			Intent profileIntent = new Intent(UserIndexActivity.this, UserProfileActivity.class);
+			//profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_NAME, UserNameHandler.getUserName(this));
+			//profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_EMAIL, this.email);
+			//profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_SHORT_DESCRIPTION, this.shortDescription);
+			profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, true);
+			profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, UserIdHandler.getUserId(this));
+			//profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.AVATAR_URL, this.avatarURL);
+			startActivity(profileIntent);
+			//finish();
+			break;
+		}
 	}
 }

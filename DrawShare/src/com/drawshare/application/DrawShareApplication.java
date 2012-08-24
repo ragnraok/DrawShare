@@ -1,5 +1,8 @@
 package com.drawshare.application;
 
+import com.drawshare.Request.Constant;
+import com.drawshare.asyncloader.AsyncImageLoader;
+
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -37,6 +40,14 @@ public class DrawShareApplication extends Application {
 		super.onCreate();
 		this.detectNetState();
 		 Log.d("Ragnarok", "the network is " + getNetworkState());
+	}
+
+	@Override
+	public void onTerminate() {
+		// TODO Auto-generated method stub
+		super.onTerminate();
+		AsyncImageLoader.cleanRamCache();
+		Log.d(Constant.LOG_TAG, "onTerminate clear the ram cache");
 	}
 	
 }

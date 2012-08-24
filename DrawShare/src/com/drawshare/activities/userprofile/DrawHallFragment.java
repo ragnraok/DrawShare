@@ -35,14 +35,15 @@ public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<Ar
 	
 	private ArrayList<Picture> drawHallPicts = null;
 	private DrawHallAdapter adapter = null;
+	private boolean netStatus = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		
-		if (application.getNetworkState()) {
+		netStatus = application.getNetworkState();
+		if (netStatus) {
 			this.getLoaderManager().initLoader(0, null, this);
 		}
 		else {
@@ -66,7 +67,8 @@ public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<Ar
 		if (this.adapter != null) {
 			this.adapter.stopLoad();
 		}
-		this.getLoaderManager().getLoader(0).stopLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -76,7 +78,8 @@ public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<Ar
 		if (this.adapter != null) {
 			this.adapter.resumeLoad();
 		}
-		this.getLoaderManager().getLoader(0).startLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override

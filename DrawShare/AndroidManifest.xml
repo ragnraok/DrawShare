@@ -41,7 +41,11 @@
         </activity>
         <activity
             android:name=".activities.userprofile.UserIndexActivity"
-        	android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.userprofile.UserProfileActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

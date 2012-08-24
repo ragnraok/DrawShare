@@ -3,7 +3,7 @@ package com.drawshare.adapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
+import com.drawshare.activities.userprofile.UserIndexActivity;
+import com.drawshare.activities.userprofile.UserProfileActivity;
 import com.drawshare.asyncloader.AsyncImageLoader;
 import com.drawshare.asyncloader.AsyncImageLoader.ImageLoadListener;
 import com.drawshare.render.object.FriendActivity;
@@ -83,7 +85,7 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 	@Override
 	protected void bindView(int position, View convertView) {
 		// TODO Auto-generated method stub
-		FriendActivity activity = this.dataSet.get(position);
+		final FriendActivity activity = this.dataSet.get(position);
 		
 		TextView username = (TextView) convertView.findViewById(R.id.friends_new_grid_username_text);
 		TextView pictname = (TextView) convertView.findViewById(R.id.friends_new_grid_pictname_text);
@@ -103,7 +105,11 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "get Pict Info", Toast.LENGTH_LONG).show();
+				//Toast.makeText(context, "get User Profile", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(context, UserProfileActivity.class);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, false);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, activity.userId);
+				context.startActivity(intent);
 			}
 		});
 		pictInfoView.setOnClickListener(new OnClickListener() {
@@ -111,7 +117,7 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "get User Profile", Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "get Picture Info", Toast.LENGTH_LONG).show();
 			}
 		});
 	}

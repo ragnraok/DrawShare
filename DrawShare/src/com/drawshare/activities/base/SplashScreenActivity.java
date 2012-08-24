@@ -47,8 +47,8 @@ public class SplashScreenActivity extends BaseActivity {
 							UserNameHandler.getUserName(SplashScreenActivity.this));
 				}
 				else {
-					nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-					//nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
+					//nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+					nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
 					//nextIntent = new Intent(SplashScreenActivity.this, RegisterActivity.class);
 				}
 				startActivity(nextIntent);
@@ -80,4 +80,14 @@ public class SplashScreenActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.activity_splash_screen, menu);
         return true;
     }
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		Log.d(Constant.LOG_TAG, "on stop the slapshScreen");
+		AsyncImageLoader.cleanRamCache();
+		super.onStop();
+	}
+    
+    
 }

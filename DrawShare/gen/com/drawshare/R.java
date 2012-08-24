@@ -30,69 +30,73 @@ public final class R {
         public static final int draw_hall_selector=0x7f020010;
         public static final int draw_selector=0x7f020011;
         public static final int drawshare_logo=0x7f020012;
-        public static final int friends_new_selector=0x7f020013;
-        public static final int friends_news_1=0x7f020014;
-        public static final int friends_news_2=0x7f020015;
-        public static final int function_intro=0x7f020016;
-        public static final int hotest_background=0x7f020017;
-        public static final int hotest_pict_top_10=0x7f020018;
-        public static final int ic_action_search=0x7f020019;
-        public static final int ic_launcher=0x7f02001a;
-        public static final int login_button_1=0x7f02001b;
-        public static final int login_button_2=0x7f02001c;
-        public static final int login_button_selector=0x7f02001d;
-        public static final int login_head=0x7f02001e;
-        public static final int message_1=0x7f02001f;
-        public static final int message_2=0x7f020020;
-        public static final int message_remind_1=0x7f020021;
-        public static final int message_remind_2=0x7f020022;
-        public static final int message_remind_selector=0x7f020023;
-        public static final int message_selector=0x7f020024;
-        public static final int newest_pict=0x7f020025;
-        public static final int radius_shadow=0x7f020026;
-        public static final int radius_shadow_116=0x7f020027;
-        public static final int radius_shadow_118=0x7f020028;
-        public static final int radius_shadow_98=0x7f020029;
-        public static final int radius_shadow_avatar=0x7f02002a;
-        public static final int radius_shadow_white=0x7f02002b;
-        public static final int radius_shadow_yellow=0x7f02002c;
-        public static final int raidus_shadow_62px=0x7f02002d;
-        public static final int register_button_1=0x7f02002e;
-        public static final int register_button_2=0x7f02002f;
-        public static final int register_button_selector=0x7f020030;
-        public static final int register_head=0x7f020031;
-        public static final int search_box_1=0x7f020032;
-        public static final int search_box_2=0x7f020033;
-        public static final int search_box_selector=0x7f020034;
-        public static final int setting_panel=0x7f020035;
-        public static final int splash_screen=0x7f020036;
-        public static final int tab_background_white=0x7f020037;
-        public static final int user_head=0x7f020038;
-        public static final int user_index_background=0x7f020039;
-        public static final int user_index_head=0x7f02003a;
-        public static final int user_pict_line=0x7f02003b;
-        public static final int user_picts_1=0x7f02003c;
-        public static final int user_picts_2=0x7f02003d;
-        public static final int user_picts_selector=0x7f02003e;
+        public static final int friends_list_and_intro_head=0x7f020013;
+        public static final int friends_new_selector=0x7f020014;
+        public static final int friends_news_1=0x7f020015;
+        public static final int friends_news_2=0x7f020016;
+        public static final int function_intro=0x7f020017;
+        public static final int hotest_background=0x7f020018;
+        public static final int hotest_pict_top_10=0x7f020019;
+        public static final int ic_action_search=0x7f02001a;
+        public static final int ic_launcher=0x7f02001b;
+        public static final int login_button_1=0x7f02001c;
+        public static final int login_button_2=0x7f02001d;
+        public static final int login_button_selector=0x7f02001e;
+        public static final int login_head=0x7f02001f;
+        public static final int message_1=0x7f020020;
+        public static final int message_2=0x7f020021;
+        public static final int message_remind_1=0x7f020022;
+        public static final int message_remind_2=0x7f020023;
+        public static final int message_remind_selector=0x7f020024;
+        public static final int message_selector=0x7f020025;
+        public static final int newest_pict=0x7f020026;
+        public static final int radisu_shadow_62px=0x7f020027;
+        public static final int radius_shadow=0x7f020028;
+        public static final int radius_shadow_116=0x7f020029;
+        public static final int radius_shadow_118=0x7f02002a;
+        public static final int radius_shadow_98=0x7f02002b;
+        public static final int radius_shadow_avatar=0x7f02002c;
+        public static final int radius_shadow_white=0x7f02002d;
+        public static final int radius_shadow_yellow=0x7f02002e;
+        public static final int raidus_shadow_62px=0x7f02002f;
+        public static final int register_button_1=0x7f020030;
+        public static final int register_button_2=0x7f020031;
+        public static final int register_button_selector=0x7f020032;
+        public static final int register_head=0x7f020033;
+        public static final int search_box_1=0x7f020034;
+        public static final int search_box_2=0x7f020035;
+        public static final int search_box_selector=0x7f020036;
+        public static final int setting_panel=0x7f020037;
+        public static final int splash_screen=0x7f020038;
+        public static final int tab_background_white=0x7f020039;
+        public static final int user_avatar_head=0x7f02003a;
+        public static final int user_head=0x7f02003b;
+        public static final int user_index_background=0x7f02003c;
+        public static final int user_index_head=0x7f02003d;
+        public static final int user_pict_line=0x7f02003e;
+        public static final int user_picts_1=0x7f02003f;
+        public static final int user_picts_2=0x7f020040;
+        public static final int user_picts_selector=0x7f020041;
+        public static final int user_profile_head=0x7f020042;
     }
     public static final class id {
-        public static final int draw_hall_grid_pict_image=0x7f070017;
-        public static final int draw_hall_hotest_pict_image=0x7f070019;
-        public static final int draw_hall_pict_grid=0x7f07001a;
-        public static final int draw_hall_progress_bar=0x7f07001b;
-        public static final int draw_hall_search_box_button=0x7f070018;
-        public static final int friends_new_grid_edit_date_text=0x7f070026;
-        public static final int friends_new_grid_head_frame=0x7f070023;
-        public static final int friends_new_grid_pict_info_layout=0x7f070027;
-        public static final int friends_new_grid_pictname_text=0x7f07002a;
-        public static final int friends_new_grid_user_line_frame=0x7f070028;
-        public static final int friends_new_grid_user_profile_layout=0x7f070022;
-        public static final int friends_new_grid_username_text=0x7f070025;
-        public static final int friends_new_loading_bar=0x7f07001d;
-        public static final int friends_new_pict_list=0x7f07001c;
-        public static final int friends_news_grid_avatar_image=0x7f070024;
-        public static final int friends_news_grid_pict_image=0x7f070029;
-        public static final int hotest_pict_grid_image=0x7f07002b;
+        public static final int draw_hall_grid_pict_image=0x7f070020;
+        public static final int draw_hall_hotest_pict_image=0x7f070022;
+        public static final int draw_hall_pict_grid=0x7f070023;
+        public static final int draw_hall_progress_bar=0x7f070024;
+        public static final int draw_hall_search_box_button=0x7f070021;
+        public static final int friends_new_grid_edit_date_text=0x7f07002f;
+        public static final int friends_new_grid_head_frame=0x7f07002c;
+        public static final int friends_new_grid_pict_info_layout=0x7f070030;
+        public static final int friends_new_grid_pictname_text=0x7f070033;
+        public static final int friends_new_grid_user_line_frame=0x7f070031;
+        public static final int friends_new_grid_user_profile_layout=0x7f07002b;
+        public static final int friends_new_grid_username_text=0x7f07002e;
+        public static final int friends_new_loading_bar=0x7f070026;
+        public static final int friends_new_pict_list=0x7f070025;
+        public static final int friends_news_grid_avatar_image=0x7f07002d;
+        public static final int friends_news_grid_pict_image=0x7f070032;
+        public static final int hotest_pict_grid_image=0x7f070034;
         public static final int hotest_pict_head_image=0x7f070000;
         public static final int hotest_pict_login_button=0x7f070003;
         public static final int hotest_pict_pict_grid=0x7f070001;
@@ -102,18 +106,19 @@ public final class R {
         public static final int login_login_button=0x7f070008;
         public static final int login_password_edit=0x7f070007;
         public static final int login_uesrname_email_edit=0x7f070006;
-        public static final int menu_settings=0x7f070030;
+        public static final int menu_settings=0x7f07003a;
         public static final int register_confirm_password_edit=0x7f07000d;
         public static final int register_email_edit=0x7f07000b;
         public static final int register_head_image=0x7f070009;
         public static final int register_password_edit=0x7f07000c;
         public static final int register_register_button=0x7f07000e;
         public static final int register_username_edit=0x7f07000a;
-        public static final int user_collect_grid_delete_button=0x7f07002e;
-        public static final int user_collect_grid_frame=0x7f07002c;
-        public static final int user_collect_grid_pict_image=0x7f07002d;
-        public static final int user_collect_pict_grid=0x7f07001e;
-        public static final int user_collect_progress_bar=0x7f07001f;
+        public static final int set_short_description_edit=0x7f070035;
+        public static final int user_collect_grid_delete_button=0x7f070038;
+        public static final int user_collect_grid_frame=0x7f070036;
+        public static final int user_collect_grid_pict_image=0x7f070037;
+        public static final int user_collect_pict_grid=0x7f070027;
+        public static final int user_collect_progress_bar=0x7f070028;
         public static final int user_index_avatar=0x7f070010;
         public static final int user_index_draw_button=0x7f070015;
         public static final int user_index_head=0x7f07000f;
@@ -122,9 +127,18 @@ public final class R {
         public static final int user_index_message_remind_button=0x7f070013;
         public static final int user_index_username_text=0x7f070011;
         public static final int user_index_view_pager=0x7f070016;
-        public static final int user_pict_grid_image=0x7f07002f;
-        public static final int user_picts_grid=0x7f070020;
-        public static final int user_picts_progress_bar=0x7f070021;
+        public static final int user_pict_grid_image=0x7f070039;
+        public static final int user_picts_grid=0x7f070029;
+        public static final int user_picts_progress_bar=0x7f07002a;
+        public static final int user_profil_follow_avatar_image=0x7f07001f;
+        public static final int user_profile_avatar_image=0x7f07001d;
+        public static final int user_profile_avatar_layout=0x7f07001c;
+        public static final int user_profile_avatar_text=0x7f07001e;
+        public static final int user_profile_base_layout=0x7f070018;
+        public static final int user_profile_email_text=0x7f07001a;
+        public static final int user_profile_head_image=0x7f070017;
+        public static final int user_profile_intro_text=0x7f07001b;
+        public static final int user_profile_username_text=0x7f070019;
     }
     public static final class layout {
         public static final int activity_hotest_picture=0x7f030000;
@@ -132,17 +146,19 @@ public final class R {
         public static final int activity_register=0x7f030002;
         public static final int activity_splash_screen=0x7f030003;
         public static final int activity_user_index=0x7f030004;
-        public static final int draw_hall_grid=0x7f030005;
-        public static final int fragment_draw_hall=0x7f030006;
-        public static final int fragment_friends_news=0x7f030007;
-        public static final int fragment_user_collect=0x7f030008;
-        public static final int fragment_user_picts=0x7f030009;
-        public static final int friends_new_grid=0x7f03000a;
-        public static final int hotest_pict_grid=0x7f03000b;
-        public static final int tab_indicator_view=0x7f03000c;
-        public static final int user_collect_grid=0x7f03000d;
-        public static final int user_picts_grid=0x7f03000e;
-        public static final int waiting_dialog=0x7f03000f;
+        public static final int activity_user_profile=0x7f030005;
+        public static final int draw_hall_grid=0x7f030006;
+        public static final int fragment_draw_hall=0x7f030007;
+        public static final int fragment_friends_news=0x7f030008;
+        public static final int fragment_user_collect=0x7f030009;
+        public static final int fragment_user_picts=0x7f03000a;
+        public static final int friends_new_grid=0x7f03000b;
+        public static final int hotest_pict_grid=0x7f03000c;
+        public static final int set_short_description_dialog=0x7f03000d;
+        public static final int tab_indicator_view=0x7f03000e;
+        public static final int user_collect_grid=0x7f03000f;
+        public static final int user_picts_grid=0x7f030010;
+        public static final int waiting_dialog=0x7f030011;
     }
     public static final class menu {
         public static final int activity_hotest_picture=0x7f060000;
@@ -150,33 +166,63 @@ public final class R {
         public static final int activity_register=0x7f060002;
         public static final int activity_splash_screen=0x7f060003;
         public static final int activity_user_index=0x7f060004;
+        public static final int activity_user_profile=0x7f060005;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        /**  cancel 
+         */
+        public static final int cancel=0x7f040009;
+        /**  confrim 
+         */
+        public static final int confirm=0x7f040008;
+        public static final int delete_collection_confirm_content=0x7f040019;
+        public static final int delete_collection_confirm_title=0x7f040018;
+        public static final int delete_collection_failed=0x7f040017;
+        /**  string for delete collection 
+         */
+        public static final int delete_collection_success=0x7f040016;
         public static final int hello_world=0x7f040001;
+        /**  Information not complete 
+         */
+        public static final int info_not_complete=0x7f04000a;
+        /**  Lazy Boy... 
+         */
+        public static final int lazy_boy=0x7f04001e;
         /**  end string for register 
  string value for login 
          */
-        public static final int login_info_not_complete=0x7f04000e;
-        public static final int login_loinging=0x7f04000f;
-        public static final int login_password_wrong=0x7f040010;
-        public static final int login_success=0x7f040011;
+        public static final int login_info_not_complete=0x7f040011;
+        public static final int login_loinging=0x7f040012;
+        public static final int login_password_wrong=0x7f040013;
+        public static final int login_success=0x7f040014;
         public static final int menu_settings=0x7f040002;
+        /**  My Friends List String 
+         */
+        public static final int my_friends_list=0x7f04001d;
         /**  network unvailable string 
          */
         public static final int network_unavailable=0x7f040006;
-        public static final int register_failed=0x7f040009;
-        public static final int register_info_not_complete=0x7f04000b;
-        public static final int register_password_different=0x7f04000c;
-        public static final int register_success=0x7f04000d;
+        public static final int register_failed=0x7f04000c;
+        public static final int register_info_not_complete=0x7f04000e;
+        public static final int register_password_different=0x7f04000f;
+        public static final int register_success=0x7f040010;
         /**  string value for register 
          */
-        public static final int register_user_exist=0x7f040008;
-        public static final int registering=0x7f04000a;
+        public static final int register_user_exist=0x7f04000b;
+        public static final int registering=0x7f04000d;
+        public static final int set_user_avatar=0x7f04001c;
+        /**  set user description 
+         */
+        public static final int set_user_description=0x7f04001f;
         public static final int title_activity_hotest_picture=0x7f040003;
         public static final int title_activity_register=0x7f040005;
         public static final int title_activity_splash_screen=0x7f040004;
-        public static final int title_activity_user_index=0x7f040012;
+        public static final int title_activity_user_index=0x7f040015;
+        public static final int title_activity_user_profile=0x7f04001a;
+        /**  user avatar string 
+         */
+        public static final int user_avatar=0x7f04001b;
         /**  waiting string 
          */
         public static final int waiting_title=0x7f040007;
