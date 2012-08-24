@@ -54,7 +54,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private TextView shortDescriptionTextView = null;
 	private TextView avatarTextView = null;
 	private ImageView avatarImageView = null;
-	private ImageView followAvatarImageView = null;
+	private ImageView followedAvatarImageView = null;
+	private ImageView followerAvatarImageView = null;
 	
 	private AlertDialog dialog = null;
 	
@@ -84,7 +85,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		this.shortDescriptionTextView = (TextView) findViewById(R.id.user_profile_intro_text);
 		this.avatarTextView = (TextView) findViewById(R.id.user_profile_avatar_text);
 		this.avatarImageView = (ImageView) findViewById(R.id.user_profile_avatar_image);
-		this.followAvatarImageView = (ImageView) findViewById(R.id.user_profil_follow_avatar_image);
+		this.followedAvatarImageView = (ImageView) findViewById(R.id.user_profile_followed_people_avatar_image);
+		this.followerAvatarImageView = (ImageView) findViewById(R.id.user_profile_followers_avatar_image);
 		
 		Intent intent = this.getIntent();
 		this.ifMyself = intent.getBooleanExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, false);
@@ -110,7 +112,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						Bitmap avatar = task.execute().get();
 						if (avatar != null) {
 							avatarImageView.setImageBitmap(avatar);
-							followAvatarImageView.setImageBitmap(avatar);
+							followedAvatarImageView.setImageBitmap(avatar);
+							followerAvatarImageView.setImageBitmap(avatar);
 						}
 						
 						usernameTextView.setText(username);
@@ -154,7 +157,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			this.avatarImageView.setOnClickListener(this);
 			this.shortDescriptionTextView.setOnClickListener(this);
 		}
-		this.followAvatarImageView.setOnClickListener(this);
+		this.followedAvatarImageView.setOnClickListener(this);
+		this.followerAvatarImageView.setOnClickListener(this);
 		
 	}
 	
@@ -214,8 +218,18 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					generateSetShortDescriptionView(this)).setPositiveButton(getString(R.string.confirm), this)
 					.setNegativeButton(getString(R.string.cancel), null).show();
 			break;
-		case R.id.user_profil_follow_avatar_image:
-			// get the friends list
+		case R.id.user_profile_followed_people_avatar_image:
+			Intent followedIntent = new Intent(UserProfileActivity.this, FollowInfoActivity.class);
+			followedIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, this.userId);
+			followedIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_GET_FOLLOWERS, false);
+			startActivity(followedIntent);
+			break;
+		case R.id.user_profile_followers_avatar_image:
+			// get the follower list
+			Intent followerIntent = new Intent(UserProfileActivity.this, FollowInfoActivity.class);
+			followerIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, this.userId);
+			followerIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_GET_FOLLOWERS, true);
+			startActivity(followerIntent);
 			break;
 		}
 	}

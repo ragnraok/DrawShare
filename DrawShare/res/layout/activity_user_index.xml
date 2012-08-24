@@ -11,11 +11,12 @@
         android:text="@string/hello_world"
         tools:context=".UserIndexActivity" />
 -->
-	<LinearLayout android:id="@+id/user_index_head"
+	<RelativeLayout android:id="@+id/user_index_head"
 	    android:layout_width="fill_parent"
 	    android:layout_height="32pt"
 	    android:background="@drawable/user_index_head">
-	    <FrameLayout android:layout_width="102px"
+	    <FrameLayout android:id="@+id/user_index_avatar_layout"
+	        android:layout_width="102px"
 	        android:layout_height="102px"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="5dp">
@@ -29,10 +30,12 @@
 	    	    android:src="@drawable/radius_shadow_avatar"
 	    	    android:scaleType="fitXY"/>
 	    </FrameLayout>
-	    <LinearLayout android:layout_width="32pt"
+	    <LinearLayout android:layout_toRightOf="@id/user_index_avatar_layout"
+	        android:layout_width="32pt"
 	        android:layout_height="match_parent"
 	        android:orientation="vertical"
-	        android:layout_marginLeft="5dp">
+	        android:layout_marginLeft="5dp"
+	        android:id="@+id/user_index_name_and_message_layout">
 	        <TextView android:id="@+id/user_index_username_text"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -68,13 +71,15 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:gravity="right"
-	        android:layout_marginLeft="200dp">
+	        android:layout_toRightOf="@+id/user_index_name_and_message_layout"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="5dp">
 	        <Button android:id="@+id/user_index_draw_button"
 	        	android:layout_width="wrap_content"
 	        	android:layout_height="wrap_content"
 	        	android:background="@drawable/draw_selector"/>
 	    </LinearLayout>
-	</LinearLayout>
+	</RelativeLayout>
 	<TabHost android:layout_below="@id/user_index_head"
 	    android:id="@android:id/tabhost"
 	    android:layout_width="fill_parent"

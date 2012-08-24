@@ -84,12 +84,13 @@
  	    android:layout_marginTop="15dp"
  	    android:layout_width="match_parent"
  	    android:layout_height="wrap_content"
- 	    android:background="@drawable/friends_list_and_intro_head">
+ 	    android:background="@drawable/friends_list_and_intro_head"
+ 	    android:id="@+id/user_profile_my_followed_people_layout">
  	    <FrameLayout android:layout_width="65px"
  	        android:layout_height="65px"
  	        android:layout_gravity="center_vertical"
  	        android:layout_marginLeft="5dp">
- 	        <ImageView android:id="@+id/user_profil_follow_avatar_image"
+ 	        <ImageView android:id="@+id/user_profile_followed_people_avatar_image"
  	            android:layout_width="match_parent"
  	            android:layout_height="match_parent"
  	            android:src="@drawable/default_pict_temp"
@@ -103,6 +104,33 @@
  	        android:layout_height="wrap_content"
  	        android:layout_gravity="center_vertical"
  	        android:layout_marginLeft="5dp"
- 	        android:text="@string/my_friends_list"/>
+ 	        android:text="@string/my_followed_people"/>
+ 	</LinearLayout>
+ 	<LinearLayout android:layout_below="@id/user_profile_my_followed_people_layout"
+ 	    android:layout_marginLeft="20dp"
+ 	    android:layout_marginRight="20dp"
+ 	    android:layout_marginTop="15dp"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:background="@drawable/friends_list_and_intro_head">
+ 	    <FrameLayout android:layout_width="65px"
+ 	        android:layout_height="65px"
+ 	        android:layout_gravity="center_vertical"
+ 	        android:layout_marginLeft="5dp">
+ 	        <ImageView android:id="@+id/user_profile_followers_avatar_image"
+ 	            android:layout_width="match_parent"
+ 	            android:layout_height="match_parent"
+ 	            android:src="@drawable/default_pict_temp"
+ 	            android:scaleType="fitXY"/>
+ 	        <ImageView android:layout_width="match_parent"
+ 	            android:layout_height="match_parent"
+ 	            android:src="@drawable/raidus_shadow_62px"
+ 	            android:scaleType="fitXY"/>
+ 	    </FrameLayout>
+ 	    <TextView android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:layout_gravity="center_vertical"
+ 	        android:layout_marginLeft="5dp"
+ 	        android:text="@string/my_followers"/>
  	</LinearLayout>
 </RelativeLayout>

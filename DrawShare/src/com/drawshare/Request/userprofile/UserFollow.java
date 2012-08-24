@@ -26,8 +26,8 @@ public class UserFollow {
 	 * 获取用户的所有关注信息
 	 * @param userId
 	 * @return 一个JSONObject，格式如下:
-	 * {"followers": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url}, .....],
-                        "following": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url}, .....]}
+	 * {"followers": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url, 'email':email}, .....],
+                        "following": [{"user_name": username, "user_id": user_id, "avatar_url": avatar_url, 'email': email}, .....]}
 	 * @throws UserNotExistException
 	 */
 	public static final JSONObject getFollowInfo(String userId) throws UserNotExistException {

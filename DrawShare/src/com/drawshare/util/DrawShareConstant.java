@@ -48,5 +48,6 @@ public class DrawShareConstant {
 		public static final String USER_SHORT_DESCRIPTION = "short_description";
 		public static final String IF_MYSELF = "if_myself";
 		public static final String AVATAR_URL = "avatar_url";
+		public static final String IF_GET_FOLLOWERS = "if_get_followers";
 	}
 }

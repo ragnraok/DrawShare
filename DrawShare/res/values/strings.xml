@@ -17,9 +17,9 @@
     <string name="confirm">确定</string>
     <!-- cancel -->
     <string name="cancel">取消</string>
-    
+
     <!-- Information not complete -->
-	<string name="info_not_complete">请输入完整信息</string>
+    <string name="info_not_complete">请输入完整信息</string>
 
     <!-- string value for register -->
     <string name="register_user_exist">用户已存在</string>
@@ -44,17 +44,20 @@
     <string name="delete_collection_confirm_title">取消收藏</string>
     <string name="delete_collection_confirm_content">确定要取消收藏吗</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
-    
+
     <!-- user avatar string -->
-	<string name="user_avatar">用户头像</string>
-	<string name="set_user_avatar">设置用户头像</string>
-	
-	<!-- My Friends List String -->
-	<string name="my_friends_list">我的好友列表</string>
-	
-	<!-- Lazy Boy... -->
-	<string name="lazy_boy">这家伙很懒，什么都没有留下</string>
-	
-	<!-- set user description -->
-	<string name="set_user_description">设置个性签名</string>
+    <string name="user_avatar">用户头像</string>
+    <string name="set_user_avatar">设置用户头像</string>
+
+    <!-- My Friends List String -->
+    <string name="my_followed_people">我关注的人</string>
+    <string name="my_followers">我的粉丝</string>
+
+    <!-- Lazy Boy... -->
+    <string name="lazy_boy">这家伙很懒，什么都没有留下</string>
+
+    <!-- set user description -->
+    <string name="set_user_description">设置个性签名</string>
+    <string name="title_activity_follow_info">FollowInfoActivity</string>
+
 </resources>
