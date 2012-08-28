@@ -19,6 +19,7 @@ public class Constant {
 		public static final String GET_COLLECT_PICTURE = BASE + "get_collect_picture/";
 		public static final String ADD_COLLECT_PICTURE = BASE + "add_collect_picture/";
 		public static final String DELETE_COLLECT_PICTURE = BASE + "delete_collect_picture/";
+		public static final String GET_FOLLOW_STATUS = BASE + "get_follow_status/";
 	}
 	
 	public static class Message {
@@ -26,6 +27,7 @@ public class Constant {
 		
 		public static final String GET_FORK_MESSAGE = BASE + "get_fork_message/";
 		public static final String GET_FOLLOW_MESSAGE = BASE + "get_follow_message/";
+		public static final String GET_UNREAD_MESSAGE_NUM = BASE + "get_unread_message_number/";
 	}
 	
 	public 	static class Activity {

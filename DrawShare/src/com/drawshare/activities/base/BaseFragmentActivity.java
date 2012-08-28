@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
+import com.drawshare.R;
 import com.drawshare.application.DrawShareApplication;
 
 public abstract class BaseFragmentActivity extends FragmentActivity {
@@ -27,6 +28,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.application = (DrawShareApplication) this.getApplication();
+		this.getWindow().setBackgroundDrawableResource(R.drawable.background_color); // set the background color(white)
 		super.onCreate(bundle);
 		
 	}

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.drawshare.R;
+import com.drawshare.activities.userprofile.OtherUserIndexActivity;
 import com.drawshare.activities.userprofile.UserIndexActivity;
 import com.drawshare.activities.userprofile.UserProfileActivity;
 import com.drawshare.render.object.User;
@@ -33,7 +34,7 @@ public class FollowInfoAdapter extends BaseAsyncAdapter<User> {
 	@Override
 	protected void bindView(int position, View convertView) {
 		// TODO Auto-generated method stub
-		User user = this.dataSet.get(position);
+		final User user = this.dataSet.get(position);
 		TextView usernameTextView = (TextView) convertView.findViewById(R.id.follow_info_grid_username_text);
 		TextView emailTextView = (TextView) convertView.findViewById(R.id.follow_info_grid_email_text);
 		ImageView avatarImageView = (ImageView) convertView.findViewById(R.id.follow_info_grid_avatar_image);
@@ -45,8 +46,10 @@ public class FollowInfoAdapter extends BaseAsyncAdapter<User> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//Intent intent = new Intent(context, UserIndexActivity.class);
-				// enter other user index...
+				Intent intent = new Intent(context, OtherUserIndexActivity.class);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, user.userId);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, false);
+				context.startActivity(intent);
 			}
 		});
 	}

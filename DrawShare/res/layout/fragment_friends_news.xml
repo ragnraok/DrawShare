@@ -9,6 +9,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:horizontalSpacing="5dp"
+		android:verticalSpacing="5dp"
         android:dividerHeight="5dp">
     </ListView>
 	<ProgressBar android:id="@+id/friends_new_loading_bar"

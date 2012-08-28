@@ -49,7 +49,11 @@
         </activity>
         <activity
             android:name=".activities.userprofile.FollowInfoActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.userprofile.OtherUserIndexActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

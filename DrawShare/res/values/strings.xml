@@ -60,4 +60,9 @@
     <string name="set_user_description">设置个性签名</string>
     <string name="title_activity_follow_info">FollowInfoActivity</string>
 
+    <!-- the default background color -->
+    <drawable name="background_color">#FFFFFF</drawable>
+
+    <string name="title_activity_other_user_index">OtherUserIndexActivity</string>
+
 </resources>

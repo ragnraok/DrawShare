@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.drawshare.R;
 import com.drawshare.application.DrawShareApplication;
 
 /**
@@ -28,6 +29,7 @@ public abstract class BaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.background_color); // set the background color(white)
 		application = (DrawShareApplication) this.getApplication(); // set the application object
 		super.onCreate(savedInstanceState);
 	}

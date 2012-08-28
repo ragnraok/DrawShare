@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	<RelativeLayout android:id="@+id/other_user_index_head_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="32pt"
+	    android:background="@drawable/other_user_index_head">
+	    <FrameLayout android:id="@+id/other_user_index_avatar_frame"
+	        android:layout_height="102px"
+	        android:layout_width="102px"
+	        android:layout_marginLeft="5dp"
+	        android:layout_centerVertical="true">
+	        <ImageView android:id="@+id/other_user_index_avatar_image"
+	            android:layout_height="match_parent"
+	            android:layout_width="match_parent"
+	            android:src="@drawable/default_pict_temp"
+	            android:scaleType="fitXY"/>
+	        <ImageView android:layout_width="match_parent"
+	    	    android:layout_height="match_parent"
+	    	    android:src="@drawable/radius_shadow_avatar"
+	    	    android:scaleType="fitXY"/>
+	    </FrameLayout>
+	    <TextView android:id="@+id/other_user_index_username_text"
+	        android:layout_toRightOf="@id/other_user_index_avatar_frame"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Ragnarok"
+	        android:layout_marginTop="15dp"
+	        android:textColor="#48D1CC"
+	        android:layout_marginLeft="5dp"
+	        android:textSize="15dp"/>
+	    <Button android:layout_alignParentRight="true"
+	        android:id="@+id/other_user_index_follow_unfollow_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:background="@drawable/follow"
+	        android:layout_marginRight="10dp"/>
+	</RelativeLayout>
+	<TabHost android:layout_below="@id/other_user_index_head_layout"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <LinearLayout android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+	    	<RelativeLayout android:layout_width="fill_parent"
+	       		android:layout_height="wrap_content">
+	        	<TabWidget android:id="@android:id/tabs"
+            		android:orientation="horizontal"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content" />
+	    	</RelativeLayout>
+	    	<FrameLayout
+            	android:id="@android:id/tabcontent"
+           	 	android:layout_width="0dp"
+            	android:layout_height="0dp"
+            	android:layout_weight="0"/>
+        
+        	<android.support.v4.view.ViewPager
+            	android:id="@+id/other_user_index_view_pager"
+            	android:layout_width="match_parent"
+            	android:layout_height="0dp"
+            	android:layout_weight="1"/>
+	    </LinearLayout>    
+	</TabHost>
+</RelativeLayout>

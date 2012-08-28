@@ -47,6 +47,7 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 	private ProgressBar progressBar = null;
 	
 	private static String userId = null;
+	private boolean ifMyself = false;
 	
 	private UserCollectionAdapter adapter = null;
 	private boolean netStatus = false;
@@ -65,6 +66,8 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 		if (userId == null) {
 			this.userId = UserIdHandler.getUserId(this.getActivity());
 		}
+		this.ifMyself = this.getActivity().getIntent().getExtras().getBoolean(DrawShareConstant.EXTRA_KEY.IF_MYSELF);
+		
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		netStatus = application.getNetworkState();
 		if (netStatus) {
@@ -136,7 +139,7 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 		
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		
-		adapter = new UserCollectionAdapter(this.getActivity(), gridView, data, application.getNetworkState());
+		adapter = new UserCollectionAdapter(this.getActivity(), gridView, data, application.getNetworkState(), this.ifMyself);
 		this.gridView.setAdapter(adapter);
 		this.gridView.setVisibility(View.VISIBLE);
 		
@@ -211,13 +214,14 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 		private ProgressDialog dialog = null;
 		private Thread deleteCollectionThread = null;
 		private Handler handler = null;
+		private boolean ifMyself = false;
 
 		public UserCollectionAdapter(final Context context, AbsListView view,
-				ArrayList<Picture> dataSet,
-				boolean netStatus) {
+				ArrayList<Picture> dataSet, boolean netStatus, boolean ifMyself) {
 			super(context, view, dataSet, R.id.user_collect_grid_pict_image, netStatus, R.layout.user_collect_grid);
 			// TODO Auto-generated constructor stub
 			//dialog = new ProgressDialog(context);
+			this.ifMyself = ifMyself;
 		}
 
 		@Override
@@ -255,44 +259,49 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 			});
 			
 			Button deleteButton = (Button) convertView.findViewById(R.id.user_collect_grid_delete_button);
-			deleteButton.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					new AlertDialog.Builder(context).setTitle(context.getResources().getString(
-							R.string.delete_collection_confirm_title) + " " + picture.title).setMessage(
-									context.getResources().getString(R.string.delete_collection_confirm_content))
-									.setPositiveButton(context.getString(R.string.confirm), new DialogInterface.OnClickListener() {
-										
-										@Override
-										public void onClick(DialogInterface dia, int which) {
-											// TODO Auto-generated method stub
-											dialog = ProgressDialog.show(context, context.getString(R.string.waiting_title), "");
-											handler = new Handler() {
-
-												@Override
-												public void handleMessage(Message msg) {
-													// TODO Auto-generated method stub
-													super.handleMessage(msg);
-													dialog.dismiss();
-													if ((Boolean) msg.obj) {
-														Toast.makeText(context, context.getResources().getString(R.string.delete_collection_success), 
-																Toast.LENGTH_LONG).show();
-														reload();
+			if (this.ifMyself == false) {
+				deleteButton.setVisibility(View.INVISIBLE);
+			}
+			else {
+				deleteButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						new AlertDialog.Builder(context).setTitle(context.getResources().getString(
+								R.string.delete_collection_confirm_title) + " " + picture.title).setMessage(
+										context.getResources().getString(R.string.delete_collection_confirm_content))
+										.setPositiveButton(context.getString(R.string.confirm), new DialogInterface.OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dia, int which) {
+												// TODO Auto-generated method stub
+												dialog = ProgressDialog.show(context, context.getString(R.string.waiting_title), "");
+												handler = new Handler() {
+	
+													@Override
+													public void handleMessage(Message msg) {
+														// TODO Auto-generated method stub
+														super.handleMessage(msg);
+														dialog.dismiss();
+														if ((Boolean) msg.obj) {
+															Toast.makeText(context, context.getResources().getString(R.string.delete_collection_success), 
+																	Toast.LENGTH_LONG).show();
+															reload();
+														}
+														else {
+															Toast.makeText(context, context.getResources().getString(R.string.delete_collection_failed), 
+																	Toast.LENGTH_LONG).show();
+														}
 													}
-													else {
-														Toast.makeText(context, context.getResources().getString(R.string.delete_collection_failed), 
-																Toast.LENGTH_LONG).show();
-													}
-												}
-												
-											};
-											deleteCollectionThread.start();
-										}
-									}).setNegativeButton(context.getString(R.string.cancel), null).show();
-				}
-			});
+													
+												};
+												deleteCollectionThread.start();
+											}
+										}).setNegativeButton(context.getString(R.string.cancel), null).show();
+					}
+				});
+			}
 		}
 
 		@Override

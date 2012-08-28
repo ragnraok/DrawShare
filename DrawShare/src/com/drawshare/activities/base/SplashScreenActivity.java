@@ -42,6 +42,7 @@ public class SplashScreenActivity extends BaseActivity {
 					//nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
 					nextIntent = new Intent(SplashScreenActivity.this, UserIndexActivity.class);
 					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, UserIdHandler.getUserId(SplashScreenActivity.this));
+					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, true);
 					Log.d(Constant.LOG_TAG, "the userid is " + UserIdHandler.getUserId(SplashScreenActivity.this) + 
 							", the apikey is " + ApiKeyHandler.getApiKey(SplashScreenActivity.this) + ", the username is " +
 							UserNameHandler.getUserName(SplashScreenActivity.this));

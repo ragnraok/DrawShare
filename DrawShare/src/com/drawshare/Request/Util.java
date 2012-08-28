@@ -73,7 +73,7 @@ public class Util {
 				//Log.d(Constant.LOG_TAG, "the scale is " + scale);
 				options.inSampleSize = scale;
 				Bitmap bitmap = BitmapFactory.decodeStream(url.openStream(), null, options);
-				
+				Log.d(LOG_TAG, "get the bitmap in urltobitmap " + callTime);
 				return bitmap;
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -81,7 +81,8 @@ public class Util {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
+			Log.d(LOG_TAG, "return null in urltobitmap " + callTime);
 			return null;
 			
 			

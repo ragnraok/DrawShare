@@ -175,10 +175,6 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 			this.friendNews = null;
 		}
 		
-		
-		
-		
-		
 	}
 
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
+import com.drawshare.activities.userprofile.OtherUserIndexActivity;
 import com.drawshare.activities.userprofile.UserIndexActivity;
 import com.drawshare.activities.userprofile.UserProfileActivity;
 import com.drawshare.asyncloader.AsyncImageLoader;
@@ -106,7 +107,8 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//Toast.makeText(context, "get User Profile", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(context, UserProfileActivity.class);
+				//Intent intent = new Intent(context, UserProfileActivity.class);
+				Intent intent = new Intent(context, OtherUserIndexActivity.class);
 				intent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, false);
 				intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, activity.userId);
 				context.startActivity(intent);

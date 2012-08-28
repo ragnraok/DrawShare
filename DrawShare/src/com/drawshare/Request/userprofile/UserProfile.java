@@ -30,6 +30,7 @@ public class UserProfile {
 	private static final String getCollectURL = Constant.SITE + Constant.UserProfile.GET_COLLECT_PICTURE;
 	private static final String addCollectURL = Constant.SITE + Constant.UserProfile.ADD_COLLECT_PICTURE;
 	private static final String deleteCollectURL = Constant.SITE + Constant.UserProfile.DELETE_COLLECT_PICTURE;
+	private static final String getFollowStatusURL = Constant.SITE + Constant.UserProfile.GET_FOLLOW_STATUS;
 	
 	/**
 	 * 获取用户资料的方法
@@ -370,6 +371,53 @@ public class UserProfile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断userId 是否关注了 followUserId
+	 * @param userId
+	 * @param followUserId
+	 * @return true如果userId关注了followUserId
+	 * @throws UserNotExistException 当用户不存在的时候，抛出此异常
+	 */
+	public static boolean getFollowStatus(String userId, String followUserId) throws UserNotExistException {
+		Log.d(Constant.LOG_TAG, "in get follow status, the url is " + getFollowStatusURL + userId + "/" + followUserId + "/");
+		try {
+			URL url = new URL(getFollowStatusURL + userId + "/" + followUserId + "/");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setFollowRedirects(true);
+			connection.connect();
+			
+			Log.d(Constant.LOG_TAG, "in get follow status, the response message is " + connection.getResponseMessage());
+			
+			if (connection.getResponseCode() == 404) {
+				throw new UserNotExistException();
+			}
+			else if (connection.getResponseCode() == 200) {
+				InputStreamReader isr = new InputStreamReader(connection.getInputStream());
+				BufferedReader reader = new BufferedReader(isr);
+				
+				String returnString = reader.readLine();
+				returnString = Util.processJsonString(returnString);
+				Log.d(Constant.LOG_TAG, "in get follow status, the return json is " + returnString);
+				
+				JSONObject object = new JSONObject(returnString);
+				boolean ifFollow = object.getBoolean("follow_status");
+				return ifFollow;
+				
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

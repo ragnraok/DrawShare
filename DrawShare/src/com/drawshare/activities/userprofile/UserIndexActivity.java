@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -17,6 +18,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,10 +31,13 @@ import android.widget.Toast;
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
+import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
+import com.drawshare.Request.message.Message;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragmentActivity;
 import com.drawshare.adapter.TabsAdapter;
+import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
 import com.drawshare.util.DrawShareConstant;
@@ -65,6 +70,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	private String shortDescription = null;
 	private String email = null;
 	private String avatarURL = null;
+	private int unreadMessageNum = 0;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,13 +102,13 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
         setUpView();
     }
     
-/*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_user_index, menu);
         return true;
     }
-*/
+
     private void findAllView() {
     	tabHost = (TabHost) findViewById(android.R.id.tabhost);   
         viewPager = (ViewPager) findViewById(R.id.user_index_view_pager);
@@ -115,7 +121,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     private void setUpView() {
     	String username = UserNameHandler.getUserName(this);
     	username = username.substring(0, 1).toUpperCase() + username.substring(1);
-    	
+    	this.userNameTextView.setText(username);
     	if (this.application.getNetworkState()) {
     		final ProfileTask profileTask = new ProfileTask();
     		dialog.show();
@@ -128,6 +134,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 						Bitmap avatar = bitmap.get();
 						avatarImage.setImageBitmap(avatar);
 						Log.d(Constant.LOG_TAG, "set the avatar");
+						messageNumTextView.setText(String.valueOf(unreadMessageNum));
 						dialog.dismiss();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -220,12 +227,33 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		return null;
     }
 	
+	private void setUnreadMessageNum() {
+		try {
+			JSONObject messageObject = Message.getUnreadMessageNum(UserIdHandler.getUserId(this), ApiKeyHandler.getApiKey(this));
+			this.unreadMessageNum = messageObject.getInt("unread_message_number");
+		} catch (AuthFailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.unreadMessageNum = 0;
+		} catch (UserNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.unreadMessageNum = 0;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.unreadMessageNum = 0;
+		}
+		//this.messageNumTextView.setText(this.unreadMessageNum);
+	}
+	
 	private class ProfileTask extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
 		protected Bitmap doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			//Log.d(Constant.LOG_TAG, "in doInBackground");
+			setUnreadMessageNum(); // first set the unread message numbers
 			avatarURL = getAvatarURLAndSetOtherProfile();
 			//Log.d(Constant.LOG_TAG, "the avatarURL is " + avatarURL);
 			

@@ -20,6 +20,7 @@ import android.util.Log;
 public class Message {
 	private static final String getFollowMessageURL = Constant.SITE + Constant.Message.GET_FOLLOW_MESSAGE;
 	private static final String getForkMessageURL = Constant.SITE + Constant.Message.GET_FORK_MESSAGE;
+	private static final String getUnReadMessageURL = Constant.SITE + Constant.Message.GET_UNREAD_MESSAGE_NUM;
 	
 	/**
 	 * 获取用户fork信息
@@ -127,7 +128,58 @@ public class Message {
 		return null;
 	}
 	
-	
+	/**
+	 * 获取某个用户没有读取的消息条数
+	 * @param userId
+	 * @param apiKey
+	 * @return 一个JSONObject,格式如下:
+	 *    {'unread_message_number': number}
+	 * @throws AuthFailException 当apiKey错误时，抛出此异常
+	 * @throws UserNotExistException 当userId对应的用户不存在的时候，抛出此异常
+	 */
+	public static JSONObject getUnreadMessageNum(String userId, String apiKey) throws AuthFailException, UserNotExistException {
+		Log.d(Constant.LOG_TAG, "in get the unread message num, the url is " + getUnReadMessageURL + userId + "/");
+		
+		try {
+			URL url = new URL(getUnReadMessageURL + userId  + "/");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty("Authorization", apiKey);
+			connection.setRequestMethod("GET");
+			connection.setFollowRedirects(true);
+			connection.connect();
+			
+			Log.d(Constant.LOG_TAG, "in get the unread message, the return message is " + connection.getResponseMessage());
+			
+			if (connection.getResponseCode() == 401) {
+				throw new AuthFailException("the apikey " + apiKey + " is error");
+			}
+			else if (connection.getResponseCode() == 404) {
+				throw new UserNotExistException("the user for id " + userId + " is not exist");
+			}
+			else {
+				InputStreamReader isr = new InputStreamReader(connection.getInputStream());
+				BufferedReader reader = new BufferedReader(isr);
+				
+				String returnString = reader.readLine();
+				returnString = Util.processJsonString(returnString);
+				
+				JSONObject object = new JSONObject(returnString);
+				
+				return object;
+			}
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 	

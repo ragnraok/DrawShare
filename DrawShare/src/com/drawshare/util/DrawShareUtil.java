@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.drawshare.R;
+import com.drawshare.datastore.ApiKeyHandler;
+import com.drawshare.datastore.UserIdHandler;
+import com.drawshare.datastore.UserNameHandler;
 
 public class DrawShareUtil {
 	public static View getWaitDialogView(Context context) {
@@ -13,4 +16,16 @@ public class DrawShareUtil {
     	
     	return view;
     }
+	
+	public static boolean ifLogin(Context context) {
+		String userId = UserIdHandler.getUserId(context);
+    	String apiKey = ApiKeyHandler.getApiKey(context);
+    	String username = UserNameHandler.getUserName(context);
+    	if (userId == null || apiKey == null || username == null) {
+    		return false;
+    	}
+    	else {
+			return true;
+		}
+	}
 }

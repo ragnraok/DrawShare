@@ -28,12 +28,13 @@ import android.widget.Button;
 public class UserCollectionAdapter extends BaseAsyncAdapter<Picture>  {
 	
 	private ProgressDialog dialog = null;
-
+	private boolean ifMyself = false;
+	
 	public UserCollectionAdapter(Context context, AbsListView view,
-			ArrayList<Picture> dataSet,
-			boolean netStatus) {
+			ArrayList<Picture> dataSet, boolean netStatus, boolean ifMyself) {
 		super(context, view, dataSet, R.id.user_collect_grid_pict_image, netStatus, R.layout.user_collect_grid);
 		// TODO Auto-generated constructor stub
+		this.ifMyself = ifMyself;
 	}
 
 	@Override
@@ -48,56 +49,61 @@ public class UserCollectionAdapter extends BaseAsyncAdapter<Picture>  {
 		final Picture picture = this.dataSet.get(position);
 		
 		Button deleteButton = (Button) convertView.findViewById(R.id.user_collect_grid_delete_button);
-		deleteButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//Toast.makeText(context, "Uncollect a picture", Toast.LENGTH_LONG).show();
-				dialog = ProgressDialog.show(context, context.getResources().getString(R.string.waiting_title), "");
-				final Handler handler = new Handler() {
-
-					@Override
-					public void handleMessage(Message msg) {
-						// TODO Auto-generated method stub
-						super.handleMessage(msg);
-						dialog.dismiss();
-						if ((Boolean) msg.obj) {
-							Toast.makeText(context, context.getResources().getString(R.string.delete_collection_success), 
-									Toast.LENGTH_LONG).show();
-							
+		if (ifMyself == false) {
+			deleteButton.setVisibility(View.INVISIBLE);
+		}
+		else {
+			deleteButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					//Toast.makeText(context, "Uncollect a picture", Toast.LENGTH_LONG).show();
+					dialog = ProgressDialog.show(context, context.getResources().getString(R.string.waiting_title), "");
+					final Handler handler = new Handler() {
+	
+						@Override
+						public void handleMessage(Message msg) {
+							// TODO Auto-generated method stub
+							super.handleMessage(msg);
+							dialog.dismiss();
+							if ((Boolean) msg.obj) {
+								Toast.makeText(context, context.getResources().getString(R.string.delete_collection_success), 
+										Toast.LENGTH_LONG).show();
+								
+							}
+							else {
+								Toast.makeText(context, context.getResources().getString(R.string.delete_collection_failed), 
+										Toast.LENGTH_LONG).show();
+							}
 						}
-						else {
-							Toast.makeText(context, context.getResources().getString(R.string.delete_collection_failed), 
-									Toast.LENGTH_LONG).show();
+						
+					};
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							boolean success = false;
+							try {
+								success = UserProfile.deleteCollectPicture(ApiKeyHandler.getApiKey(context), 
+										UserIdHandler.getUserId(context), picture.pictureId);
+							} catch (AuthFailException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								success = false;
+							} catch (UserNotExistException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								success = false;
+							}
+							Message message = handler.obtainMessage(1, success);
+							handler.sendMessage(message);
 						}
-					}
-					
-				};
-				new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						boolean success = false;
-						try {
-							success = UserProfile.deleteCollectPicture(ApiKeyHandler.getApiKey(context), 
-									UserIdHandler.getUserId(context), picture.pictureId);
-						} catch (AuthFailException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							success = false;
-						} catch (UserNotExistException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							success = false;
-						}
-						Message message = handler.obtainMessage(1, success);
-						handler.sendMessage(message);
-					}
-				}).start();
-			}
-		});
+					}).start();
+				}
+			});
+		}
 	}
 
 	@Override
