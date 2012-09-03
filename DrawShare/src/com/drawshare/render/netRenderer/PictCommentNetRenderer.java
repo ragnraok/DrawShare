@@ -38,6 +38,7 @@ public class PictCommentNetRenderer extends NetRender<Comment> {
 			comment.commentDate = new SimpleDateFormat("yyyy/MM/dd").parse(json.getString("comment_date"));
 			comment.commentUserName = json.getString("comment_user_name");
 			comment.commentUserId = json.getString("comment_user_id");
+			comment.commentUserAvatarUrl = json.getString("comment_user_avatar_url");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,8 +51,7 @@ public class PictCommentNetRenderer extends NetRender<Comment> {
 	}
 
 	@Override
-	public ArrayList<Comment> renderToList() throws AuthFailException,
-			UserNotExistException, PictureNotExistException {
+	public ArrayList<Comment> renderToList() throws PictureNotExistException {
 		JSONObject commentJsonObject = PictureComment.getPictComments(pictureId);
 		
 		try {

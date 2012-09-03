@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/message_line" >
+    <FrameLayout android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/follow_message_grid_avatar_layout">
+        <ImageView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_pict_temp"
+            android:id="@+id/follow_message_grid_avatar_image"/>
+        <ImageView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/radius_shadow_118"/>
+    </FrameLayout>
+	<LinearLayout android:layout_toRightOf="@id/follow_message_grid_avatar_layout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="10dp">
+	    <TextView android:id="@+id/follow_message_grid_username_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/loading"
+	        android:textColor="#A3A3A3"
+	        android:layout_marginTop="15dp"
+	        android:textSize="20dp"/>
+	    <TextView android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="15dp"
+	        android:text="@string/follow_you"
+	        android:textColor="#A3A3A3"/>
+	</LinearLayout>
+	<TextView android:id="@+id/follow_message_grid_follow_date_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="20dp"
+	    android:layout_marginTop="15dp"
+	    android:text="2012-09-02"
+	    android:textColor="#A3A3A3"/>
+</RelativeLayout>

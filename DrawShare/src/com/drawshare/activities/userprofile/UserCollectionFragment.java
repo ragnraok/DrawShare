@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.adapter.BaseAsyncAdapter;
 import com.drawshare.application.DrawShareApplication;
 import com.drawshare.datastore.ApiKeyHandler;
@@ -234,6 +237,19 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 		protected void bindView(int position, View convertView) {
 			// TODO Auto-generated method stub
 			final Picture picture = this.dataSet.get(position);
+			
+			ImageView pictImageView = (ImageView) convertView.findViewById(R.id.user_collect_grid_pict_image);
+			pictImageView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(context, PictInfoActivity.class);
+					intent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, picture.pictureId);
+					intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, userId);
+					context.startActivity(intent);
+				}
+			});
 			
 			deleteCollectionThread = new Thread(new Runnable() {
 				

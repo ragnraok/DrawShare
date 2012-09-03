@@ -10,6 +10,9 @@
     <!-- network unvailable string -->
     <string name="network_unavailable">网络不可用</string>
 
+    <!-- loading -->
+    <string name="loading">loading...</string>
+
     <!-- waiting string -->
     <string name="waiting_title">请稍候</string>
 
@@ -64,5 +67,17 @@
     <drawable name="background_color">#FFFFFF</drawable>
 
     <string name="title_activity_other_user_index">OtherUserIndexActivity</string>
+    <string name="title_activity_pict_show">PictShowActivity</string>
 
+    <!-- comment -->
+    <string name="add_comment">添加评论</string>
+    <string name="no_comment">没有评论阿亲..</string>
+    <string name="comment_success">评论成功</string>
+    <string name="comment_failed">评论失败</string>
+    <string name="title_activity_pict_info_fragment">PictInfoFragmentActivity</string>
+    <string name="title_activity_user_message">UserMessageActivity</string>
+    
+    <!-- follow -->
+	<string name="follow_you">关注了你</string>
+	
 </resources>

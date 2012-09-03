@@ -23,23 +23,39 @@ public class DrawShareConstant {
 	/**
 	 * size for draw hall's pictures fragment
 	 */
-	public static final int DRAW_HALL_PICT_SIZE = 120;
+	public static final int DRAW_HALL_PICT_SIZE = 118;
 	
 	/**
 	 * size for user's pictures fragment
 	 */
-	public static final int USER_PICTS_SIZE = 120;
+	public static final int USER_PICTS_SIZE = 118;
 	
 	/**
 	 * size for user's collection fragment
 	 */
-	public static final int USER_COLLECT_SIZE = 120;
+	public static final int USER_COLLECT_SIZE = 118;
 	
 	/**
 	 * size for user's profile activity 
 	 */
-	public static final int USER_PROFILE_AVATAR_SIZE = 120;
+	public static final int USER_PROFILE_AVATAR_SIZE = 118;
 	
+	/**
+	 * size for pict comment avatar
+	 */
+	public static final int PICT_COMMENT_AVATAR_SIZE = 118;
+	
+	/**
+	 * size for pict fork
+	 */
+	public static final int PICT_FORK_GRID_IMAGE_SIZE = 118;
+	public static final int PICT_FROK_SOURCE_IMAGE_SIZE = 500;
+	public static final int PICT_FORK_SOURCE_AVATAR_SIZE = 100;
+	
+	/**
+	 * size for message avatar
+	 */
+	public static final int MESSAGE_AVATAR_SIZE = 118;
 	
 	public class EXTRA_KEY {
 		public static final String USER_ID = "user_id";
@@ -49,5 +65,6 @@ public class DrawShareConstant {
 		public static final String IF_MYSELF = "if_myself";
 		public static final String AVATAR_URL = "avatar_url";
 		public static final String IF_GET_FOLLOWERS = "if_get_followers";
+		public static final String PICT_ID = "pict_id";
 	}
 }

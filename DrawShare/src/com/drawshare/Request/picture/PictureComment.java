@@ -29,7 +29,7 @@ public class PictureComment {
 	 * @return 一个JSONObject,格式如下:
 	 * {'pict_id': pict_id, 
      *                   {'pict_comments': [{'pict_comment': comment, 'comment_user_id': user_id, 
-     *                   'comment_date': YYYY/MM/DD, 'comment_user_name': username}, 
+     *                   'comment_date': YYYY/MM/DD, 'comment_user_name': username, 'comment_user_avatar_url': avatar_url}, 
      *                       ........]
      *                   }}
 	 * @throws PictureNotExistException，当picutureId对应的图片不存在的时候,抛出此异常

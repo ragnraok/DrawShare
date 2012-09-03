@@ -81,6 +81,19 @@ public class Message {
 		return null;
 	}
 	
+	/**
+	 * {'follow_messages':
+     *      [{'follow_user_id': follow_user_id, 'follow_username': follow_username, 'follow_date': YYYY/MM/DD,
+     *              'follow_user_avatar_url':avatar_url}, 
+     *                 ...]
+     *   }
+	 * @param userId
+	 * @param apiKey
+	 * @param num
+	 * @return
+	 * @throws AuthFailException
+	 * @throws UserNotExistException
+	 */
 	public static final JSONObject getFollowMessage(String userId, String apiKey, 
 			int num) throws AuthFailException, UserNotExistException {
 		Log.d(Constant.LOG_TAG, "in get follow message, the url is " + getFollowMessageURL + userId + "/" + num + "/");

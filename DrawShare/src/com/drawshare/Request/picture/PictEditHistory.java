@@ -31,10 +31,10 @@ public class PictEditHistory {
 	 * {'origin_picture': 
      *          {'picture_id': pict_id, 'picture_url': url, 
      *                     'edit_date': YYYY/MM/DD,
-     *                        'create_username': username, 'title': title},
+     *                        'create_username': username, 'title': title, 'avatar_url': avatar_url, 'user_id':user_id},
      *                         'fork_picture': [{'picture_id': picture_id, 'picture_url': url,
      *                          'create_username': username, 'edit_date': YYYY/MM/DD,
-     *                           'title': title},
+     *                           'title': title, 'avatar_url': avatar_url, 'user_id':user_id},
      *                  ....]
      *  }
      *  如果在'origin_picture'中,如果'picture_id'和方法中的pictureId一样,并且'fork_picture'为空,则为全新的图片,即为不是从

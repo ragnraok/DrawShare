@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.picture.UserPicture;
 import com.drawshare.Request.userprofile.UserProfile;
+import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.activities.userprofile.UserCollectionFragment;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
@@ -29,12 +32,14 @@ public class UserCollectionAdapter extends BaseAsyncAdapter<Picture>  {
 	
 	private ProgressDialog dialog = null;
 	private boolean ifMyself = false;
+	private String userId = null;
 	
 	public UserCollectionAdapter(Context context, AbsListView view,
-			ArrayList<Picture> dataSet, boolean netStatus, boolean ifMyself) {
+			ArrayList<Picture> dataSet, boolean netStatus, boolean ifMyself, String userId) {
 		super(context, view, dataSet, R.id.user_collect_grid_pict_image, netStatus, R.layout.user_collect_grid);
 		// TODO Auto-generated constructor stub
 		this.ifMyself = ifMyself;
+		this.userId = userId;
 	}
 
 	@Override
@@ -47,6 +52,19 @@ public class UserCollectionAdapter extends BaseAsyncAdapter<Picture>  {
 	protected void bindView(int position, View convertView) {
 		// TODO Auto-generated method stub
 		final Picture picture = this.dataSet.get(position);
+		
+		ImageView pictImageView = (ImageView) convertView.findViewById(R.id.user_collect_grid_pict_image);
+		pictImageView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(context, PictInfoActivity.class);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, picture.pictureId);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, picture.createUserId);
+				context.startActivity(intent);
+			}
+		});
 		
 		Button deleteButton = (Button) convertView.findViewById(R.id.user_collect_grid_delete_button);
 		if (ifMyself == false) {

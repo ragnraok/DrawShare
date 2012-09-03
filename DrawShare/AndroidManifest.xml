@@ -55,6 +55,14 @@
             android:name=".activities.userprofile.OtherUserIndexActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activities.pictinfo.PictInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.userprofile.UserMessageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

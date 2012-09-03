@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
+import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.activities.userprofile.OtherUserIndexActivity;
 import com.drawshare.activities.userprofile.UserIndexActivity;
 import com.drawshare.activities.userprofile.UserProfileActivity;
@@ -119,7 +121,11 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "get Picture Info", Toast.LENGTH_LONG).show();
+				//Toast.makeText(context, "get Picture Info", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(context, PictInfoActivity.class);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, activity.pictureId);
+				intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, activity.userId);
+				context.startActivity(intent);
 			}
 		});
 	}

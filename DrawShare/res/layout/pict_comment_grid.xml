@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/comment_message_line" >
+    <FrameLayout
+        android:id="@+id/pict_comment_avatar_layout"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+    	android:layout_alignParentLeft="true"
+    	android:layout_marginLeft="10dp"
+    	android:layout_centerVertical="true">
+        <ImageView android:id="@+id/pict_comment_grid_avatar_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/default_pict_temp"
+            android:scaleType="fitXY"/>
+        <ImageView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/radius_shadow_118"
+            android:scaleType="fitXY"/>
+    </FrameLayout>
+	<LinearLayout android:layout_toRightOf="@id/pict_comment_avatar_layout"
+	    android:layout_marginLeft="5dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_centerVertical="true">
+	    <TextView android:id="@+id/pict_comment_grid_username_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Ragnarok"
+	        android:textSize="20dp"
+	        android:textColor="#454545"
+	        android:paddingBottom="10dp"/>
+	    <TextView android:id="@+id/pict_comment_grid_comment_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="This is a comment"
+	        android:textColor="#454545"
+	        android:layout_marginTop="15dp"/>
+	</LinearLayout>
+	<TextView android:id="@+id/pict_comment_grid_date_text"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="10dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="2012-9-2"
+	    android:layout_marginTop="10dp"
+	    android:textColor="#454545"/>
+</RelativeLayout>

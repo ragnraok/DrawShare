@@ -40,6 +40,7 @@ import com.drawshare.adapter.TabsAdapter;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
+import com.drawshare.render.object.FollowMessage;
 import com.drawshare.util.DrawShareConstant;
 import com.drawshare.util.DrawShareUtil;
 
@@ -116,6 +117,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	userNameTextView = (TextView) findViewById(R.id.user_index_username_text);
     	messageRemindButton = (Button) findViewById(R.id.user_index_message_remind_button);
     	messageNumTextView = (TextView) findViewById(R.id.user_index_message_num_text);
+    	messageButton = (Button) findViewById(R.id.user_index_message_button);
     }
     
     private void setUpView() {
@@ -151,6 +153,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	}
     	
     	this.avatarImage.setOnClickListener(this);
+    	this.messageButton.setOnClickListener(this);
+    	this.messageRemindButton.setOnClickListener(this);
     }
     
    
@@ -285,6 +289,11 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			//profileIntent.putExtra(DrawShareConstant.EXTRA_KEY.AVATAR_URL, this.avatarURL);
 			startActivity(profileIntent);
 			//finish();
+			break;
+		case R.id.user_index_message_button:
+		case R.id.user_index_message_remind_button:
+			Intent messageIntent = new Intent(UserIndexActivity.this, UserMessageActivity.class);
+			startActivity(messageIntent);
 			break;
 		}
 	}

@@ -8,5 +8,6 @@ public class Comment {
 	public String pictureComment = null;
 	public String commentUserId = null;
 	public String commentUserName = null;
+	public String commentUserAvatarUrl = null;
 	public Date commentDate = null;
 }

@@ -1,10 +1,9 @@
 package com.drawshare.activities.userprofile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
@@ -12,13 +11,15 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 
 import com.drawshare.R;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.adapter.UserPictsAdapter;
 import com.drawshare.application.DrawShareApplication;
 import com.drawshare.datastore.UserIdHandler;
@@ -26,7 +27,7 @@ import com.drawshare.render.netRenderer.UserPictureNetRenderer;
 import com.drawshare.render.object.Picture;
 import com.drawshare.util.DrawShareConstant;
 
-public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<ArrayList<Picture>> {
+public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<ArrayList<Picture>>, OnItemClickListener {
 
 	private GridView gridView = null;
 	private ProgressBar progressBar = null;
@@ -95,7 +96,8 @@ public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<A
 		//return super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_user_picts, container, false);
 		this.gridView = (GridView) view.findViewById(R.id.user_picts_grid);
-		this.progressBar = (ProgressBar) view.findViewById(R.id.user_picts_progress_bar); 
+		this.progressBar = (ProgressBar) view.findViewById(R.id.user_picts_progress_bar);
+		this.gridView.setOnItemClickListener(this);
 		
 		/**
 		ArrayList listData = new ArrayList<Map<String, Object>>();
@@ -189,5 +191,17 @@ public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<A
 			}
 		}
 		
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int location, long arg3) {
+		// TODO Auto-generated method stub
+		if (this.pictList != null) {
+			Picture picture = this.pictList.get(location);
+			Intent intent = new Intent(this.getActivity(), PictInfoActivity.class);
+			intent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, this.userId);
+			intent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, picture.pictureId);
+			startActivity(intent);
+		}
 	}
 }
