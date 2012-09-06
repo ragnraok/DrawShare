@@ -4,11 +4,11 @@
     android:layout_height="match_parent" >
 	<RelativeLayout android:id="@+id/other_user_index_head_layout"
 	    android:layout_width="match_parent"
-	    android:layout_height="32pt"
-	    android:background="@drawable/other_user_index_head">
+	    android:layout_height="80dp"
+	    android:background="@drawable/pure_head">
 	    <FrameLayout android:id="@+id/other_user_index_avatar_frame"
-	        android:layout_height="102px"
-	        android:layout_width="102px"
+	        android:layout_height="60dp"
+	        android:layout_width="60dp"
 	        android:layout_marginLeft="5dp"
 	        android:layout_centerVertical="true">
 	        <ImageView android:id="@+id/other_user_index_avatar_image"

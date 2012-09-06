@@ -207,6 +207,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 							if ((Boolean)msg.obj) {
 								Toast.makeText(PictCommentsFragment.this.getActivity(), 
 										getString(R.string.comment_success), Toast.LENGTH_LONG).show();
+								PictCommentsFragment.this.getLoaderManager().restartLoader(0, null, PictCommentsFragment.this);
 							}
 							else {
 								Toast.makeText(PictCommentsFragment.this.getActivity(), 

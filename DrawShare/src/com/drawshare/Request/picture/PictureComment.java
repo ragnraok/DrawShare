@@ -56,7 +56,7 @@ public class PictureComment {
 				
 				String returnMsg = reader.readLine();
 				returnMsg = Util.processJsonString(returnMsg);
-				
+				Log.d(Constant.LOG_TAG, "in get picture comment, the returnMsg is " + returnMsg);
 				JSONObject commentsObject = new JSONObject(returnMsg);
 				return commentsObject;
 			}

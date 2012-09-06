@@ -60,7 +60,8 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 	private String avatarURL = null;
 	private String username = null;
 	
-	private AlertDialog dialog = null;
+	//private AlertDialog dialog = null;
+	private ProgressDialog progressDialog = null;
 	
 	private Handler handler = new Handler();
 	
@@ -78,7 +79,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
         setContentView(R.layout.activity_other_user_index);
         this.userId = this.getIntent().getStringExtra(DrawShareConstant.EXTRA_KEY.USER_ID);
         findAllView();
-        dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
+        //dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
         
         tabHost.setup();
         // setup the tab host
@@ -177,7 +178,8 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
     private void setUpView() {
     	if (this.application.getNetworkState()) {
     		final OtherUserProfileTask task = new OtherUserProfileTask();
-    		dialog.show();
+    		//dialog.show();
+    		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
     		handler.postDelayed(new Runnable() {
 				
 				@Override
@@ -203,7 +205,8 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					dialog.dismiss();
+					//dialog.dismiss();
+					progressDialog.dismiss();
 				}
 			}, 500);
     	}

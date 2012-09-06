@@ -1,5 +1,6 @@
 package com.drawshare.render.netRenderer;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class PictCommentNetRenderer extends NetRender<Comment> {
 		Comment comment = new Comment();
 		
 		try {
-			comment.pictureComment = json.getString("pict_comment");
+			comment.pictureComment = new String(json.getString("pict_comment").getBytes("UTF-8"), "UTF-8");
 			comment.pictureId = this.pictureId;
 			comment.commentDate = new SimpleDateFormat("yyyy/MM/dd").parse(json.getString("comment_date"));
 			comment.commentUserName = json.getString("comment_user_name");
@@ -46,6 +47,9 @@ public class PictCommentNetRenderer extends NetRender<Comment> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			comment.commentDate = null;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return comment;
 	}

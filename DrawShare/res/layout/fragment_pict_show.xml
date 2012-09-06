@@ -11,13 +11,28 @@
         android:text="@string/hello_world"
         tools:context=".PictShowActivity" />
 -->
-	
+	<TextView android:id="@+id/pict_show_pict_name_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/loading"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"/>
 	<ImageView android:id="@+id/pict_show_pict_image"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:layout_margin="20dp"
+	    android:layout_width="500dp"
+	    android:layout_height="430dp"
 	    android:layout_centerInParent="true"
-	    android:scaleType="fitXY"/>
+	    android:scaleType="fitXY"
+	    android:layout_below="@id/pict_show_pict_name_text"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"/>
+	<TextView android:layout_below="@id/pict_show_pict_image"
+	    android:id="@+id/pict_show_pict_date_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/loading"
+	    android:layout_marginTop="5dp"
+	    android:layout_marginLeft="10dp"/>	
 	
 	<ProgressBar android:id="@+id/pict_show_progress_bar"
 	    android:layout_width="50dp"

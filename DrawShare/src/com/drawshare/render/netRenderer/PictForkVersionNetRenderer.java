@@ -63,7 +63,7 @@ public class PictForkVersionNetRenderer extends NetRender<Picture> {
 				forkList.add(picture);
 			}
 			return forkList;
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

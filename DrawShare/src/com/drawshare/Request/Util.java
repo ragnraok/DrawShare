@@ -3,6 +3,7 @@ package com.drawshare.Request;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketException;
@@ -28,8 +29,19 @@ public class Util {
 	 * @return
 	 */
 	public static String processJsonString(String jsonString) {
-		String replaceString = jsonString.replace("\\", "");
-		return replaceString.substring(1, replaceString.length() - 1);
+		String replaceString;
+		try {
+			// some problem.... 
+			Log.d(Constant.LOG_TAG, "the jsonString is " + jsonString);
+			replaceString = new String(jsonString.replace("\\\"", "\"").replace("\\\\u", "\\u").getBytes("UTF-8"), "UTF-8");
+			//replaceString = new String(jsonString.replace("\\\\", "\\").getBytes("UTF-8"), "UTF-8").replace("\\", "");
+			replaceString = replaceString.substring(1, replaceString.length() - 1);
+			return replaceString;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static String bitmapToBase64String(Bitmap bitmap) {

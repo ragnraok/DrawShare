@@ -57,7 +57,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private ImageView followedAvatarImageView = null;
 	private ImageView followerAvatarImageView = null;
 	
-	private AlertDialog dialog = null;
+	//private AlertDialog dialog = null;
+	private ProgressDialog progressDialog = null;
 	
 	private Handler handler = new Handler();
 	
@@ -100,10 +101,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		super.setUpView();
 		
 		
-		dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
+		//dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
 		if (this.application.getNetworkState()) {
 			final ProfileTask task = new ProfileTask();
-			dialog.show();
+			//dialog.show();
+			progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -125,7 +127,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						else 
 							shortDescriptionTextView.setText(shortDescription);	
 						
-						dialog.dismiss();
+						//dialog.dismiss();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -133,6 +135,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					progressDialog.dismiss();
 				}
 			}, 500);
 		}

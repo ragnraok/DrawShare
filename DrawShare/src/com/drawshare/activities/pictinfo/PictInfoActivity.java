@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -51,7 +52,8 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	private Button drawButton = null;
 	private ImageView avatarImageView = null;
 	
-	private AlertDialog dialog = null;
+	//private AlertDialog dialog = null;
+	private ProgressDialog progressDialog = null;
 	private Handler handler = new Handler();
 	
 	private ArrayList<Drawable> notSelectDrawables = new ArrayList<Drawable>();
@@ -67,7 +69,7 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
         this.userId = getIntent().getStringExtra(DrawShareConstant.EXTRA_KEY.USER_ID);
         this.pictId = getIntent().getStringExtra(DrawShareConstant.EXTRA_KEY.PICT_ID);
         findAllView();
-        dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
+        //dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
         
         tabHost.setup();
         tabsAdapter = new TabsAdapter(this, tabHost, viewPager);
@@ -141,7 +143,8 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	private void setUpView() {
 		if (this.application.getNetworkState()) {
 			final UserProfileTask task = new UserProfileTask();
-			dialog.show();
+			//dialog.show();
+			progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
 			handler.postDelayed(new Runnable() {
 				
 				@Override
@@ -160,7 +163,8 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					dialog.dismiss();
+					//dialog.dismiss();
+					progressDialog.dismiss();
 				}
 			}, 500);
 		}

@@ -3,6 +3,7 @@ package com.drawshare.activities.userprofile;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ public class UserMessageActivity extends BaseActivity {
 	private ArrayList<FollowMessage> messageList = null;
 	private FollowMessageAdapter adapter = null;
 	
+	private ProgressDialog progressDialog = null;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class UserMessageActivity extends BaseActivity {
 	protected void setUpView() {
 		// TODO Auto-generated method stub
 		super.setUpView();
+		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
 		if (this.application.getNetworkState()) {
 			handler.postDelayed(new Runnable() {
 				
@@ -83,6 +87,7 @@ public class UserMessageActivity extends BaseActivity {
 								listView, messageList, true);
 						listView.setAdapter(adapter);
 					}
+					progressDialog.dismiss();
 				}
 			}, 500);
 		}

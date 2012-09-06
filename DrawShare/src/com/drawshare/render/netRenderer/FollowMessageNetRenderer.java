@@ -35,7 +35,7 @@ public class FollowMessageNetRenderer extends NetRender<FollowMessage>{
 			message.followUsername = json.getString("follow_username");
 			message.followUserId = json.getString("follow_user_id");
 			message.followUserAvatarUrl = json.getString("follow_user_avatar_url");
-			message.followDate = new SimpleDateFormat().parse("yyyy/MM/dd");
+			message.followDate = new SimpleDateFormat("yyyy/MM/dd").parse(json.getString("follow_date"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

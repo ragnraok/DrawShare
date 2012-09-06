@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.R.integer;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -64,7 +65,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	private ArrayList<String> tabTagList = new ArrayList<String>();
 	
 	private Handler handler = new Handler();
-	private AlertDialog dialog = null;
+	//private AlertDialog dialog = null;
+	private ProgressDialog progressDialog = null;
 	
 	private AsyncTask<Void, Void, Bitmap> bitmap = null;
 	
@@ -81,7 +83,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
         findAllView();
         
         tabHost.setup();
-        dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
+        //dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
         tabsAdapter = new TabsAdapter(this, tabHost, viewPager);
         
         initDrawableList();
@@ -106,6 +108,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	// logout here
         getMenuInflater().inflate(R.menu.activity_user_index, menu);
         return true;
     }
@@ -126,7 +129,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	this.userNameTextView.setText(username);
     	if (this.application.getNetworkState()) {
     		final ProfileTask profileTask = new ProfileTask();
-    		dialog.show();
+    		//dialog.show();
+    		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
     		handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -137,7 +141,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 						avatarImage.setImageBitmap(avatar);
 						Log.d(Constant.LOG_TAG, "set the avatar");
 						messageNumTextView.setText(String.valueOf(unreadMessageNum));
-						dialog.dismiss();
+						//dialog.dismiss();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -145,6 +149,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					progressDialog.dismiss();
 				}
 			}, 500);
     	}

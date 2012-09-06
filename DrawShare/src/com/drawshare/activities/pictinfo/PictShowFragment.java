@@ -3,7 +3,6 @@ package com.drawshare.activities.pictinfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
@@ -31,8 +31,13 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 	private String pictId = null;
 	private ImageView pictImageView = null;
 	private ProgressBar progressBar = null;
-	private Bitmap pict = null;
+	private TextView pictTitleTextView = null;
+	private TextView pictDateTextView = null;
 	
+	private Bitmap pict = null;
+	private static String title = null;
+	private static String date = null;
+	 
 	private boolean netStatus = false;
 	
 	@Override
@@ -58,7 +63,8 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		View view = inflater.inflate(R.layout.fragment_pict_show	, container, false);
 		this.progressBar = (ProgressBar) view.findViewById(R.id.pict_show_progress_bar);
 		this.pictImageView = (ImageView) view.findViewById(R.id.pict_show_pict_image);
-		
+		this.pictDateTextView = (TextView) view.findViewById(R.id.pict_show_pict_date_text);
+		this.pictTitleTextView = (TextView) view.findViewById(R.id.pict_show_pict_name_text);
 		return view;
 	}
 
@@ -102,6 +108,11 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		this.pict = data;
 		this.pictImageView.setImageBitmap(this.pict);
 		//Log.d(Constant.LOG_TAG, "set the pictBitmap");
+		if (this.date != null)
+			this.pictDateTextView.setText(date);
+		
+		if (this.title != null)
+			this.pictTitleTextView.setText(title);
 		
 		this.progressBar.setVisibility(View.INVISIBLE);
 		this.pictImageView.setVisibility(View.VISIBLE);
@@ -180,6 +191,8 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 			try {
 				JSONObject jsonObject = PictEdit.getPictInfo(this.pictId);
 				String pictUrl = jsonObject.getString("picture_url");
+				title = jsonObject.getString("title");
+				date = jsonObject.getString("picture_create_date");
 				return pictUrl;
 			} catch (PictureNotExistException e) {
 				// TODO Auto-generated catch block

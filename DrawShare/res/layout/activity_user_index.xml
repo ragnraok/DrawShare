@@ -13,13 +13,14 @@
 -->
 	<RelativeLayout android:id="@+id/user_index_head"
 	    android:layout_width="fill_parent"
-	    android:layout_height="32pt"
-	    android:background="@drawable/user_index_head">
+	    android:layout_height="80dp"
+	    android:background="@drawable/pure_head">
 	    <FrameLayout android:id="@+id/user_index_avatar_layout"
-	        android:layout_width="102px"
-	        android:layout_height="102px"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_marginTop="5dp"
-	        android:layout_marginLeft="5dp">
+	        android:layout_marginLeft="5dp"
+	        android:layout_centerVertical="true">
 	    	<ImageView android:id="@+id/user_index_avatar"
 	        	android:layout_width="fill_parent"
 	        	android:layout_height="fill_parent"
@@ -35,7 +36,8 @@
 	        android:layout_height="match_parent"
 	        android:orientation="vertical"
 	        android:layout_marginLeft="5dp"
-	        android:id="@+id/user_index_name_and_message_layout">
+	        android:id="@+id/user_index_name_and_message_layout"
+	        android:layout_marginTop="5dp">
 	        <TextView android:id="@+id/user_index_username_text"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
