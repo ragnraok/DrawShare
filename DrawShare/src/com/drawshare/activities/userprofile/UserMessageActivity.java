@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.render.netRenderer.FollowMessageNetRenderer;
 import com.drawshare.render.object.FollowMessage;
+import com.drawshare.util.DrawShareUtil;
 
 public class UserMessageActivity extends BaseActivity {
 
@@ -62,8 +64,54 @@ public class UserMessageActivity extends BaseActivity {
 	protected void setUpView() {
 		// TODO Auto-generated method stub
 		super.setUpView();
-		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
 		if (this.application.getNetworkState()) {
+			//progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+			handler = new Handler() {
+
+				@Override
+				public void handleMessage(Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1) {
+						//progressDialog.dismiss();
+						if ((ArrayList<FollowMessage>) msg.obj != null) {
+							listView.setVisibility(View.VISIBLE);
+							progressBar.setVisibility(View.INVISIBLE);
+							adapter = new FollowMessageAdapter(UserMessageActivity.this, 
+									listView, (ArrayList<FollowMessage>) msg.obj, true);
+							listView.setAdapter(adapter);
+						}
+					}
+				}
+			};
+			new Thread(new Runnable() {			
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					FollowMessageNetRenderer renderer = new FollowMessageNetRenderer(UserIdHandler.getUserId(UserMessageActivity.this), 
+							ApiKeyHandler.getApiKey(UserMessageActivity.this), 30);
+					ArrayList<FollowMessage> messageList = null;
+					try {
+						messageList = renderer.renderToList();
+						//return messageList;
+					} catch (AuthFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						
+					} catch (UserNotExistException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (PictureNotExistException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Message msg = handler.obtainMessage();
+					msg.what = 1;
+					msg.obj = messageList;
+					handler.sendMessage(msg);
+				}
+			}).start();
+			/*
 			handler.postDelayed(new Runnable() {
 				
 				@Override
@@ -89,7 +137,7 @@ public class UserMessageActivity extends BaseActivity {
 					}
 					progressDialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
 		}
 		else {
 			Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
@@ -117,7 +165,7 @@ public class UserMessageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.setViewAction();
 	}
-	
+	/*
 	private class UserMessageTask extends AsyncTask<Void, Integer, ArrayList<FollowMessage>> {
 
 		@Override
@@ -143,5 +191,5 @@ public class UserMessageActivity extends BaseActivity {
 			return null;
 		}
 		
-	}
+	}*/
 }

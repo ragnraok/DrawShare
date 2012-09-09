@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,11 +32,14 @@ import android.widget.TextView;
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
+import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
+import com.drawshare.Request.picture.PictEdit;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragmentActivity;
 import com.drawshare.activities.userprofile.OtherUserIndexActivity;
 import com.drawshare.adapter.TabsAdapter;
+import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.util.DrawShareConstant;
 import com.drawshare.util.DrawShareUtil;
@@ -50,11 +54,12 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	private ViewPager viewPager = null;
 	private TabsAdapter tabsAdapter = null;
 	private Button drawButton = null;
+	private Button collectButton = null;
 	private ImageView avatarImageView = null;
 	
 	//private AlertDialog dialog = null;
 	private ProgressDialog progressDialog = null;
-	private Handler handler = new Handler();
+	private Handler handler = null;
 	
 	private ArrayList<Drawable> notSelectDrawables = new ArrayList<Drawable>();
 	private ArrayList<Drawable> selectDrawables = new ArrayList<Drawable>();
@@ -97,6 +102,7 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
     private void findAllView() {
     	this.avatarImageView = (ImageView) findViewById(R.id.pict_info_avatar_image);
     	this.drawButton = (Button) findViewById(R.id.pict_info_draw_button);
+    	this.collectButton = (Button) findViewById(R.id.pict_info_collect_uncollect_button);
     	
     	tabHost = (TabHost) findViewById(android.R.id.tabhost);   
         viewPager = (ViewPager) findViewById(R.id.pict_info_view_pager);
@@ -144,7 +150,8 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 		if (this.application.getNetworkState()) {
 			final UserProfileTask task = new UserProfileTask();
 			//dialog.show();
-			progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+			//progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+			/*
 			handler.postDelayed(new Runnable() {
 				
 				@Override
@@ -166,13 +173,43 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 					//dialog.dismiss();
 					progressDialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
+			progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+			handler = new Handler() {
+
+				@Override
+				public void handleMessage(Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1) {
+						progressDialog.dismiss();
+						if ((Bitmap) msg.obj != null) {
+							avatarImageView.setImageBitmap((Bitmap) msg.obj);
+						}
+					}
+				}
+				
+			};
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					getAndSetUserProfile();
+					Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
+					Message message = handler.obtainMessage();
+					message.what = 1;
+					message.obj = avatar;
+					handler.sendMessage(message);
+				}
+			}).start();
 		}
 		else {
 			Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
 		}
 		this.drawButton.setOnClickListener(this);
 		this.avatarImageView.setOnClickListener(this);
+		this.collectButton.setOnClickListener(this);
 	}
 	
 	private void getAndSetUserProfile() {
@@ -227,6 +264,73 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 			break;
 		case R.id.pict_info_draw_button:
 			// go to draw panel..
+			break;
+		case R.id.pict_info_collect_uncollect_button:
+			// collect a picture
+			collectPict(this.pictId);
+			break;
 		}
+	}
+	
+	private void collectPict(final String pictId) {
+		if (!DrawShareUtil.ifLogin(this)) {
+			Toast.makeText(this, getString(R.string.please_login_first), Toast.LENGTH_LONG).show();
+		}
+		final ProgressDialog progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+		final Handler handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				// TODO Auto-generated method stub
+				super.handleMessage(msg);
+				if (msg.what == 2) {
+					progressDialog.dismiss();
+					//boolean success = (Boolean) msg.obj;
+					if ((Boolean) msg.obj == true) {
+						Toast.makeText(PictInfoActivity.this, getString(R.string.collect_success), Toast.LENGTH_LONG).show();
+					}
+					else {
+						Toast.makeText(PictInfoActivity.this, getString(R.string.collect_failed), Toast.LENGTH_LONG).show();
+					}
+				}
+			}
+			
+		};
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				boolean success = false;
+				if (DrawShareUtil.ifLogin(PictInfoActivity.this)) {
+					try {
+						success = UserProfile.collectPicture(UserIdHandler.getUserId(PictInfoActivity.this), pictId, 
+								ApiKeyHandler.getApiKey(PictInfoActivity.this));
+					} catch (AuthFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Log.d(Constant.LOG_TAG, "throw AuthFailException");
+						success = false;
+					} catch (UserNotExistException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Log.d(Constant.LOG_TAG, "throw UserNotExistException");
+						success = false;
+					} catch (Exception e) {
+						// TODO: handle exception
+						success = false;
+					}
+				}
+				else {
+					success = false;
+				}
+				Message msg = handler.obtainMessage();
+				msg.what = 2;
+				msg.obj = success;
+				handler.sendMessage(msg);
+			}
+		}).start();
+		
 	}
 }

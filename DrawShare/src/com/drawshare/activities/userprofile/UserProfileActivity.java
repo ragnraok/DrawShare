@@ -60,7 +60,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	//private AlertDialog dialog = null;
 	private ProgressDialog progressDialog = null;
 	
-	private Handler handler = new Handler();
+	private Handler handler = null;
 	
 	private EditText descriptionEditText = null;
 	
@@ -103,9 +103,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		
 		//dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
 		if (this.application.getNetworkState()) {
-			final ProfileTask task = new ProfileTask();
-			//dialog.show();
-			progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+			//final ProfileTask task = new ProfileTask();
+			//progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+			/*
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -137,7 +137,47 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					}
 					progressDialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
+			progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+			handler = new Handler() {
+
+				@Override
+				public void handleMessage(Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1){
+						progressDialog.dismiss();
+						if ((Bitmap) msg.obj != null) {
+							avatarImageView.setImageBitmap((Bitmap) msg.obj);
+							followedAvatarImageView.setImageBitmap((Bitmap) msg.obj);
+							followerAvatarImageView.setImageBitmap((Bitmap) msg.obj);
+						}
+						usernameTextView.setText(username);
+						emailTextView.setText(email);
+						if (shortDescription.length() == 0) {
+							shortDescriptionTextView.setText(getResources().getString(R.string.lazy_boy));
+							shortDescriptionTextView.setTextColor(Color.GRAY);
+						}
+						else 
+							shortDescriptionTextView.setText(shortDescription);	
+					}
+					
+				}
+				
+			};
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					setUpProfile();
+					Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_PROFILE_AVATAR_SIZE);
+					Message message = handler.obtainMessage();
+					message.what = 1;
+					message.obj = avatar;
+					handler.sendMessage(message);
+				}
+			}).start();
 		}
 		else {
 			Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
@@ -188,7 +228,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
         getMenuInflater().inflate(R.menu.activity_user_profile, menu);
         return true;
     }*/
-	
+	/*
 	private class ProfileTask extends AsyncTask<Void, Integer, Bitmap> {
 
 		@Override
@@ -205,7 +245,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				return null;
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public void onClick(View v) {

@@ -38,7 +38,8 @@
 	        android:layout_marginRight="5dp"
 	        android:divider="#00000000"
 	        android:dividerHeight="5dp"
-	        android:layout_centerInParent="true"></ListView>
+	        android:horizontalSpacing="5dp"
+			android:verticalSpacing="5dp" />
 		<ProgressBar android:id="@+id/pict_comment_progress_bar"
 		    android:layout_width="50dp"
 		    android:layout_height="50dp"

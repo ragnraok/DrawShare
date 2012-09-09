@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
@@ -31,21 +33,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	private LayoutInflater inflater = null;
 	
 	protected View[] viewList = null;
-	protected Bitmap[] defaultBitmapList = null;
-	
-	public BaseAsyncAdapter(final Context context, AbsListView view, final int defaultImageViewId, boolean netStatus, 
-			int layoutId) {
-		this.listOrGridView = view;
-		this.defaultImageViewId = defaultImageViewId;
-		this.context = context;
-		this.layoutId = layoutId;
-		this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.defaultImageLoader = new AsyncImageLoader(netStatus);
-		this.setDefaultListener();
-		
-		this.listOrGridView.setOnScrollListener(onScrollListener);
-		
-	}
+	protected boolean[] ifLoadBit = null;
 	
 	public BaseAsyncAdapter(final Context context, AbsListView view, ArrayList<T> dataSet, final int defaultImageViewId, 
 			boolean netStatus, int layoutId) {
@@ -59,9 +47,11 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 		setDefaultListener();
 		
 		this.viewList = new View[this.dataSet.size()];
-		this.defaultBitmapList = new Bitmap[this.dataSet.size()];
-		
-		this.listOrGridView.setOnScrollListener(onScrollListener);
+		for (int i = 0; i < viewList.length; i++) {
+			viewList[i] = inflater.inflate(this.layoutId, null, false);
+		}
+		this.ifLoadBit = new boolean[this.dataSet.size()];
+		//this.listOrGridView.setOnScrollListener(onScrollListener);
 	}
 	
 	/**
@@ -84,11 +74,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(bitmap);
 						viewList[rowNum]  = view;
-						
-						if (defaultBitmapList[rowNum] == null) {
-							defaultBitmapList[rowNum] = bitmap;
-							Log.d(Constant.LOG_TAG, "set the defaultBitmapList " + rowNum);
-						}
+						Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
 					}
 				}
 				
@@ -99,6 +85,8 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 					if (view != null) {
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
+						viewList[rowNum]  = view;
+						Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
 					}
 				}
 			};
@@ -109,9 +97,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	 */
 	public void setData(ArrayList<T> dataSet) {
 		this.dataSet = dataSet;
-		
 		this.viewList = new View[this.dataSet.size()];
-		defaultBitmapList = new Bitmap[this.dataSet.size()];
 	}
 	
 	@Override
@@ -133,22 +119,31 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) { // called 16 times..
+	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		//Log.d(Constant.LOG_TAG, "in getView");
-		if (this.viewList[position] != null) {
-			//Log.d(Constant.LOG_TAG, "return from viewList");
+		//if (this.viewList[position] != null) {
+		//	return viewList[position];
+		//}
+		
+		//if (convertView == null) {
+		//	convertView = inflater.inflate(this.layoutId, parent, false);
+		//}
+		//this.viewList[position] = convertView;
+		//setViewTag(position, viewList[position]);
+		//bindView(position, viewList[position]);
+		//setImage(position, viewList[position]);
+		//return viewList[position];
+		setViewTag(position, viewList[position]);
+		if (ifLoadBit[position] == false) {
+			Log.d(Constant.LOG_TAG, "load " + position);
+			bindView(position, viewList[position]);
+			setImage(position, viewList[position]);
+			ifLoadBit[position] = true;
 			return viewList[position];
 		}
-		
-		if (convertView == null) {
-			convertView = inflater.inflate(this.layoutId, parent, false);
+		else {
+			return viewList[position];
 		}
-		setViewTag(position, convertView);
-		setImage(position, convertView);
-		bindView(position, convertView);
-		this.viewList[position] = convertView;
-		return convertView;
 	}
 	
 	private void setViewTag(int position, View convertView) {
@@ -158,6 +153,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	public void setLoadImageLimit(){
 		int start = this.listOrGridView.getFirstVisiblePosition();
 		int end = this.listOrGridView.getLastVisiblePosition();
+		Log.d(Constant.LOG_TAG, "start = " + start + ", end = " + end);
 		if(end >= getCount()){
 			end = getCount() -1;
 		}
@@ -172,14 +168,21 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 			// TODO Auto-generated method stub
 			switch (scrollState) {
 			case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-				defaultImageLoader.lock();
+				Log.d(Constant.LOG_TAG, "SCROLL_STATE_FLING");
+				//defaultImageLoader.lock();
+				stopLoad();
 				break;
 			case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-				setLoadImageLimit();
+				Log.d(Constant.LOG_TAG, "SCROLL_STATE_IDLE");
+				//setLoadImageLimit();
 				//loadImage();
+				//defaultImageLoader.unlock();
+				resumeLoad();
 				break;
 			case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-				defaultImageLoader.lock();
+				Log.d(Constant.LOG_TAG, "SCROLL_STATE_TOUCH_SCROLL");
+				//defaultImageLoader.lock();
+				stopLoad();
 				break;
 
 			default:

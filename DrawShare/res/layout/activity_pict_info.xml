@@ -56,7 +56,14 @@
 	  	        android:background="@drawable/pict_fork_collect_button_selector"
 	  	        android:layout_centerVertical="true"/>
 	  	      -->
+	  	    <Button android:id="@+id/pict_info_collect_uncollect_button"
+	  	        android:layout_width="wrap_content"
+	  	        android:layout_height="wrap_content"
+	  	        android:background="@drawable/collect_pict_button_selector"
+	  	        android:layout_centerVertical="true"/>
 	  	    <Button 
+	  	        android:layout_toRightOf="@id/pict_info_collect_uncollect_button"
+	  	        android:layout_marginLeft="5dp"
 	  	        android:id="@+id/pict_info_draw_button"
 	  	        android:layout_width="wrap_content"
 	  	        android:layout_height="wrap_content"

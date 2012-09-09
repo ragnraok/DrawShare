@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.anim;
 import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -64,7 +65,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	private ArrayList<Drawable> selectoDrawables = new ArrayList<Drawable>();
 	private ArrayList<String> tabTagList = new ArrayList<String>();
 	
-	private Handler handler = new Handler();
+	private Handler handler = null;
 	//private AlertDialog dialog = null;
 	private ProgressDialog progressDialog = null;
 	
@@ -127,31 +128,60 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	String username = UserNameHandler.getUserName(this);
     	username = username.substring(0, 1).toUpperCase() + username.substring(1);
     	this.userNameTextView.setText(username);
+    	progressDialog = DrawShareUtil.getWaitProgressDialog(this);
     	if (this.application.getNetworkState()) {
-    		final ProfileTask profileTask = new ProfileTask();
-    		//dialog.show();
-    		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+    		handler = new Handler() {
+
+				@Override
+				public void handleMessage(android.os.Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1) {
+						progressDialog.dismiss();
+						if ((Bitmap) msg.obj != null) {
+							avatarImage.setImageBitmap((Bitmap) msg.obj);
+						}
+						messageNumTextView.setText(String.valueOf(unreadMessageNum));
+					}
+				}
+    			
+    		};
+    		new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					setUnreadMessageNum(); // first set the unread message numbers
+					avatarURL = getAvatarURLAndSetOtherProfile();					
+					Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
+					
+					android.os.Message message = handler.obtainMessage();
+					message.what = 1;
+					message.obj = avatar;
+					handler.sendMessage(message);
+				}
+			}).start();
+    		//final ProfileTask profileTask = new ProfileTask();
+    		//progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");   
+    		/*
     		handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					bitmap = profileTask.execute();
-					try {
-						Bitmap avatar = bitmap.get();
+					setUnreadMessageNum(); // first set the unread message numbers
+					avatarURL = getAvatarURLAndSetOtherProfile();
+					//Log.d(Constant.LOG_TAG, "the avatarURL is " + avatarURL);
+					
+					Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
+					if (avatar != null) {
 						avatarImage.setImageBitmap(avatar);
 						Log.d(Constant.LOG_TAG, "set the avatar");
 						messageNumTextView.setText(String.valueOf(unreadMessageNum));
 						//dialog.dismiss();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 					progressDialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
     	}
     	else {
     		Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
@@ -255,7 +285,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		}
 		//this.messageNumTextView.setText(this.unreadMessageNum);
 	}
-	
+	/*
 	private class ProfileTask extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
@@ -278,7 +308,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			
 		}
 		
-	}
+	}*/
 
 	@Override
 	public void onClick(View v) {

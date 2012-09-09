@@ -80,4 +80,10 @@
     <!-- follow -->
 	<string name="follow_you">关注了你</string>
 	
+	<!-- please login first -->
+	<string name="please_login_first">请先登录</string>
+	
+	<!-- collect promote -->
+	<string name="collect_success">收藏成功</string>
+	<string name="collect_failed">收藏失败</string>
 </resources>

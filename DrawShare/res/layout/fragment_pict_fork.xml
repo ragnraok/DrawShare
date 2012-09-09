@@ -90,8 +90,9 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:numColumns="5"
-	        android:verticalSpacing="5dp"
-	        android:horizontalSpacing="5dp" />
+		    android:columnWidth="100dp"
+		    android:horizontalSpacing="5dp"
+		    android:verticalSpacing="5dp"/>
 		<ProgressBar android:id="@+id/pict_fork_progress_bar"
 		    android:layout_width="50dp"
 		    android:layout_height="50dp"

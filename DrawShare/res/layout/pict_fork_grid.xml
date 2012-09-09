@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="118px"
-    android:layout_height="118px">
-    <ImageView android:id="@+id/pict_fork_grid_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/default_pict_temp"
-        android:scaleType="fitXY"/>
-	<ImageView android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:src="@drawable/radius_shadow_118"
-	    android:scaleType="fitXY"/>
-</FrameLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	<FrameLayout android:id="@+id/pict_fork_grid_frame"
+	    android:layout_width="118px"
+	    android:layout_height="118px">
+	    <ImageView android:id="@+id/pict_fork_grid_image"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:src="@drawable/default_pict_temp"
+	        android:scaleType="fitXY"/>
+		<ImageView android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:src="@drawable/radius_shadow_118"
+		    android:scaleType="fitXY"/>
+	</FrameLayout>
+</RelativeLayout>

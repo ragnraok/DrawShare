@@ -35,14 +35,9 @@ public class HotestPictAdapter extends BaseAsyncAdapter<Picture> {
 		//}
 		//else {
 			//this.imageLoader.loadImage(position, picture.pictURL, listener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
-		//}
-		if (this.defaultBitmapList[position] != null) {
-			ImageView pictView = (ImageView) convertView.findViewById(this.defaultImageViewId);
-			pictView.setImageBitmap(this.defaultBitmapList[position]);
-		}
-		else {
-			this.defaultImageLoader.loadImage(position, picture.pictURL, this.defaultListener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
-		}
+		//
+		
+		this.defaultImageLoader.loadImage(position, picture.pictURL, this.defaultListener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
 	}
 
 	@Override

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -29,8 +31,9 @@ public class FollowInfoActivity extends BaseActivity {
 	private ListView listView = null;
 	private String userId = null;
 	private boolean ifGetFollower = false;
-	private AlertDialog dialog = null;
-	private Handler handler = new Handler();
+	//private AlertDialog dialog = null;
+	private Handler handler = null;
+	private ProgressDialog progressDialog = null;
 	
 	
 	@Override
@@ -59,9 +62,10 @@ public class FollowInfoActivity extends BaseActivity {
 			Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
 		}
 		else {
-			dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
-			final FollowInfoTask task = new FollowInfoTask();
-			dialog.show();
+			//dialog = new AlertDialog.Builder(this).setTitle("Please Wait...").setView(DrawShareUtil.getWaitDialogView(this)).create();
+			//final FollowInfoTask task = new FollowInfoTask();
+			//dialog.show();
+			/*
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -82,7 +86,50 @@ public class FollowInfoActivity extends BaseActivity {
 					}
 					dialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
+			progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+			handler = new Handler() {
+
+				@Override
+				public void handleMessage(Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1) {
+						progressDialog.dismiss();
+						ArrayList<User> userList = (ArrayList<User>) msg.obj;
+						if (userList != null) {
+							FollowInfoAdapter adapter = new FollowInfoAdapter(FollowInfoActivity.this, listView, 
+									userList, FollowInfoActivity.this.application.getNetworkState());
+							listView.setAdapter(adapter);
+						}
+					}
+				}
+				
+			};
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					UserFollowNetRenderer renderer = new UserFollowNetRenderer(userId, ifGetFollower);
+					ArrayList<User> data = null;
+					try {
+						data  = renderer.renderToList();
+					} catch (AuthFailException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						data = null;
+					} catch (UserNotExistException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						data = null;
+					}
+					Message message = handler.obtainMessage();
+					message.what = 1;
+					message.obj = data;
+					handler.sendMessage(message);
+				}
+			}).start();
 		}
 	}
 
@@ -98,6 +145,7 @@ public class FollowInfoActivity extends BaseActivity {
         return true;
     }
     
+    /*
     private class FollowInfoTask extends AsyncTask<Void, Integer, ArrayList<User>> {
 
     	private ArrayList<User> data = null;
@@ -121,5 +169,5 @@ public class FollowInfoActivity extends BaseActivity {
 			return null;
 		}
     	
-    }
+    }*/
 }

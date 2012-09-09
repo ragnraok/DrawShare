@@ -63,7 +63,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 	//private AlertDialog dialog = null;
 	private ProgressDialog progressDialog = null;
 	
-	private Handler handler = new Handler();
+	private Handler handler = null;
 	
 	private ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 	private ArrayList<Drawable> notSelectDrawables = new ArrayList<Drawable>();
@@ -177,9 +177,10 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
     
     private void setUpView() {
     	if (this.application.getNetworkState()) {
-    		final OtherUserProfileTask task = new OtherUserProfileTask();
+    		//final OtherUserProfileTask task = new OtherUserProfileTask();
     		//dialog.show();
-    		progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+    		//progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");
+    		/*
     		handler.postDelayed(new Runnable() {
 				
 				@Override
@@ -208,7 +209,45 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 					//dialog.dismiss();
 					progressDialog.dismiss();
 				}
-			}, 500);
+			}, 500);*/
+    		progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+    		handler = new Handler() {
+
+				@Override
+				public void handleMessage(Message msg) {
+					// TODO Auto-generated method stub
+					super.handleMessage(msg);
+					if (msg.what == 1) {
+						progressDialog.dismiss();
+						if ((Bitmap)(msg.obj) != null) {
+							avatarImage.setImageBitmap((Bitmap)(msg.obj));
+							Log.d(Constant.LOG_TAG, "set the other avatar");
+						}
+						usernameTextView.setText(username);
+						if (ifFollowed) {
+							followUnfollowButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.unfollow));
+						}
+						else {
+							followUnfollowButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.follow));
+						}
+					}
+				}
+    			
+    		};
+    		new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					getAndSetUserProfile();
+					Bitmap bitmap = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
+					
+					Message msg = handler.obtainMessage();
+					msg.what = 1;
+					msg.obj = bitmap;
+					handler.sendMessage(msg);
+				}
+			}).start();
     	}
     	else {
     		Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
@@ -243,7 +282,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 			e.printStackTrace();
 		}
     }
-    
+    /*
     private class OtherUserProfileTask extends AsyncTask<Void, Integer, Bitmap> {
 
 		@Override
@@ -262,7 +301,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 			return null;
 		}
     	
-    }
+    }*/
 
 	@Override
 	public void onClick(View v) {

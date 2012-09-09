@@ -1,5 +1,6 @@
 package com.drawshare.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,10 @@ public class DrawShareUtil {
     	
     	return view;
     }
+	
+	public static ProgressDialog getWaitProgressDialog(Context context) {
+		return ProgressDialog.show(context, "", context.getString(R.string.waiting_title));
+	}
 	
 	public static boolean ifLogin(Context context) {
 		String userId = UserIdHandler.getUserId(context);
