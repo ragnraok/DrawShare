@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -22,12 +26,15 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.base.BaseUserFragment;
+import com.drawshare.activities.base.HotestPictureActivity;
 import com.drawshare.adapter.DrawHallAdapter;
 import com.drawshare.application.DrawShareApplication;
 import com.drawshare.render.netRenderer.HotestPictNetRenderer;
 import com.drawshare.render.object.Picture;
+import com.drawshare.util.DrawShareUtil;
 
-public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<ArrayList<Picture>> {
+public class DrawHallFragment extends BaseUserFragment implements LoaderCallbacks<ArrayList<Picture>> {
 
 	private Button searchButton = null;
 	private GridView pictsGridView = null;
@@ -51,13 +58,6 @@ public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<Ar
 					Toast.LENGTH_LONG).show();
 		}
 	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-	}
-	
 	
 
 	@Override
@@ -179,8 +179,33 @@ public class DrawHallFragment extends BaseFragment implements LoaderCallbacks<Ar
 			}
 		}
 		
-		
-		
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.user_index_menu_logout:
+			new AlertDialog.Builder(this.getActivity()).setTitle(
+					R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
+			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					DrawShareUtil.logout(DrawHallFragment.this.getActivity());
+					// go to hotest pictures activity
+					Intent intent = new Intent(DrawHallFragment.this.getActivity(), HotestPictureActivity.class);
+					startActivity(intent);
+					DrawHallFragment.this.getActivity().finish();
+				}
+			}).setNegativeButton(R.string.cancel, null).show();
+			break;
+		case R.id.user_index_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+		default:
+			break;
+		}
+		return true;
 	}
 
 }

@@ -16,6 +16,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -34,6 +35,8 @@ import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.base.BaseUserFragment;
+import com.drawshare.activities.base.HotestPictureActivity;
 import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.adapter.BaseAsyncAdapter;
 import com.drawshare.application.DrawShareApplication;
@@ -43,8 +46,9 @@ import com.drawshare.render.netRenderer.UserCollectionNetRenderer;
 import com.drawshare.render.object.FriendActivity;
 import com.drawshare.render.object.Picture;
 import com.drawshare.util.DrawShareConstant;
+import com.drawshare.util.DrawShareUtil;
 
-public class UserCollectionFragment extends BaseFragment implements LoaderCallbacks<ArrayList<Picture>>, OnItemClickListener {
+public class UserCollectionFragment extends BaseUserFragment implements LoaderCallbacks<ArrayList<Picture>>, OnItemClickListener {
 
 	private GridView gridView = null;
 	private ProgressBar progressBar = null;
@@ -332,6 +336,34 @@ public class UserCollectionFragment extends BaseFragment implements LoaderCallba
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		// go to picture profile
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.user_index_menu_logout:
+			new AlertDialog.Builder(this.getActivity()).setTitle(
+					R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
+			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					DrawShareUtil.logout(UserCollectionFragment.this.getActivity());
+					// go to hotest pictures activity
+					Intent intent = new Intent(UserCollectionFragment.this.getActivity(), HotestPictureActivity.class);
+					startActivity(intent);
+					UserCollectionFragment.this.getActivity().finish();
+				}
+			}).setNegativeButton(R.string.cancel, null).show();
+			break;
+		case R.id.user_index_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+		default:
+			break;
+		}
+		return true;
 	}
 
 }

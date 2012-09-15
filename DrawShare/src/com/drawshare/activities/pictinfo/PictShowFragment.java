@@ -11,6 +11,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -207,4 +208,14 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.base_fragment_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+			break;
+		}
+		return true;
+	}
 }

@@ -53,6 +53,11 @@ public class DrawShareConstant {
 	public static final int PICT_FORK_SOURCE_AVATAR_SIZE = 100;
 	
 	/**
+	 * size for draw activity
+	 */
+	public static final int PICT_DRAW_SIZE = 1500;
+	
+	/**
 	 * size for message avatar
 	 */
 	public static final int MESSAGE_AVATAR_SIZE = 118;
@@ -66,5 +71,7 @@ public class DrawShareConstant {
 		public static final String AVATAR_URL = "avatar_url";
 		public static final String IF_GET_FOLLOWERS = "if_get_followers";
 		public static final String PICT_ID = "pict_id";
+		public static final String PICT_URL = "pict_url";
+		public static final String IF_FORK = "if_fork";
 	}
 }

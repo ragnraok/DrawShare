@@ -16,10 +16,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,10 +36,13 @@ import com.drawshare.R;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
 import com.drawshare.Request.exceptions.AuthFailException;
+import com.drawshare.Request.exceptions.PictureNotExistException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.picture.PictEdit;
 import com.drawshare.Request.userprofile.UserProfile;
+import com.drawshare.activities.base.BaseFragment;
 import com.drawshare.activities.base.BaseFragmentActivity;
+import com.drawshare.activities.editpict.DrawActivity;
 import com.drawshare.activities.userprofile.OtherUserIndexActivity;
 import com.drawshare.adapter.TabsAdapter;
 import com.drawshare.datastore.ApiKeyHandler;
@@ -48,6 +54,7 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 
 	private String userId = null;
 	private String pictId = null;
+	private String pictURL = null;
 	private String avatarURL = null;
 	
 	private TabHost tabHost = null;
@@ -65,7 +72,6 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	private ArrayList<Drawable> selectDrawables = new ArrayList<Drawable>();
 	private ArrayList<String> tabIdList = new ArrayList<String>();
 	private ArrayList<View> viewList = new ArrayList<View>();
-	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,20 +92,13 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
         		PictCommentsFragment.class, null);
         tabsAdapter.addTab(tabHost.newTabSpec(tabIdList.get(2)).setIndicator(generateTabIndicatorView(2)), 
         		PictForkVersionFragment.class, null);
-        
         this.viewList.get(0).setBackgroundDrawable(selectDrawables.get(0));
         this.tabHost.setCurrentTab(0);
         this.tabHost.setOnTabChangedListener(this);
         setUpView();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_pict_info, menu);
-        return true;
-    }
-    
-    private void findAllView() {
+	private void findAllView() {
     	this.avatarImageView = (ImageView) findViewById(R.id.pict_info_avatar_image);
     	this.drawButton = (Button) findViewById(R.id.pict_info_draw_button);
     	this.collectButton = (Button) findViewById(R.id.pict_info_collect_uncollect_button);
@@ -213,8 +212,10 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	}
 	
 	private void getAndSetUserProfile() {
-    	JSONObject profileObject;
+    	JSONObject profileObject = null;
+    	JSONObject pictInfoObject = null;
 		try {
+			// set the profile
 			profileObject = UserProfile.getProfile(this.userId);
 			//Log.d(Constant.LOG_TAG,	"the profileObject is " + profileObject.toString());
 			if (profileObject != null) {
@@ -223,10 +224,17 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 				//this.username = profileObject.getString("username");
 				//this.username = username.substring(0, 1).toUpperCase() + username.substring(1);
 			}
+			pictInfoObject = PictEdit.getPictInfo(this.pictId);
+			if (pictInfoObject != null) {
+				pictURL = pictInfoObject.getString("picture_url");
+			}
 		} catch (UserNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PictureNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -264,6 +272,16 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 			break;
 		case R.id.pict_info_draw_button:
 			// go to draw panel..
+			if (DrawShareUtil.ifLogin(this)) {
+				Intent drawIntent = new Intent(this, DrawActivity.class);
+				drawIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_FORK, true);
+				drawIntent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, pictId);
+				drawIntent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_URL, pictURL);
+				startActivity(drawIntent);
+			}
+			else {
+				Toast.makeText(this, getString(R.string.please_login_first), Toast.LENGTH_LONG).show();
+			}
 			break;
 		case R.id.pict_info_collect_uncollect_button:
 			// collect a picture

@@ -10,6 +10,7 @@ import android.R.anim;
 import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -17,10 +18,12 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +41,8 @@ import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.message.Message;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragmentActivity;
+import com.drawshare.activities.base.HotestPictureActivity;
+import com.drawshare.activities.editpict.DrawActivity;
 import com.drawshare.adapter.TabsAdapter;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
@@ -57,6 +62,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	private Button messageButton = null;
 	private Button messageRemindButton = null;
 	private TextView messageNumTextView = null;
+	private Button drawButton = null;
 	
 	private ArrayList<View> viewList = new ArrayList<View>();
 	private ArrayList<Drawable> drawablesList = new ArrayList<Drawable>();
@@ -106,15 +112,40 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
         setUpView();
     }
     
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	// logout here
         getMenuInflater().inflate(R.menu.activity_user_index, menu);
         return true;
     }
+    
+    @Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		//return super.onMenuItemSelected(featureId, item);
+    	switch (item.getItemId()) {
+    	case R.id.user_index_menu_logout:
+    		new AlertDialog.Builder(this).setTitle(R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
+    			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						DrawShareUtil.logout(UserIndexActivity.this);
+						// go to hotest pictures activity
+						Intent intent = new Intent(UserIndexActivity.this, HotestPictureActivity.class);
+						startActivity(intent);
+						finish();
+					}
+				}).setNegativeButton(R.string.cancel, null).show();
+    		break;
+    	}
+    	return super.onOptionsItemSelected(item);
+	}
+*/
 
-    private void findAllView() {
+	private void findAllView() {
     	tabHost = (TabHost) findViewById(android.R.id.tabhost);   
         viewPager = (ViewPager) findViewById(R.id.user_index_view_pager);
         avatarImage = (ImageView) findViewById(R.id.user_index_avatar);
@@ -122,6 +153,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	messageRemindButton = (Button) findViewById(R.id.user_index_message_remind_button);
     	messageNumTextView = (TextView) findViewById(R.id.user_index_message_num_text);
     	messageButton = (Button) findViewById(R.id.user_index_message_button);
+    	drawButton = (Button) findViewById(R.id.user_index_draw_button);
     }
     
     private void setUpView() {
@@ -190,6 +222,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	this.avatarImage.setOnClickListener(this);
     	this.messageButton.setOnClickListener(this);
     	this.messageRemindButton.setOnClickListener(this);
+    	this.drawButton.setOnClickListener(this);
     }
     
    
@@ -329,6 +362,19 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		case R.id.user_index_message_remind_button:
 			Intent messageIntent = new Intent(UserIndexActivity.this, UserMessageActivity.class);
 			startActivity(messageIntent);
+			break;
+		case R.id.user_index_draw_button:
+			//Intent drawIntent = new Intent(UserIndexActivity.this, DrawActivity.class);
+			//drawIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_FORK, false);
+			//startActivity(drawIntent);
+			if (DrawShareUtil.ifLogin(this)) {
+				Intent drawIntent = new Intent(UserIndexActivity.this, DrawActivity.class);
+				drawIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_FORK, false);
+				startActivity(drawIntent);
+			}
+			else {
+				Toast.makeText(this, getString(R.string.please_login_first), Toast.LENGTH_LONG).show();
+			}
 			break;
 		}
 	}

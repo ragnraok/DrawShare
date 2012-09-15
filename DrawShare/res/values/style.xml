@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="draw_panel_popup_style" parent="android:Animation" mce_bogus="1">        
+    	<item name="android:windowEnterAnimation">@anim/draw_panel_popup_enter</item>          
+   	 	<item name="android:windowExitAnimation">@anim/draw_panel_popup_exit</item>      
+	</style>   
+    <style name="left_draw_panel_popup_style" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/left_draw_panel_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/left_draw_panel_popup_exit</item>
+    </style>
+    <style name="right_draw_panel_popup_style" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/right_draw_panel_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/right_draw_panel_popup_exit</item>
+    </style>
+</resources>

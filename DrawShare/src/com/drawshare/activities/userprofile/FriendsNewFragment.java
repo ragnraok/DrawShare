@@ -2,33 +2,35 @@ package com.drawshare.activities.userprofile;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
-import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.base.BaseUserFragment;
+import com.drawshare.activities.base.HotestPictureActivity;
 import com.drawshare.adapter.FriendsNewAdapter;
 import com.drawshare.application.DrawShareApplication;
 import com.drawshare.render.netRenderer.FriendsNewsNetRenderer;
 import com.drawshare.render.object.FriendActivity;
+import com.drawshare.util.DrawShareUtil;
 
-public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<ArrayList<FriendActivity>> {
+public class FriendsNewFragment extends BaseUserFragment implements LoaderCallbacks<ArrayList<FriendActivity>> {
 
 	private ArrayList<FriendActivity> friendNews = null;
 	
@@ -102,13 +104,14 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 	public void onLoadFinished(Loader<ArrayList<FriendActivity>> loader,
 			ArrayList<FriendActivity> data) {
 		// TODO Auto-generated method stub
-		this.progressBar.setVisibility(View.INVISIBLE);
-		
 		this.friendNews = data;
 		Log.d(Constant.LOG_TAG, "the data.size is " + data.size());
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		adapter = new FriendsNewAdapter(this, listView, data, application.getNetworkState());
 		this.listView.setAdapter(adapter);
+		
+		this.progressBar.setVisibility(View.INVISIBLE);
+		this.listView.setVisibility(View.VISIBLE);
 	
 	}
 
@@ -143,9 +146,11 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 			} catch (AuthFailException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				friendNews = null;
 			} catch (UserNotExistException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				friendNews = null;
 			}
 			return null;
 		}
@@ -175,6 +180,34 @@ public class FriendsNewFragment extends BaseFragment implements LoaderCallbacks<
 			this.friendNews = null;
 		}
 		
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.user_index_menu_logout:
+			new AlertDialog.Builder(this.getActivity()).setTitle(
+					R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
+			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					DrawShareUtil.logout(FriendsNewFragment.this.getActivity());
+					// go to hotest pictures activity
+					Intent intent = new Intent(FriendsNewFragment.this.getActivity(), HotestPictureActivity.class);
+					startActivity(intent);
+					FriendsNewFragment.this.getActivity().finish();
+				}
+			}).setNegativeButton(R.string.cancel, null).show();
+			break;
+		case R.id.user_index_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+		default:
+			break;
+		}
+		return true;
 	}
 
 }

@@ -2,13 +2,16 @@ package com.drawshare.activities.userprofile;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +22,8 @@ import android.widget.ProgressBar;
 import com.drawshare.R;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.activities.base.BaseFragment;
+import com.drawshare.activities.base.BaseUserFragment;
+import com.drawshare.activities.base.HotestPictureActivity;
 import com.drawshare.activities.pictinfo.PictInfoActivity;
 import com.drawshare.adapter.UserPictsAdapter;
 import com.drawshare.application.DrawShareApplication;
@@ -26,8 +31,10 @@ import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.render.netRenderer.UserPictureNetRenderer;
 import com.drawshare.render.object.Picture;
 import com.drawshare.util.DrawShareConstant;
+import com.drawshare.util.DrawShareUtil;
 
-public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<ArrayList<Picture>>, OnItemClickListener {
+public class UserPictsFragment extends BaseUserFragment 
+	implements LoaderCallbacks<ArrayList<Picture>>, OnItemClickListener {
 
 	private GridView gridView = null;
 	private ProgressBar progressBar = null;
@@ -203,5 +210,33 @@ public class UserPictsFragment extends BaseFragment implements LoaderCallbacks<A
 			intent.putExtra(DrawShareConstant.EXTRA_KEY.PICT_ID, picture.pictureId);
 			startActivity(intent);
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.user_index_menu_logout:
+			new AlertDialog.Builder(this.getActivity()).setTitle(
+					R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
+			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					DrawShareUtil.logout(UserPictsFragment.this.getActivity());
+					// go to hotest pictures activity
+					Intent intent = new Intent(UserPictsFragment.this.getActivity(), HotestPictureActivity.class);
+					startActivity(intent);
+					UserPictsFragment.this.getActivity().finish();
+				}
+			}).setNegativeButton(R.string.cancel, null).show();
+			break;
+		case R.id.user_index_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+		default:
+			break;
+		}
+		return true;
 	}
 }

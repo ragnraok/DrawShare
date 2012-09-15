@@ -33,4 +33,10 @@ public class DrawShareUtil {
 			return true;
 		}
 	}
+	
+	public static void logout(Context context) {
+		UserIdHandler.setUserId(context, null);
+		ApiKeyHandler.setApiKey(context, null);
+		UserNameHandler.setUserName(context, null);
+	}
 }

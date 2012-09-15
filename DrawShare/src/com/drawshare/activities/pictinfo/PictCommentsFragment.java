@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -126,7 +127,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		// TODO Auto-generated method stub
 		
 		// reset the adapter
-		
+		this.commentList = null;
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.listView.setVisibility(View.INVISIBLE);
 	}
@@ -247,4 +248,15 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		//return false;
+		switch (item.getItemId()) {
+		case R.id.base_fragment_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+			break;
+		}
+		return true;
+	}
 }

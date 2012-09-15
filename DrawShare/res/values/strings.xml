@@ -76,14 +76,39 @@
     <string name="comment_failed">评论失败</string>
     <string name="title_activity_pict_info_fragment">PictInfoFragmentActivity</string>
     <string name="title_activity_user_message">UserMessageActivity</string>
-    
+
     <!-- follow -->
-	<string name="follow_you">关注了你</string>
+    <string name="follow_you">关注了你</string>
+
+    <!-- collect promote -->
+    <string name="collect_success">收藏成功</string>
+    <string name="collect_failed">收藏失败</string>
+    <string name="title_activity_draw">DrawActivity</string>
 	
-	<!-- please login first -->
-	<string name="please_login_first">请先登录</string>
-	
-	<!-- collect promote -->
-	<string name="collect_success">收藏成功</string>
-	<string name="collect_failed">收藏失败</string>
+    <!-- set the doodle font size and position -->
+    <string name="set_doodle_font_size_and_position">两指伸缩调整字体大小,拖动调整位置</string>
+    
+    <!-- load image failed -->
+    <string name="load_image_failed">载入图片失败</string>
+    
+    <!-- confirm exit -->
+    <string name="confirm_exit">确认退出</string>
+    <!-- not save, confrim exit -->
+    <string name="not_save_confirm">尚未保存,确认退出吗?</string>
+    
+    <!-- publish success -->
+    <string name="publish_success">发布成功</string>
+    <!-- publish failed -->
+    <string name="publish_failed">发布失败</string>
+    <!-- publish picture title -->
+    <string name="publish_pict_title">请输入新图片的名字</string>
+    <!-- please enter pict title -->
+    <string name="please_enter_pict_title">亲,麻烦请输入新图片的名字～</string>
+    
+    <!-- please login first -->
+    <string name="please_login_first">请先登录</string>
+    
+    <!-- confirm logout -->
+    <string name="confirm_logout_title">确定登出</string>
+    <string name="confirm_logout">确定要登出吗?</string>
 </resources>

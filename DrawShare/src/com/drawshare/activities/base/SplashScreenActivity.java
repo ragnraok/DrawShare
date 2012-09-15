@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
+import com.drawshare.activities.editpict.DrawActivity;
 import com.drawshare.activities.userprofile.LoginActivity;
 import com.drawshare.activities.userprofile.UserIndexActivity;
 import com.drawshare.asyncloader.AsyncImageLoader;
@@ -41,6 +42,7 @@ public class SplashScreenActivity extends BaseActivity {
 					// enter the userprofile activity
 					//nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
 					nextIntent = new Intent(SplashScreenActivity.this, UserIndexActivity.class);
+					//nextIntent = new Intent(SplashScreenActivity.this, DrawActivity.class);
 					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, UserIdHandler.getUserId(SplashScreenActivity.this));
 					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, true);
 					Log.d(Constant.LOG_TAG, "the userid is " + UserIdHandler.getUserId(SplashScreenActivity.this) + 

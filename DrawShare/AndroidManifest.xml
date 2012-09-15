@@ -63,6 +63,10 @@
             android:name=".activities.userprofile.UserMessageActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activities.editpict.DrawActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

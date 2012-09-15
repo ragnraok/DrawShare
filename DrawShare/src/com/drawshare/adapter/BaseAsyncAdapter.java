@@ -74,7 +74,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(bitmap);
 						viewList[rowNum]  = view;
-						Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
+						//Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
 					}
 				}
 				
@@ -86,7 +86,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
 						viewList[rowNum]  = view;
-						Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
+						//Log.d(Constant.LOG_TAG, "set ViewList " + rowNum);
 					}
 				}
 			};
@@ -135,7 +135,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 		//return viewList[position];
 		setViewTag(position, viewList[position]);
 		if (ifLoadBit[position] == false) {
-			Log.d(Constant.LOG_TAG, "load " + position);
+			//Log.d(Constant.LOG_TAG, "load " + position);
 			bindView(position, viewList[position]);
 			setImage(position, viewList[position]);
 			ifLoadBit[position] = true;

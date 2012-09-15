@@ -13,6 +13,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ import com.drawshare.render.netRenderer.PictForkVersionNetRenderer;
 import com.drawshare.render.object.Picture;
 import com.drawshare.util.DrawShareConstant;
 
-public class PictForkVersionFragment extends BaseFragment implements OnClickListener, LoaderCallbacks<ArrayList<Picture>> {
+public class PictForkVersionFragment extends BaseFragment 
+	implements OnClickListener, LoaderCallbacks<ArrayList<Picture>> {
 
 	private ImageView sourceImageView = null;
 	private ImageView sourceAvatarImageView = null;
@@ -113,7 +115,7 @@ public class PictForkVersionFragment extends BaseFragment implements OnClickList
 		super.onResume();
 		this.getLoaderManager().getLoader(0).startLoading();
 		if (this.adapter != null) {
-			adapter.stopLoad();
+			adapter.resumeLoad();
 		}
 		if (this.sourceImageLoader != null) {
 			sourceImageLoader.unlock();
@@ -264,5 +266,15 @@ public class PictForkVersionFragment extends BaseFragment implements OnClickList
 		
 		
 	}
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.base_fragment_menu_reload:
+			this.getLoaderManager().restartLoader(0, null, this);
+			break;
+		}
+		return true;
+	}
 }

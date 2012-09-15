@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/draw_panel_pen_background"
+    android:padding="10dp">
+    <Button android:id="@+id/draw_panel_pen_width_one_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pen_width_one_selector"/>
+	<Button android:id="@+id/draw_panel_pen_width_two_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/pen_width_two_selector"/>
+	<Button android:id="@+id/draw_panel_pen_width_three_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/pen_width_three_selector"/>
+	<Button android:id="@+id/draw_panel_pen_width_four_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/pen_width_four_selector"/>
+</LinearLayout>

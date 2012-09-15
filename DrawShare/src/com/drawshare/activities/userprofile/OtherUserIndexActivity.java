@@ -73,6 +73,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 	
 	private static final String LOG_TAG = "otherUserIndex";
 	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
