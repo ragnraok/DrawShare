@@ -1,195 +1,92 @@
 package com.drawshare.activities.userprofile;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.Menu;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 
 import com.drawshare.R;
-import com.drawshare.Request.exceptions.AuthFailException;
-import com.drawshare.Request.exceptions.PictureNotExistException;
-import com.drawshare.Request.exceptions.UserNotExistException;
-import com.drawshare.activities.base.BaseActivity;
-import com.drawshare.adapter.FollowMessageAdapter;
-import com.drawshare.datastore.ApiKeyHandler;
-import com.drawshare.datastore.UserIdHandler;
-import com.drawshare.render.netRenderer.FollowMessageNetRenderer;
-import com.drawshare.render.object.FollowMessage;
-import com.drawshare.util.DrawShareUtil;
+import com.drawshare.activities.base.BaseFragmentActivity;
+import com.drawshare.adapter.TabsAdapter;
 
-public class UserMessageActivity extends BaseActivity {
+public class UserMessageActivity extends BaseFragmentActivity implements OnTabChangeListener {
 
-	private ListView listView = null;
-	private ProgressBar progressBar = null;
+	private ViewPager viewPager = null;
+	private TabHost tabHost = null;
+	private TabsAdapter tabsAdapter = null;
 	
-	private Handler handler = new Handler();
-	private ArrayList<FollowMessage> messageList = null;
-	private FollowMessageAdapter adapter = null;
-	
-	private ProgressDialog progressDialog = null;
+	private ArrayList<Drawable> notSeletDrawables = new ArrayList<Drawable>();
+	private ArrayList<Drawable> selectDrawables = new ArrayList<Drawable>()	;
+	private ArrayList<View> viewList = new ArrayList<View>();
+	private ArrayList<String> tabTagList = new ArrayList<String>();
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_message);
+        
         findAllView();
-        setUpView();
+        tabHost.setup();
+        tabsAdapter = new TabsAdapter(this, tabHost, viewPager);
+        initDrawableList();
+        initTagList();
+        
+        tabsAdapter.addTab(tabHost.newTabSpec(tabTagList.get(0)).setIndicator(generateIndicatorView(0)), 
+        		FollowMessageFragment.class, null);
+        tabsAdapter.addTab(tabHost.newTabSpec(tabTagList.get(1)).setIndicator(generateIndicatorView(1)), 
+        		ForkMessageFragment.class, null);
+        
+        this.viewList.get(0).setBackgroundDrawable(selectDrawables.get(0));
+        this.tabHost.setCurrentTab(0);
+        
+        tabHost.setOnTabChangedListener(this);
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_user_message, menu);
-        return true;
+    
+    private void findAllView() {
+    	tabHost = (TabHost) findViewById(android.R.id.tabhost);   
+        viewPager = (ViewPager) findViewById(R.id.user_message_view_pager);
     }
-    */
+    
+    private void initDrawableList() {
+    	Resources resources = getResources();
+    	notSeletDrawables.add(resources.getDrawable(R.drawable.follow_message_1));
+    	notSeletDrawables.add(resources.getDrawable(R.drawable.fork_message_1));
+    	selectDrawables.add(resources.getDrawable(R.drawable.follow_message_2));
+    	selectDrawables.add(resources.getDrawable(R.drawable.fork_message_2));
+    }
+    
+    private void initTagList() {
+    	tabTagList.add("follow_message");
+    	tabTagList.add("fork_message");
+    }
+    
+    private View generateIndicatorView(int index) {
+    	LayoutInflater inflater = this.getLayoutInflater();
+    	View view = inflater.inflate(R.layout.tab_indicator_view, null, false);
+    	view.setBackgroundDrawable(notSeletDrawables.get(index));
+    	
+    	viewList.add(view);
+    	
+    	return view;
+    }
 
 	@Override
-	protected void findAllView() {
+	public void onTabChanged(String tabId) {
 		// TODO Auto-generated method stub
-		super.findAllView();
-		this.listView = (ListView) findViewById(R.id.user_message_list);
-		this.progressBar = (ProgressBar) findViewById(R.id.user_message_progress_bar);
-	}
-
-	@Override
-	protected void setUpView() {
-		// TODO Auto-generated method stub
-		super.setUpView();
-		if (this.application.getNetworkState()) {
-			//progressDialog = DrawShareUtil.getWaitProgressDialog(this);
-			handler = new Handler() {
-
-				@Override
-				public void handleMessage(Message msg) {
-					// TODO Auto-generated method stub
-					super.handleMessage(msg);
-					if (msg.what == 1) {
-						//progressDialog.dismiss();
-						if ((ArrayList<FollowMessage>) msg.obj != null) {
-							listView.setVisibility(View.VISIBLE);
-							progressBar.setVisibility(View.INVISIBLE);
-							adapter = new FollowMessageAdapter(UserMessageActivity.this, 
-									listView, (ArrayList<FollowMessage>) msg.obj, true);
-							listView.setAdapter(adapter);
-						}
-					}
-				}
-			};
-			new Thread(new Runnable() {			
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					FollowMessageNetRenderer renderer = new FollowMessageNetRenderer(UserIdHandler.getUserId(UserMessageActivity.this), 
-							ApiKeyHandler.getApiKey(UserMessageActivity.this), 30);
-					ArrayList<FollowMessage> messageList = null;
-					try {
-						messageList = renderer.renderToList();
-						//return messageList;
-					} catch (AuthFailException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						
-					} catch (UserNotExistException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (PictureNotExistException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					Message msg = handler.obtainMessage();
-					msg.what = 1;
-					msg.obj = messageList;
-					handler.sendMessage(msg);
-				}
-			}).start();
-			/*
-			handler.postDelayed(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					UserMessageTask task = new UserMessageTask();
-					try {
-						messageList = task.execute().get();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if (messageList != null) {
-						// set the adapter
-						listView.setVisibility(View.VISIBLE);
-						progressBar.setVisibility(View.INVISIBLE);
-						adapter = new FollowMessageAdapter(UserMessageActivity.this, 
-								listView, messageList, true);
-						listView.setAdapter(adapter);
-					}
-					progressDialog.dismiss();
-				}
-			}, 500);*/
-		}
-		else {
-			Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		if (this.adapter != null)
-			this.adapter.stopLoad();
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		if (this.adapter != null)
-			this.adapter.resumeLoad();
-	}
-
-	@Override
-	protected void setViewAction() {
-		// TODO Auto-generated method stub
-		super.setViewAction();
-	}
-	/*
-	private class UserMessageTask extends AsyncTask<Void, Integer, ArrayList<FollowMessage>> {
-
-		@Override
-		protected ArrayList<FollowMessage> doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			//return null;
-			FollowMessageNetRenderer renderer = new FollowMessageNetRenderer(UserIdHandler.getUserId(UserMessageActivity.this), 
-					ApiKeyHandler.getApiKey(UserMessageActivity.this), 30);
-			try {
-				ArrayList<FollowMessage> messageList = renderer.renderToList();
-				return messageList;
-			} catch (AuthFailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-			} catch (UserNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (PictureNotExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
+		int index = this.tabTagList.indexOf(tabId);
 		
-	}*/
+		for (int i = 0; i < viewList.size(); i++) {
+			this.viewList.get(i).setBackgroundDrawable(this.notSeletDrawables.get(i));
+		}
+		this.viewList.get(index).setBackgroundDrawable(this.selectDrawables.get(index));
+		
+		this.viewPager.setCurrentItem(index);
+	}
+    
 }

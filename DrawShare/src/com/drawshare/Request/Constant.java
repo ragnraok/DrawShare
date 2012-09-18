@@ -20,6 +20,7 @@ public class Constant {
 		public static final String ADD_COLLECT_PICTURE = BASE + "add_collect_picture/";
 		public static final String DELETE_COLLECT_PICTURE = BASE + "delete_collect_picture/";
 		public static final String GET_FOLLOW_STATUS = BASE + "get_follow_status/";
+		public static final String GET_COLLECT_STATUS = BASE + "get_collect_status/";
 	}
 	
 	public static class Message {

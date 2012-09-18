@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
 import com.drawshare.Request.exceptions.AuthFailException;
+import com.drawshare.Request.exceptions.PictureNotExistException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 
 import android.annotation.TargetApi;
@@ -31,6 +32,7 @@ public class UserProfile {
 	private static final String addCollectURL = Constant.SITE + Constant.UserProfile.ADD_COLLECT_PICTURE;
 	private static final String deleteCollectURL = Constant.SITE + Constant.UserProfile.DELETE_COLLECT_PICTURE;
 	private static final String getFollowStatusURL = Constant.SITE + Constant.UserProfile.GET_FOLLOW_STATUS;
+	private static final String getCollectStatusURL = Constant.SITE + Constant.UserProfile.GET_COLLECT_STATUS;
 	
 	/**
 	 * 获取用户资料的方法
@@ -424,4 +426,49 @@ public class UserProfile {
 		return false;
 	}
 	
+	/**
+	 * 判断用户是否收藏了某图片
+	 * @param userId
+	 * @param pictId
+	 * @return true如果收藏了某图片
+	 * @throws PictureNotExistException 
+	 */
+	public static boolean getCollectStatus(String userId, String pictId) throws PictureNotExistException {
+		Log.d(Constant.LOG_TAG, "in get collect status, the url is " + getCollectStatusURL + userId + "/" + pictId + "/");
+		try {
+			URL url = new URL(getCollectStatusURL + userId + "/" + pictId + "/");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setFollowRedirects(true);
+			connection.connect();
+			
+			Log.d(Constant.LOG_TAG, "in get collect status, the return message is " + connection.getResponseMessage());
+			
+			if (connection.getResponseCode() == 404) {
+				throw new PictureNotExistException();
+			}
+			else if (connection.getResponseCode() == 200) {
+				InputStreamReader isr = new InputStreamReader(connection.getInputStream());
+				BufferedReader reader = new BufferedReader(isr);
+				
+				String returnMsg = reader.readLine();
+				returnMsg = Util.processJsonString(returnMsg);
+				Log.d(Constant.LOG_TAG, "in get collect status, the return json is " + returnMsg);
+				
+				JSONObject object = new JSONObject(returnMsg);
+				boolean ifCollect = object.getBoolean("collect_status");
+				return ifCollect;
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

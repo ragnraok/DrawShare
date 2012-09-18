@@ -56,6 +56,7 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 	private String pictId = null;
 	private String pictURL = null;
 	private String avatarURL = null;
+	private boolean ifCollect = false;
 	
 	private TabHost tabHost = null;
 	private ViewPager viewPager = null;
@@ -185,6 +186,12 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 						if ((Bitmap) msg.obj != null) {
 							avatarImageView.setImageBitmap((Bitmap) msg.obj);
 						}
+						if (ifCollect == true) {
+							collectButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.has_collected));
+						}
+						else {
+							collectButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.collect_pict_button_selector));
+						}
 					}
 				}
 				
@@ -228,6 +235,7 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 			if (pictInfoObject != null) {
 				pictURL = pictInfoObject.getString("picture_url");
 			}
+			ifCollect = UserProfile.getCollectStatus(UserIdHandler.getUserId(this), pictId);
 		} catch (UserNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -285,12 +293,12 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 			break;
 		case R.id.pict_info_collect_uncollect_button:
 			// collect a picture
-			collectPict(this.pictId);
+			collectUnCollectPict(this.pictId, ifCollect);
 			break;
 		}
 	}
 	
-	private void collectPict(final String pictId) {
+	private void collectUnCollectPict(final String pictId, final boolean ifUncollect) {
 		if (!DrawShareUtil.ifLogin(this)) {
 			Toast.makeText(this, getString(R.string.please_login_first), Toast.LENGTH_LONG).show();
 		}
@@ -305,10 +313,24 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 					progressDialog.dismiss();
 					//boolean success = (Boolean) msg.obj;
 					if ((Boolean) msg.obj == true) {
-						Toast.makeText(PictInfoActivity.this, getString(R.string.collect_success), Toast.LENGTH_LONG).show();
+						if (ifUncollect == false) {
+							Toast.makeText(PictInfoActivity.this, getString(R.string.collect_success), Toast.LENGTH_LONG).show();
+							collectButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.has_collected));
+							ifCollect = true;
+						}
+						else {
+							Toast.makeText(PictInfoActivity.this, getString(R.string.delete_collection_success), Toast.LENGTH_LONG).show();
+							collectButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.collect_pict_button_selector));
+							ifCollect = false;
+						}
 					}
 					else {
-						Toast.makeText(PictInfoActivity.this, getString(R.string.collect_failed), Toast.LENGTH_LONG).show();
+						if (ifUncollect == false) {
+							Toast.makeText(PictInfoActivity.this, getString(R.string.collect_failed), Toast.LENGTH_LONG).show();
+						}
+						else {
+							Toast.makeText(PictInfoActivity.this, getString(R.string.delete_collection_failed), Toast.LENGTH_LONG).show();
+						}
 					}
 				}
 			}
@@ -323,8 +345,13 @@ public class PictInfoActivity extends BaseFragmentActivity implements OnTabChang
 				boolean success = false;
 				if (DrawShareUtil.ifLogin(PictInfoActivity.this)) {
 					try {
-						success = UserProfile.collectPicture(UserIdHandler.getUserId(PictInfoActivity.this), pictId, 
-								ApiKeyHandler.getApiKey(PictInfoActivity.this));
+						if (ifUncollect == false)
+							success = UserProfile.collectPicture(UserIdHandler.getUserId(PictInfoActivity.this), pictId, 
+									ApiKeyHandler.getApiKey(PictInfoActivity.this));
+						else {
+							success = UserProfile.deleteCollectPicture(ApiKeyHandler.getApiKey(PictInfoActivity.this), 
+									UserIdHandler.getUserId(PictInfoActivity.this), pictId);
+						}
 					} catch (AuthFailException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

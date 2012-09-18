@@ -29,11 +29,11 @@ public class Message {
 	 * @param num 获取信息的数量
 	 * @return 一个JSONObject,格式如下:
 	 * {'fork_messages': 
-     *     [{'sender_id': sender_id, 'sender_name': sender_name, 'origin_pict_id': origin_pict_id, 
-     *             'origin_pict_title': origin_pict_title, 'result_pict_id': result_pict_id, 
-     *                   'result_pict_title': result_pict_title, 'send_date': YYYY/MM/DD}, 
-     *                      ....]
-     * }
+     * 		[{'sender_id': sender_id, 'sender_name': sender_name, 'origin_pict_id': origin_pict_id, 
+     *                      'origin_pict_title': origin_pict_title, 'origin_pict_url': url,  'result_pict_id': result_pict_id, 
+     *                             'result_pict_title': result_pict_title, 'send_date': YYYY/MM/DD}, 
+     *         ....]
+     *  }
 	 * @throws AuthFailException
 	 * @throws UserNotExistException
 	 */
