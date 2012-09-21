@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+<!--
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/hello_world"
+        tools:context=".UserIndexActivity" />
+-->
+	<RelativeLayout android:id="@+id/user_index_head"
+	    android:layout_width="fill_parent"
+	    android:layout_height="80dp"
+	    android:background="@drawable/pure_head">
+	    <FrameLayout android:id="@+id/user_index_avatar_layout"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_centerVertical="true">
+	    	<ImageView android:id="@+id/user_index_avatar"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="fill_parent"
+	        	android:background="@drawable/default_pict_temp"
+	        	android:scaleType="fitXY"/>
+	    	<ImageView android:layout_width="fill_parent"
+	    	    android:layout_height="fill_parent"
+	    	    android:src="@drawable/radius_shadow_avatar"
+	    	    android:scaleType="fitXY"/>
+	    </FrameLayout>
+	    <LinearLayout android:layout_toRightOf="@id/user_index_avatar_layout"
+	        android:layout_width="32pt"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical"
+	        android:layout_marginLeft="5dp"
+	        android:id="@+id/user_index_name_and_message_layout"
+	        android:layout_marginTop="5dp">
+	        <TextView android:id="@+id/user_index_username_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Ragnarok"
+	            android:layout_marginTop="5dp"
+	            android:textColor="#48D1CC"/>
+	        <LinearLayout android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            android:layout_marginTop="5dp">
+	            <Button android:id="@+id/user_index_message_button"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/message_selector"
+	                />
+	            <FrameLayout android:layout_width="wrap_content"
+	                android:layout_height="wrap_content">
+	            	<Button android:id="@+id/user_index_message_remind_button"
+	                	android:layout_width="wrap_content"
+	                	android:layout_height="wrap_content"
+	                	android:background="@drawable/message_remind_selector"/>
+	            	<TextView android:id="@+id/user_index_message_num_text"
+	            	    android:layout_width="wrap_content"
+	            	    android:layout_height="wrap_content"
+	            	    android:paddingLeft="12dp"
+	            	    android:paddingTop="5dp"
+	            	    android:text="0"
+	            	    android:textColor="#FFFAFA"/>
+	            </FrameLayout>          
+	        </LinearLayout>
+	    </LinearLayout>
+	    <LinearLayout 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="right"
+	        android:layout_toRightOf="@+id/user_index_name_and_message_layout"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="5dp">
+	        <Button android:id="@+id/user_index_draw_button"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:background="@drawable/draw_selector"/>
+	    </LinearLayout>
+	</RelativeLayout>
+	<TabHost android:layout_below="@id/user_index_head"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <LinearLayout android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+	    	<RelativeLayout android:layout_width="fill_parent"
+	       		android:layout_height="wrap_content">
+	        	<TabWidget android:id="@android:id/tabs"
+            		android:orientation="horizontal"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content" />
+	    	</RelativeLayout>
+	    	<FrameLayout
+            	android:id="@android:id/tabcontent"
+           	 	android:layout_width="0dp"
+            	android:layout_height="0dp"
+            	android:layout_weight="0"/>
+        
+        	<android.support.v4.view.ViewPager
+            	android:id="@+id/user_index_view_pager"
+            	android:layout_width="match_parent"
+            	android:layout_height="0dp"
+            	android:layout_weight="1"/>
+	    </LinearLayout>    
+	</TabHost>
+</RelativeLayout>

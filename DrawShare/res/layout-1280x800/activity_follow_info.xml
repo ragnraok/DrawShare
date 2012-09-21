@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+<!--
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/hello_world"
+        tools:context=".FollowInfoActivity" />
+-->
+	<ImageView android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/user_profile_head"
+	    android:layout_marginTop="-10dp"
+	    android:layout_alignParentTop="true"
+	    android:id="@+id/follow_info_head_image"/>
+	<ListView android:layout_below="@id/follow_info_head_image"
+	    android:id="@+id/follow_info_list"
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    android:layout_margin="10dp"
+	    android:divider="#00000000"
+	    android:dividerHeight="5dp"/>
+</RelativeLayout>

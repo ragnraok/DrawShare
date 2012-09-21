@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+<!--
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/hello_world"
+        tools:context=".UserMessageActivity" />
+-->
+
+	<ImageView
+	    android:id="@+id/user_message_head_image"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:src="@drawable/message_head" 
+	    android:layout_marginTop="-10dp"/>
+	<TabHost android:layout_below="@id/user_message_head_image"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="-10dp">
+	    <LinearLayout android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+	    	<RelativeLayout android:layout_width="fill_parent"
+	       		android:layout_height="wrap_content">
+	        	<TabWidget android:id="@android:id/tabs"
+            		android:orientation="horizontal"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content" />
+	    	</RelativeLayout>
+	    	<FrameLayout
+            	android:id="@android:id/tabcontent"
+           	 	android:layout_width="0dp"
+            	android:layout_height="0dp"
+            	android:layout_weight="0"/>
+        
+        	<android.support.v4.view.ViewPager
+            	android:id="@+id/user_message_view_pager"
+            	android:layout_width="match_parent"
+            	android:layout_height="0dp"
+            	android:layout_weight="1"/>
+	    </LinearLayout>    
+	</TabHost>
+</RelativeLayout>

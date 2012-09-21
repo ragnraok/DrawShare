@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	    <Button android:id="@+id/draw_hall_search_box_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/search_box_selector"
+	        android:layout_marginTop="10dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="5dp" />
+	    <ImageView android:layout_below="@id/draw_hall_search_box_button"
+	        android:id="@+id/draw_hall_hotest_pict_image"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:src="@drawable/hotest_pict"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="5dp"/>
+		<GridView android:layout_below="@id/draw_hall_hotest_pict_image"
+		    android:id="@+id/draw_hall_pict_grid"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:numColumns="5"
+		    android:columnWidth="100dp"
+		    android:layout_marginTop="5dp"
+		    android:horizontalSpacing="5dp"
+		    android:verticalSpacing="5dp"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"/>
+	</RelativeLayout>
+	
+	<ProgressBar android:id="@+id/draw_hall_progress_bar"
+	    android:layout_width="50dp"
+	    android:layout_height="50dp"
+	    android:indeterminate="true"
+	    android:layout_centerInParent="true"/>
+</RelativeLayout>

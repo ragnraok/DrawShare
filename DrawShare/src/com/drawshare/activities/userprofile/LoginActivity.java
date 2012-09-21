@@ -155,6 +155,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 								Intent nextIntent = new Intent(LoginActivity.this, UserIndexActivity.class);
 								nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, UserIdHandler.getUserId(LoginActivity.this));
 								startActivity(nextIntent);
+								finish();
 							}
 						}
 					}

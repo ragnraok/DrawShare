@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+  	<RelativeLayout android:id="@+id/pict_info_head_layout"
+  	    android:layout_width="match_parent"
+  	    android:layout_height="85dp"
+  	    android:layout_alignParentTop="true"
+  	    android:background="@drawable/pure_head">
+  	    <FrameLayout android:id="@+id/pict_info_avatar_frame"
+  	        android:layout_width="60dp"
+  	        android:layout_height="60dp"
+  	        android:layout_centerVertical="true"
+  	        android:layout_marginLeft="10dp">
+  	        <ImageView android:id="@+id/pict_info_avatar_image"
+  	            android:layout_width="match_parent"
+  	            android:layout_height="match_parent"
+  	            android:scaleType="fitXY"
+  	            android:src="@drawable/default_pict_temp"/>
+  	        <ImageView android:layout_width="match_parent"
+  	            android:layout_height="match_parent"
+  	            android:scaleType="fitXY"
+  	            android:src="@drawable/radius_shadow_98"/>
+  	    </FrameLayout> 
+  	    <!--
+  	    <TextView 
+  	        android:layout_width="wrap_content"
+  	        android:layout_height="wrap_content"
+  	        android:text="MasterPiece"
+  	        android:layout_marginLeft="5dp"
+  	        android:layout_marginTop="20dp"
+  	        android:textColor="#6B6B6B"
+  	        android:textSize="20dp"
+  	        android:id="@+id/pict_info_username_text"
+  	        android:layout_centerHorizontal="true"
+  	        android:layout_centerVertical="true"/>
+  	      -->
+  	      <!--
+  	      <LinearLayout android:orientation="vertical"
+	  	        android:layout_width="wrap_content"
+	  	        android:layout_height="wrap_content"
+	  	        android:layout_centerHorizontal="true"
+	  	        android:layout_centerVertical="true"
+	  	        android:paddingRight="30dp">
+	  	        <TextView android:id="@+id/pict_info_pict_name_text"
+	  	            android:layout_width="wrap_content"
+	  	            android:layout_height="wrap_content"
+	  	            android:text="MasterPiece"
+	  	            android:textSize="15dp"
+	  	            android:layout_gravity="center"/>
+	  	        <TextView android:id="@+id/pict_info_pict_date_text"
+	  	            android:layout_width="wrap_content"
+	  	            android:layout_height="wrap_content"
+	  	            android:text="2012-9-12"
+	  	            android:layout_gravity="center"/>
+	  	  </LinearLayout>
+	  	  -->
+	  	    <RelativeLayout android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_alignParentRight="true"
+	  	    android:layout_marginTop="5dp"
+	  	    android:layout_marginRight="5dp">
+  	        <!--
+	  	    <Button android:id="@+id/pict_info_collect_button"
+	  	        android:layout_width="wrap_content"
+	  	        android:layout_height="wrap_content"
+	  	        android:background="@drawable/pict_fork_collect_button_selector"
+	  	        android:layout_centerVertical="true"/>
+	  	      -->
+	  	    <Button android:id="@+id/pict_info_collect_uncollect_button"
+	  	        android:layout_width="wrap_content"
+	  	        android:layout_height="wrap_content"
+	  	        android:background="@drawable/collect_pict_button_selector"
+	  	        android:layout_centerVertical="true"/>
+	  	    <Button 
+	  	        android:layout_toRightOf="@id/pict_info_collect_uncollect_button"
+	  	        android:layout_marginLeft="5dp"
+	  	        android:id="@+id/pict_info_draw_button"
+	  	        android:layout_width="wrap_content"
+	  	        android:layout_height="wrap_content"
+	  	        android:background="@drawable/draw_selector"
+	  	        android:layout_centerVertical="true"/>
+	  		</RelativeLayout>
+  	</RelativeLayout>
+  	<TabHost android:layout_below="@id/pict_info_head_layout"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <LinearLayout android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+	    	<RelativeLayout android:layout_width="fill_parent"
+	       		android:layout_height="wrap_content">
+	        	<TabWidget android:id="@android:id/tabs"
+            		android:orientation="horizontal"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content" />
+	    	</RelativeLayout>
+	    	<FrameLayout
+            	android:id="@android:id/tabcontent"
+           	 	android:layout_width="0dp"
+            	android:layout_height="0dp"
+            	android:layout_weight="0"/>
+        
+        	<android.support.v4.view.ViewPager
+            	android:id="@+id/pict_info_view_pager"
+            	android:layout_width="match_parent"
+            	android:layout_height="0dp"
+            	android:layout_weight="1"/>
+	    </LinearLayout>    
+	</TabHost>
+</RelativeLayout>

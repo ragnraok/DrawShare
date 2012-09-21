@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="@drawable/follow_info_line">
+    <FrameLayout android:layout_height="102px"
+        android:layout_width="102px"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/follow_info_grid_avatar_layout">
+        <ImageView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/default_pict_temp"
+            android:id="@+id/follow_info_grid_avatar_image"
+            android:scaleType="fitXY"/>
+        <ImageView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/radius_shadow_102px"
+            android:scaleType="fitXY"/>
+    </FrameLayout>
+	<LinearLayout android:layout_toRightOf="@id/follow_info_grid_avatar_layout"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:orientation="vertical"
+	    android:layout_marginLeft="5dp">
+	    <TextView android:id="@+id/follow_info_grid_username_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Ragnarok"
+	        android:textSize="20dp"/>
+	    <TextView android:id="@+id/follow_info_grid_email_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="okone1288@gmail.com"
+	        android:layout_marginTop="5dp"/>
+	</LinearLayout>
+	
+</RelativeLayout>

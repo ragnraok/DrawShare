@@ -90,9 +90,11 @@ public class Util {
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Log.d(Constant.LOG_TAG, "in load bitmap, " + e.getMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Log.d(Constant.LOG_TAG, "in load bitmap, " + e.getMessage());
 			}
 			Log.d(LOG_TAG, "return null in urltobitmap " + callTime);
 			return null;

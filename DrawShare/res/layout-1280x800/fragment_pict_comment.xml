@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout android:id="@+id/pict_comment_comment_layout"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/comment_background">
+        <EditText android:id="@+id/pict_comment_comment_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/comment_edit_background"
+            android:hint="@string/add_comment"
+            android:paddingLeft="5dp"/>
+        <Button android:layout_below="@id/pict_comment_comment_edit"
+            android:id="@+id/pict_comment_comment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/comment_button_selector"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_below="@id/pict_comment_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+	    <ListView android:id="@+id/pict_comment_list"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:divider="#00000000"
+	        android:dividerHeight="5dp"
+	        android:horizontalSpacing="5dp"
+			android:verticalSpacing="5dp" />
+		<ProgressBar android:id="@+id/pict_comment_progress_bar"
+		    android:layout_width="50dp"
+		    android:layout_height="50dp"
+		    android:layout_centerInParent="true"
+		    android:indeterminate="true"/>
+    </RelativeLayout>
+</RelativeLayout>

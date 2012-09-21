@@ -37,7 +37,7 @@ public class HotestPictAdapter extends BaseAsyncAdapter<Picture> {
 			//this.imageLoader.loadImage(position, picture.pictURL, listener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
 		//
 		
-		this.defaultImageLoader.loadImage(position, picture.pictURL, this.defaultListener, DrawShareConstant.THUMBNAIL_IMAGE_SIZE);
+		this.defaultImageLoader.loadImage(position, picture.pictURL, this.defaultListener, 100);
 	}
 
 	@Override

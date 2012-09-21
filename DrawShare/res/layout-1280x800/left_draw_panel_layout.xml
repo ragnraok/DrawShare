@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+     <Button android:id="@+id/draw_panel_rect_button"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:background="@drawable/draw_pen_rect_selector"/>
+     <Button android:id="@+id/draw_panel_round_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:background="@drawable/draw_pen_round_selector"/>
+     <Button android:id="@+id/draw_panel_width_button"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/draw_pen_width_selector"/>
+     <Button android:id="@+id/draw_panel_background_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@drawable/draw_background_selector"/>
+     <Button android:id="@+id/draw_panel_edit_button"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@drawable/draw_edit_selector"/>
+</LinearLayout>
