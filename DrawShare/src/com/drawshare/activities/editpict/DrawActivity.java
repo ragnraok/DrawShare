@@ -539,7 +539,13 @@ public class DrawActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		//return super.onKeyDown(keyCode, event);
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			doodleView.rollBack();
+			//doodleView.rollBack();
+			if (doodleView.ifClear()) {
+				finish();
+			}
+			else {
+				doodleView.rollBack();
+			}
 		}
 		return true;
 	}	

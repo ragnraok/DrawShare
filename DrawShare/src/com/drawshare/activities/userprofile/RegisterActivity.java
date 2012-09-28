@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.drawshare.activities.base.BaseActivity;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
+import com.drawshare.util.DrawShareConstant;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 
@@ -151,6 +153,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 									//Toast.makeText(RegisterActivity.this, "register success", Toast.LENGTH_LONG).show();
 									Toast.makeText(RegisterActivity.this, 
 											resources.getString(R.string.register_success), Toast.LENGTH_LONG).show();
+									Intent nextIntent = new Intent(RegisterActivity.this, UserIndexActivity.class);
+									nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, 
+											UserIdHandler.getUserId(RegisterActivity.this));
+									startActivity(nextIntent);
+									finish();
 								}
 							}
 						}

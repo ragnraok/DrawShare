@@ -1,29 +1,26 @@
 package com.drawshare.activities.userprofile;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.anim;
-import android.R.integer;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,23 +32,23 @@ import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
-import com.drawshare.Request.Util;
 import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.UserNotExistException;
 import com.drawshare.Request.message.Message;
 import com.drawshare.Request.userprofile.UserProfile;
 import com.drawshare.activities.base.BaseFragmentActivity;
-import com.drawshare.activities.base.HotestPictureActivity;
 import com.drawshare.activities.editpict.DrawActivity;
 import com.drawshare.adapter.TabsAdapter;
+import com.drawshare.asyncloader.AsyncImageLoader;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
-import com.drawshare.render.object.FollowMessage;
+import com.drawshare.render.object.User;
 import com.drawshare.util.DrawShareConstant;
 import com.drawshare.util.DrawShareUtil;
 
-public class UserIndexActivity extends BaseFragmentActivity implements OnTabChangeListener, OnClickListener {
+public class UserIndexActivity extends BaseFragmentActivity implements OnTabChangeListener, OnClickListener,
+	LoaderCallbacks<User> {
 	
 	private TabHost tabHost = null;
 	private ViewPager viewPager = null;
@@ -75,12 +72,13 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	//private AlertDialog dialog = null;
 	private ProgressDialog progressDialog = null;
 	
-	private AsyncTask<Void, Void, Bitmap> bitmap = null;
+	//private String shortDescription = null;
+	//private String email = null;
+	//private String avatarURL = null;
+	private User user = null;
+	private String unreadMessageNum = null;
 	
-	private String shortDescription = null;
-	private String email = null;
-	private String avatarURL = null;
-	private int unreadMessageNum = 0;
+	private AsyncImageLoader avatarLoader = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,38 +110,7 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
         setUpView();
     }
     
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	// logout here
-        getMenuInflater().inflate(R.menu.activity_user_index, menu);
-        return true;
-    }
     
-    @Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		// TODO Auto-generated method stub
-		//return super.onMenuItemSelected(featureId, item);
-    	switch (item.getItemId()) {
-    	case R.id.user_index_menu_logout:
-    		new AlertDialog.Builder(this).setTitle(R.string.confirm_logout_title).setMessage(R.string.confirm_logout)
-    			.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						DrawShareUtil.logout(UserIndexActivity.this);
-						// go to hotest pictures activity
-						Intent intent = new Intent(UserIndexActivity.this, HotestPictureActivity.class);
-						startActivity(intent);
-						finish();
-					}
-				}).setNegativeButton(R.string.cancel, null).show();
-    		break;
-    	}
-    	return super.onOptionsItemSelected(item);
-	}
-*/
 
 	private void findAllView() {
     	tabHost = (TabHost) findViewById(android.R.id.tabhost);   
@@ -154,14 +121,18 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
     	messageNumTextView = (TextView) findViewById(R.id.user_index_message_num_text);
     	messageButton = (Button) findViewById(R.id.user_index_message_button);
     	drawButton = (Button) findViewById(R.id.user_index_draw_button);
+    	
+
     }
     
     private void setUpView() {
     	String username = UserNameHandler.getUserName(this);
     	username = username.substring(0, 1).toUpperCase() + username.substring(1);
     	this.userNameTextView.setText(username);
-    	progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+    	
+    	//progressDialog = DrawShareUtil.getWaitProgressDialog(this);
     	if (this.application.getNetworkState()) {
+    		/*
     		handler = new Handler() {
 
 				@Override
@@ -192,28 +163,9 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 					message.obj = avatar;
 					handler.sendMessage(message);
 				}
-			}).start();
-    		//final ProfileTask profileTask = new ProfileTask();
-    		//progressDialog = ProgressDialog.show(this, getString(R.string.waiting_title), "");   
-    		/*
-    		handler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					setUnreadMessageNum(); // first set the unread message numbers
-					avatarURL = getAvatarURLAndSetOtherProfile();
-					//Log.d(Constant.LOG_TAG, "the avatarURL is " + avatarURL);
-					
-					Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
-					if (avatar != null) {
-						avatarImage.setImageBitmap(avatar);
-						Log.d(Constant.LOG_TAG, "set the avatar");
-						messageNumTextView.setText(String.valueOf(unreadMessageNum));
-						//dialog.dismiss();
-					}
-					progressDialog.dismiss();
-				}
-			}, 500);*/
+			}).start();*/
+    		this.avatarLoader = new AsyncImageLoader(true);
+    		this.getSupportLoaderManager().initLoader(0, null, this);
     	}
     	else {
     		Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
@@ -276,7 +228,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 		
 		this.viewPager.setCurrentItem(index);
 	}
-	
+
+	/*
 	private String getAvatarURLAndSetOtherProfile() {
     	JSONObject profileObject;
 		try {
@@ -297,51 +250,30 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			e.printStackTrace();
 		}
 		return null;
-    }
+    }*/
 	
+	/*
 	private void setUnreadMessageNum() {
 		try {
 			JSONObject messageObject = Message.getUnreadMessageNum(UserIdHandler.getUserId(this), ApiKeyHandler.getApiKey(this));
-			this.unreadMessageNum = messageObject.getInt("unread_message_number");
+			this.unreadMessageNum = String.valueOf(messageObject.getInt("unread_message_number"));
 		} catch (AuthFailException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			this.unreadMessageNum = 0;
+			this.unreadMessageNum = "0";
 		} catch (UserNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			this.unreadMessageNum = 0;
+			this.unreadMessageNum = "0";
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			this.unreadMessageNum = 0;
+			this.unreadMessageNum = "0";
 		}
 		//this.messageNumTextView.setText(this.unreadMessageNum);
-	}
-	/*
-	private class ProfileTask extends AsyncTask<Void, Void, Bitmap> {
-
-		@Override
-		protected Bitmap doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			//Log.d(Constant.LOG_TAG, "in doInBackground");
-			setUnreadMessageNum(); // first set the unread message numbers
-			avatarURL = getAvatarURLAndSetOtherProfile();
-			//Log.d(Constant.LOG_TAG, "the avatarURL is " + avatarURL);
-			
-			Bitmap avatar = Util.urlToBitmap(avatarURL, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
-			if (avatar != null) {
-				Log.d(Constant.LOG_TAG, "get the avatar");
-				return avatar;
-			}
-			else {
-				//Log.d(Constant.LOG_TAG, "the avatar is null");
-				return null;
-			}
-			
-		}
-		
 	}*/
+	
+	
 
 	@Override
 	public void onClick(View v) {
@@ -378,4 +310,135 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			break;
 		}
 	}
+
+
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//Log.d(Constant.LOG_TAG, "onResume");
+		//this.getSupportLoaderManager().getLoader(0).reset();
+		//this.getSupportLoaderManager().getLoader(0).startLoading();
+	}
+
+
+
+	@Override
+	public Loader<User> onCreateLoader(int arg0, Bundle arg1) {
+		// TODO Auto-generated method stub
+		return new UserInfoLoader(this);
+	}
+
+
+
+	@Override
+	public void onLoadFinished(Loader<User> loader, User data) {
+		// TODO Auto-generated method stub
+		this.user = data;
+		if (data != null) {
+			this.messageNumTextView.setText(data.unreadMsgNum);
+			if (data.avatarUrl != null) {
+				this.avatarLoader.loadImage(0, data.avatarUrl, new AsyncImageLoader.ImageLoadListener() {
+					
+					@Override
+					public void onImageLoad(Integer rowNum, Bitmap bitmap) {
+						// TODO Auto-generated method stub
+						avatarImage.setImageBitmap(bitmap);
+						Log.d(Constant.LOG_TAG, "set index avatar");
+					}
+					
+					@Override
+					public void onError(Integer rowNum) {
+						// TODO Auto-generated method stub
+						avatarImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
+					}
+				}, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
+			}
+		}
+	}
+
+
+
+	@Override
+	public void onLoaderReset(Loader<User> arg0) {
+		// TODO Auto-generated method stub
+		this.user = null;
+		this.avatarImage.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
+		this.messageNumTextView.setText("..");
+	}
+	
+	private static class UserInfoLoader extends AsyncTaskLoader<User> {
+
+		private Context context = null;
+		private User u = null;
+		
+		public UserInfoLoader(Context context) {
+			super(context);
+			// TODO Auto-generated constructor stub
+			this.context = context;
+			//this.u = new User();
+		}
+
+		@Override
+		public User loadInBackground() {
+			// TODO Auto-generated method stub
+			//return null;
+			try {
+				JSONObject profileObject = UserProfile.getProfile(UserIdHandler.getUserId(context));
+				u = new User();
+				u.avatarUrl = profileObject.getString("avatar_url");
+				try {
+					JSONObject messageObject = Message.getUnreadMessageNum(
+							UserIdHandler.getUserId(context), ApiKeyHandler.getApiKey(context));
+					u.unreadMsgNum = String.valueOf(messageObject.getInt("unread_message_number"));
+				} catch (AuthFailException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					u.unreadMsgNum = "0";
+				} catch (UserNotExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					u.unreadMsgNum = "0";
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					u.unreadMsgNum = "0";
+				}
+				return u;
+			} catch (UserNotExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				u = null;
+				return null;
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onReset() {
+			// TODO Auto-generated method stub
+			super.onReset();
+			this.u = null;
+		}
+
+		@Override
+		protected void onStartLoading() {
+			// TODO Auto-generated method stub
+			super.onStartLoading();
+			if (u != null) {
+				this.deliverResult(u);
+			}
+			else {
+				forceLoad();
+			}
+		}
+		
+		
+	}
+	
+	
 }
