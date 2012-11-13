@@ -34,6 +34,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	
 	protected View[] viewList = null;
 	protected boolean[] ifLoadBit = null;
+	protected boolean ifLoad = false;
 	
 	public BaseAsyncAdapter(final Context context, AbsListView view, ArrayList<T> dataSet, final int defaultImageViewId, 
 			boolean netStatus, int layoutId) {
@@ -47,10 +48,10 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 		setDefaultListener();
 		
 		this.viewList = new View[this.dataSet.size()];
+		this.ifLoadBit = new boolean[this.dataSet.size()];
 		for (int i = 0; i < viewList.length; i++) {
 			viewList[i] = inflater.inflate(this.layoutId, null, false);
 		}
-		this.ifLoadBit = new boolean[this.dataSet.size()];
 		//this.listOrGridView.setOnScrollListener(onScrollListener);
 	}
 	
@@ -68,8 +69,8 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 				@Override
 				public void onImageLoad(Integer rowNum, Bitmap bitmap) {
 					// TODO Auto-generated method stub
-					//Log.d(Constant.LOG_TAG, "on ImageLoad " + rowNum);
-					View view = listOrGridView.findViewWithTag(rowNum);
+					Log.d("GetView", "on ImageLoad " + rowNum);
+					View view = viewList[rowNum];
 					if (view != null) {
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(bitmap);
@@ -81,7 +82,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 				@Override
 				public void onError(Integer rowNum) {
 					// TODO Auto-generated method stub
-					View view = listOrGridView.findViewById(rowNum);
+					View view = viewList[rowNum];
 					if (view != null) {
 						ImageView imageView = (ImageView) view.findViewById(defaultImageViewId);
 						imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));
@@ -98,6 +99,10 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	public void setData(ArrayList<T> dataSet) {
 		this.dataSet = dataSet;
 		this.viewList = new View[this.dataSet.size()];
+	}
+	
+	public View getViewForPos(int pos) {
+		return this.viewList[pos];
 	}
 	
 	@Override
@@ -121,29 +126,42 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		//if (this.viewList[position] != null) {
-		//	return viewList[position];
-		//}
-		
-		//if (convertView == null) {
-		//	convertView = inflater.inflate(this.layoutId, parent, false);
-		//}
-		//this.viewList[position] = convertView;
-		//setViewTag(position, viewList[position]);
-		//bindView(position, viewList[position]);
-		//setImage(position, viewList[position]);
-		//return viewList[position];
+		Log.d("GetView", "Position " + position);
 		setViewTag(position, viewList[position]);
+		
 		if (ifLoadBit[position] == false) {
 			//Log.d(Constant.LOG_TAG, "load " + position);
 			bindView(position, viewList[position]);
 			setImage(position, viewList[position]);
 			ifLoadBit[position] = true;
+			
+			// load the previous and next images
+			if (position + 1 < this.viewList.length && ifLoadBit[position + 1] == false) {
+				bindView(position + 1, viewList[position + 1]);
+				setImage(position + 1, viewList[position + 1]);
+				ifLoadBit[position + 1] = true;
+			}
+			if (position - 1 > 0 && ifLoadBit[position - 1] == false) {
+				bindView(position - 1, viewList[position - 1]);
+				setImage(position - 1, viewList[position - 1]);
+				ifLoadBit[position - 1] = true;
+			}
 			return viewList[position];
 		}
 		else {
 			return viewList[position];
 		}
+		/*
+		if (ifLoad == false) {
+			for (int i = 0; i < viewList.length; i++) {
+				bindView(i, viewList[i]);
+				setImage(i, viewList[i]);
+				ifLoadBit[i] = true;
+				ifLoad = true;
+				Log.d("GetView", "set load for pos " + i);
+			}
+		}
+		return viewList[position];*/
 	}
 	
 	private void setViewTag(int position, View convertView) {

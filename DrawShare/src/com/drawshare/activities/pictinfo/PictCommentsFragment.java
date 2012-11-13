@@ -48,6 +48,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 	private PictCommentAdapter adapter = null;
 	
 	private ProgressDialog progressDialog = null;
+	private boolean ifLoadFinish = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -83,9 +84,9 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		this.getLoaderManager().getLoader(0).stopLoading();
+		//this.getLoaderManager().getLoader(0).stopLoading();
 		if (this.adapter != null) {
-			this.adapter.stopLoad();
+			//this.adapter.stopLoad();
 		}
 	}
 
@@ -93,9 +94,9 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		this.getLoaderManager().getLoader(0).startLoading();
+		//this.getLoaderManager().getLoader(0).startLoading();
 		if (this.adapter != null) {
-			this.adapter.resumeLoad();
+			//this.adapter.resumeLoad();
 		}
 	}
 
@@ -114,8 +115,11 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		this.commentList = data;
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		if (data != null) {
-			this.adapter = new PictCommentAdapter(this.getActivity(), this.listView, data, application.getNetworkState());
-			this.listView.setAdapter(adapter);
+			if (ifLoadFinish == false) {
+				this.adapter = new PictCommentAdapter(this.getActivity(), this.listView, data, application.getNetworkState());
+				this.listView.setAdapter(adapter);
+				ifLoadFinish = true;
+			}
 		}
 		
 		this.progressBar.setVisibility(View.INVISIBLE);
@@ -130,6 +134,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		this.commentList = null;
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.listView.setVisibility(View.INVISIBLE);
+		this.ifLoadFinish = false;
 	}
 	
 	private static class PictCommentLoader extends AsyncTaskLoader<ArrayList<Comment>> {

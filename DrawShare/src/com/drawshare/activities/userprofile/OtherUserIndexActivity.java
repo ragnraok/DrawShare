@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -212,6 +214,19 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 				}
 			}, 500);*/
     		progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+    		progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					// TODO Auto-generated method stub
+					if (keyCode == event.KEYCODE_BACK) {
+						progressDialog.dismiss();
+						finish();
+						return true;
+					}
+					return false;
+				}
+			});
     		handler = new Handler() {
 
 				@Override

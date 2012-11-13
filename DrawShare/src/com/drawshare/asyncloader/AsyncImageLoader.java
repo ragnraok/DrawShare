@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.drawshare.Request.Constant;
 import com.drawshare.Request.Util;
@@ -25,6 +28,7 @@ public class AsyncImageLoader {
 	
 	private final Handler handler = new Handler();
 	private static HashMap<String, SoftReference<Bitmap>> ramImageCache = new HashMap<String, SoftReference<Bitmap>>();
+	private ExecutorService executorService = Executors.newFixedThreadPool(10);
 	
 	
 	public interface ImageLoadListener {
@@ -60,41 +64,8 @@ public class AsyncImageLoader {
 		}
 	}
 	
-	public void loadImage(Integer rowNum, String imgeaUrl, ImageLoadListener listener, int requireSize) {
-		final ImageLoadListener loadListener = listener;
-		final Integer row = rowNum;
-		final String imageURL = imgeaUrl;
-		final int requireSIZE = requireSize;
-		//Log.d(Constant.LOG_TAG, "call loadImage");
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				if (AsyncImageLoader.this.allowedLoad == false) {
-					synchronized (lock) {
-						try {
-							lock.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-				else {
-					if (allowedLoad == true && firstLoad == true) {
-						loadImagePri(row, imageURL, loadListener, requireSIZE);
-					}
-					else if (allowedLoad == true && row >= startLoadRow && row <= endLoadRow) {
-						loadImagePri(row, imageURL, loadListener, requireSIZE);
-					}
-				}
-			}
-		}).start();
-	}
-	
-	private void loadImagePri(final Integer rowNum, String imageUrl, final ImageLoadListener listener,
-			int requireSize) {
+	public void loadImage(final Integer rowNum, final String imageUrl, final ImageLoadListener listener, 
+			final int requireSize) {
 		if (ramImageCache.containsKey(imageUrl)) {
 			SoftReference<Bitmap> sfBitmap = ramImageCache.get(imageUrl);
 			final Bitmap bitmap = sfBitmap.get();
@@ -111,16 +82,54 @@ public class AsyncImageLoader {
 				return;
 			}
 		}
-		else {
-			if (this.netStatus == true) {
-				this.loadImageFromNet(rowNum, imageUrl, listener, requireSize);
-				//Log.d(Constant.LOG_TAG, "load from net"); // called 8 times....
+		executorService.submit(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				loadImageDums(rowNum, imageUrl, listener, requireSize);
 			}
-			else {
-				this.loadImageFromCache(rowNum, imageUrl, listener, requireSize);
-				//Log.d(Constant.LOG_TAG, "load from cache");
+		});
+	}
+	
+	private void loadImageDums(Integer rowNum, String imageUrl, ImageLoadListener listener, int requireSize) {
+		final ImageLoadListener loadListener = listener;
+		final Integer row = rowNum;
+		final String imageURL = imageUrl;
+		final int requireSIZE = requireSize;
+		//Log.d(Constant.LOG_TAG, "call loadImage");
+		if (AsyncImageLoader.this.allowedLoad == false) {
+			synchronized (lock) {
+				try {
+					lock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
+		else {
+			if (allowedLoad == true && firstLoad == true) {
+				loadImagePri(row, imageURL, loadListener, requireSIZE);
+			}
+			else if (allowedLoad == true && row >= startLoadRow && row <= endLoadRow) {
+				loadImagePri(row, imageURL, loadListener, requireSIZE);
+			}
+		}
+	}
+	
+	private void loadImagePri(final Integer rowNum, String imageUrl, final ImageLoadListener listener,
+			int requireSize) {
+		
+		if (this.netStatus == true) {
+			this.loadImageFromNet(rowNum, imageUrl, listener, requireSize);
+			//Log.d(Constant.LOG_TAG, "load from net"); // called 8 times....
+		}
+		else {
+			this.loadImageFromCache(rowNum, imageUrl, listener, requireSize);
+			//Log.d(Constant.LOG_TAG, "load from cache");
+		}
+		
 	}
 	
 	private void loadImageFromNet(final Integer rowNum, String imageUrl, final ImageLoadListener listener,

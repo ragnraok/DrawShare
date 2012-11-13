@@ -59,7 +59,7 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			@Override
 			public void onImageLoad(Integer rowNum, Bitmap bitmap) {
 				// TODO Auto-generated method stub
-				View view = listOrGridView.findViewWithTag(rowNum);
+				View view = viewList[rowNum];
 				if (view != null) {
 					ImageView image = (ImageView) view.findViewById(R.id.friends_news_grid_avatar_image);
 					image.setImageBitmap(bitmap);
@@ -75,7 +75,7 @@ public class FriendsNewAdapter extends BaseAsyncAdapter<FriendActivity> {
 			@Override
 			public void onError(Integer rowNum) {
 				// TODO Auto-generated method stub
-				View view = listOrGridView.findViewWithTag(rowNum);
+				View view = viewList[rowNum];
 				if (view != null) {
 					ImageView image = (ImageView) view.findViewById(R.id.friends_news_grid_avatar_image);
 					image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.default_pict_temp));

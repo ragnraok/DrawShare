@@ -40,6 +40,7 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 	private static String date = null;
 	 
 	private boolean netStatus = false;
+	private boolean ifLoadFinish = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -74,12 +75,12 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		// TODO Auto-generated method stub
 		super.onPause();
 		if (netStatus) {
-			if (this.pict != null) {
-				this.pictImageView.setImageBitmap(this.pict);
-			}
-			else {
-				this.getLoaderManager().getLoader(0).stopLoading();
-			}
+			//if (this.pict != null) {
+			//	this.pictImageView.setImageBitmap(this.pict);
+			//}
+			//else {
+			//	this.getLoaderManager().getLoader(0).stopLoading();
+			//}
 		}
 	}
 
@@ -88,12 +89,12 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (netStatus) {
-			if (this.pict != null) {
-				this.pictImageView.setImageBitmap(this.pict);
-			}
-			else {
-				this.getLoaderManager().getLoader(0).startLoading();
-			}
+			//if (this.pict != null) {
+			//	this.pictImageView.setImageBitmap(this.pict);
+			//}
+			//else {
+			//	this.getLoaderManager().getLoader(0).startLoading();
+			//}
 		}
 	}
 
@@ -106,17 +107,20 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 	@Override
 	public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
 		// TODO Auto-generated method stub
-		this.pict = data;
-		this.pictImageView.setImageBitmap(this.pict);
-		//Log.d(Constant.LOG_TAG, "set the pictBitmap");
-		if (this.date != null)
-			this.pictDateTextView.setText(date);
-		
-		if (this.title != null)
-			this.pictTitleTextView.setText(title);
-		
-		this.progressBar.setVisibility(View.INVISIBLE);
-		this.pictImageView.setVisibility(View.VISIBLE);
+		//if (ifLoadFinish == false) {
+			this.pict = data;
+			this.pictImageView.setImageBitmap(this.pict);
+			//Log.d(Constant.LOG_TAG, "set the pictBitmap");
+			if (this.date != null)
+				this.pictDateTextView.setText(date);
+			
+			if (this.title != null)
+				this.pictTitleTextView.setText(title);
+			
+			this.progressBar.setVisibility(View.INVISIBLE);
+			this.pictImageView.setVisibility(View.VISIBLE);
+			ifLoadFinish = true;
+		//}
 	}
 
 	@Override
@@ -126,6 +130,7 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.pictImageView.setVisibility(View.INVISIBLE);
+		ifLoadFinish = false;
 	}
 	
 	private static class PictLoader extends AsyncTaskLoader<Bitmap> {

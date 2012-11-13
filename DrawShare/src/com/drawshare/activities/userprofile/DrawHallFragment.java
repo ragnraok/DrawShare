@@ -43,6 +43,7 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 	private ArrayList<Picture> drawHallPicts = null;
 	private DrawHallAdapter adapter = null;
 	private boolean netStatus = false;
+	private boolean ifFinishLoad = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -65,10 +66,10 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 		// TODO Auto-generated method stub
 		super.onPause();
 		if (this.adapter != null) {
-			this.adapter.stopLoad();
+			//this.adapter.stopLoad();
 		}
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).stopLoading();
+		//if (netStatus)
+			//this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -76,10 +77,10 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (this.adapter != null) {
-			this.adapter.resumeLoad();
+			//this.adapter.resumeLoad();
 		}
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).startLoading();
+		//if (netStatus)
+			//this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override
@@ -120,7 +121,10 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 		
 		this.drawHallPicts = data;
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		this.adapter = new DrawHallAdapter(this.getActivity(), pictsGridView, data, application.getNetworkState());
+		if (ifFinishLoad == false) {
+			this.adapter = new DrawHallAdapter(this.getActivity(), pictsGridView, data, application.getNetworkState());
+			ifFinishLoad = true;
+		}
 		this.pictsGridView.setAdapter(adapter);
 		this.pictsGridView.setVisibility(View.VISIBLE);
 	}
@@ -133,6 +137,8 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 		
 		this.drawHallPicts = null;
 		this.adapter = null;
+		
+		ifFinishLoad = false;
 	}
 	
 	private static class DrawHallLoader extends AsyncTaskLoader<ArrayList<Picture>> {

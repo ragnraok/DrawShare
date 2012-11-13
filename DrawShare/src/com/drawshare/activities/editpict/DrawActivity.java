@@ -164,6 +164,19 @@ public class DrawActivity extends BaseActivity implements OnClickListener {
 			// load the bitmap
 			if (this.application.getNetworkState()) {
 				final ProgressDialog progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+				progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+					
+					@Override
+					public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+						// TODO Auto-generated method stub
+						if (keyCode == event.KEYCODE_BACK) {
+							progressDialog.dismiss();
+							finish();
+							return true;
+						}
+						return false;
+					}
+				});
 				final Handler handler = new Handler() {
 
 					@Override

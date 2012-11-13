@@ -44,6 +44,7 @@ public class UserPictsFragment extends BaseUserFragment
 	
 	private static String userId = null;
 	private boolean netStatus = false;
+	private boolean ifFinishLoad = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -79,10 +80,10 @@ public class UserPictsFragment extends BaseUserFragment
 		// TODO Auto-generated method stub
 		super.onPause();
 		if (this.adapter != null) {
-			this.adapter.stopLoad();
+			//this.adapter.stopLoad();
 		}
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).stopLoading();
+		//if (netStatus)
+		//	this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -90,10 +91,10 @@ public class UserPictsFragment extends BaseUserFragment
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (this.adapter != null) {
-			this.adapter.resumeLoad();
+			//this.adapter.resumeLoad();
 		}
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).startLoading();
+		//if (netStatus)
+		//	this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override
@@ -135,8 +136,10 @@ public class UserPictsFragment extends BaseUserFragment
 		this.progressBar.setVisibility(View.INVISIBLE);
 		
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		
-		adapter = new UserPictsAdapter(this.getActivity(), gridView, data, application.getNetworkState());
+		if (ifFinishLoad == false) {
+			adapter = new UserPictsAdapter(this.getActivity(), gridView, data, application.getNetworkState());
+			ifFinishLoad = true;
+		}
 		this.gridView.setAdapter(adapter);
 		this.gridView.setVisibility(View.VISIBLE);
 	}
@@ -149,6 +152,8 @@ public class UserPictsFragment extends BaseUserFragment
 		
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.gridView.setVisibility(View.INVISIBLE);
+		
+		ifFinishLoad = false;
 	}
 	
 	private static class UserPictsLoader extends AsyncTaskLoader<ArrayList<Picture>> {

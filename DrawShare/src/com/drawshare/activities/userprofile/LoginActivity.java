@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,8 @@ import com.drawshare.R;
 import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.userprofile.UserLogin;
 import com.drawshare.activities.base.BaseActivity;
+import com.drawshare.activities.base.HotestPictureActivity;
+import com.drawshare.activities.base.SplashScreenActivity;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
@@ -104,7 +107,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         return true;
     }
 */
-	@SuppressWarnings("static-access")
+	
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -163,5 +167,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				};
 			}
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		//return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent nextIntent = new Intent(LoginActivity.this, HotestPictureActivity.class);
+			startActivity(nextIntent);
+			finish();
+			return true;
+		}
+		return false;
 	}
 }

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -139,6 +140,19 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				}
 			}, 500);*/
 			progressDialog = DrawShareUtil.getWaitProgressDialog(this);
+			progressDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+				
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					// TODO Auto-generated method stub
+					if (keyCode == event.KEYCODE_BACK) {
+						progressDialog.dismiss();
+						finish();
+						return true;
+					}
+					return false;
+				}
+			});
 			handler = new Handler() {
 
 				@Override

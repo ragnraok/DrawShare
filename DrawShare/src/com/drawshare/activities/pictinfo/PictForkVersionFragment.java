@@ -58,6 +58,9 @@ public class PictForkVersionFragment extends BaseFragment
 	private AsyncImageLoader sourceImageLoader = null;
 	private AsyncImageLoader sourceUserAvatarLoader = null;
 	
+	private boolean ifLoadFinish = false;
+	private boolean ifLoadSourceFinish = false;
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -99,13 +102,13 @@ public class PictForkVersionFragment extends BaseFragment
 		super.onPause();
 		this.getLoaderManager().getLoader(0).stopLoading();
 		if (this.adapter != null) {
-			adapter.stopLoad();
+			//adapter.stopLoad();
 		}
 		if (this.sourceImageLoader != null) {
-			sourceImageLoader.lock();
+			//sourceImageLoader.lock();
 		}
 		if (this.sourceUserAvatarLoader != null) {
-			sourceUserAvatarLoader.lock();
+			//sourceUserAvatarLoader.lock();
 		}
 	}
 
@@ -115,13 +118,13 @@ public class PictForkVersionFragment extends BaseFragment
 		super.onResume();
 		this.getLoaderManager().getLoader(0).startLoading();
 		if (this.adapter != null) {
-			adapter.resumeLoad();
+			//adapter.resumeLoad();
 		}
 		if (this.sourceImageLoader != null) {
-			sourceImageLoader.unlock();
+			//sourceImageLoader.unlock();
 		}
 		if (this.sourceUserAvatarLoader != null) {
-			sourceUserAvatarLoader.unlock();
+		//	sourceUserAvatarLoader.unlock();
 		}
 	}
 
@@ -152,47 +155,50 @@ public class PictForkVersionFragment extends BaseFragment
 		this.forkPictList = data;
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		if (data != null) {
-			adapter = new PictForkAdapter(this.getActivity(), this.forkGridView, data, application.getNetworkState());
+			if (ifLoadFinish == false) {
+				adapter = new PictForkAdapter(this.getActivity(), this.forkGridView, data, application.getNetworkState());
+				ifLoadFinish = true;
+			}
 			this.forkGridView.setAdapter(adapter);
 			this.forkGridView.setVisibility(View.VISIBLE);
 			this.forkProgressBar.setVisibility(View.INVISIBLE);
 		}
 		if (sourcePict != null) {
-			String createDateString = new SimpleDateFormat("yyyy-MM-dd").format(sourcePict.createDate);
-			this.sourceCreateDateTextView.setText(createDateString);
-			this.sourceTitleTextView.setText(sourcePict.title);
-			this.sourceUsernameTextView.setText(sourcePict.creatUserName);
-			
-			sourceImageLoader.loadImage(0, sourcePict.pictURL, new AsyncImageLoader.ImageLoadListener() {
+				String createDateString = new SimpleDateFormat("yyyy-MM-dd").format(sourcePict.createDate);
+				this.sourceCreateDateTextView.setText(createDateString);
+				this.sourceTitleTextView.setText(sourcePict.title);
+				this.sourceUsernameTextView.setText(sourcePict.creatUserName);
 				
-				@Override
-				public void onImageLoad(Integer rowNum, Bitmap bitmap) {
-					// TODO Auto-generated method stub
-					sourceImageView.setImageBitmap(bitmap);
-				}
-				
-				@Override
-				public void onError(Integer rowNum) {
-					// TODO Auto-generated method stub
-					sourceImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
+				sourceImageLoader.loadImage(0, sourcePict.pictURL, new AsyncImageLoader.ImageLoadListener() {
 					
-				}
-			}, DrawShareConstant.PICT_FROK_SOURCE_IMAGE_SIZE);
-			
-			this.sourceUserAvatarLoader.loadImage(0, sourcePict.createUserAvatarUrl, new AsyncImageLoader.ImageLoadListener() {
+					@Override
+					public void onImageLoad(Integer rowNum, Bitmap bitmap) {
+						// TODO Auto-generated method stub
+						sourceImageView.setImageBitmap(bitmap);
+					}
+					
+					@Override
+					public void onError(Integer rowNum) {
+						// TODO Auto-generated method stub
+						sourceImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
+						
+					}
+				}, DrawShareConstant.PICT_FROK_SOURCE_IMAGE_SIZE);
 				
-				@Override
-				public void onImageLoad(Integer rowNum, Bitmap bitmap) {
-					// TODO Auto-generated method stub
-					sourceAvatarImageView.setImageBitmap(bitmap);
-				}
-				
-				@Override
-				public void onError(Integer rowNum) {
-					// TODO Auto-generated method stub
-					sourceAvatarImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
-				}
-			}, DrawShareConstant.PICT_FORK_SOURCE_AVATAR_SIZE);
+				this.sourceUserAvatarLoader.loadImage(0, sourcePict.createUserAvatarUrl, new AsyncImageLoader.ImageLoadListener() {
+					
+					@Override
+					public void onImageLoad(Integer rowNum, Bitmap bitmap) {
+						// TODO Auto-generated method stub
+						sourceAvatarImageView.setImageBitmap(bitmap);
+					}
+					
+					@Override
+					public void onError(Integer rowNum) {
+						// TODO Auto-generated method stub
+						sourceAvatarImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_pict_temp));
+					}
+				}, DrawShareConstant.PICT_FORK_SOURCE_AVATAR_SIZE);		
 		}
 	}
 
@@ -201,6 +207,8 @@ public class PictForkVersionFragment extends BaseFragment
 		// TODO Auto-generated method stub
 		this.forkPictList = null;
 		this.sourcePict = null;
+		this.ifLoadFinish = false;
+		this.ifLoadSourceFinish = false;
 	}
 	
 	private static class PictForkVersionLoader extends AsyncTaskLoader<ArrayList<Picture>> {

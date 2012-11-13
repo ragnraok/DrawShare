@@ -38,6 +38,7 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 	private ProgressBar progressBar = null;
 	private FriendsNewAdapter adapter = null;
 	private boolean netStatus = false;
+	private boolean ifFinishLoad = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -77,20 +78,22 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		if (this.adapter != null)
-			this.adapter.stopLoad();
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).stopLoading();
+		if (this.adapter != null) {
+			//this.adapter.stopLoad();
+		}
+		//if (netStatus)
+		//	this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if (this.adapter != null)
-			this.adapter.resumeLoad();
-		if (netStatus)
-			this.getLoaderManager().getLoader(0).startLoading();
+		if (this.adapter != null) {
+			//this.adapter.resumeLoad();
+		}
+		//if (netStatus)
+		//	this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override
@@ -107,7 +110,10 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 		this.friendNews = data;
 		Log.d(Constant.LOG_TAG, "the data.size is " + data.size());
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		adapter = new FriendsNewAdapter(this, listView, data, application.getNetworkState());
+		if (ifFinishLoad == false) {
+			adapter = new FriendsNewAdapter(this, listView, data, application.getNetworkState());
+			ifFinishLoad = true;
+		}
 		this.listView.setAdapter(adapter);
 		
 		this.progressBar.setVisibility(View.INVISIBLE);
@@ -122,6 +128,7 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 		this.listView.setVisibility(View.INVISIBLE);
 		
 		this.friendNews = null;
+		this.ifFinishLoad = false;
 	}
 	
 	private static class FriendNewsLoader extends AsyncTaskLoader<ArrayList<FriendActivity>> {

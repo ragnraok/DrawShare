@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,8 @@ import com.drawshare.Request.Constant;
 import com.drawshare.Request.exceptions.UserExistException;
 import com.drawshare.Request.userprofile.UserRegister;
 import com.drawshare.activities.base.BaseActivity;
+import com.drawshare.activities.base.HotestPictureActivity;
+import com.drawshare.activities.base.SplashScreenActivity;
 import com.drawshare.datastore.ApiKeyHandler;
 import com.drawshare.datastore.UserIdHandler;
 import com.drawshare.datastore.UserNameHandler;
@@ -166,5 +169,18 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		//return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent nextIntent = new Intent(RegisterActivity.this, HotestPictureActivity.class);
+			startActivity(nextIntent);
+			finish();
+			return true;
+		}
+		return false;
 	}
 }
