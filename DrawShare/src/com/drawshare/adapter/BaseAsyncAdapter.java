@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,25 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 			viewList[i] = inflater.inflate(this.layoutId, null, false);
 		}
 		//this.listOrGridView.setOnScrollListener(onScrollListener);
+		init();
+	}
+	
+	public void init() {
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < viewList.length; i++) {
+					bindView(i, viewList[i]);
+					setImage(i, viewList[i]);
+					ifLoadBit[i] = true;
+					ifLoad = true;
+					Log.d("GetView", "set load for pos " + i);
+				}
+			}
+		}, 50);
 	}
 	
 	/**
@@ -126,9 +146,9 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		Log.d("GetView", "Position " + position);
-		setViewTag(position, viewList[position]);
-		
+		//Log.d("GetView", "Position " + position);
+		//setViewTag(position, viewList[position]);
+		/*
 		if (ifLoadBit[position] == false) {
 			//Log.d(Constant.LOG_TAG, "load " + position);
 			bindView(position, viewList[position]);
@@ -136,6 +156,7 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 			ifLoadBit[position] = true;
 			
 			// load the previous and next images
+			
 			if (position + 1 < this.viewList.length && ifLoadBit[position + 1] == false) {
 				bindView(position + 1, viewList[position + 1]);
 				setImage(position + 1, viewList[position + 1]);
@@ -150,7 +171,8 @@ public abstract class BaseAsyncAdapter<T> extends BaseAdapter{
 		}
 		else {
 			return viewList[position];
-		}
+		}*/
+		return viewList[position];
 		/*
 		if (ifLoad == false) {
 			for (int i = 0; i < viewList.length; i++) {

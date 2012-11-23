@@ -219,7 +219,7 @@ public class OtherUserIndexActivity extends BaseFragmentActivity implements OnCl
 				@Override
 				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 					// TODO Auto-generated method stub
-					if (keyCode == event.KEYCODE_BACK) {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						progressDialog.dismiss();
 						finish();
 						return true;

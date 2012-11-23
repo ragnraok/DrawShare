@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.exceptions.UserNotExistException;
@@ -132,21 +133,36 @@ public class UserPictsFragment extends BaseUserFragment
 	public void onLoadFinished(Loader<ArrayList<Picture>> loader,
 			ArrayList<Picture> data) {
 		// TODO Auto-generated method stub
-		this.pictList = data;
-		this.progressBar.setVisibility(View.INVISIBLE);
-		
-		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		if (ifFinishLoad == false) {
-			adapter = new UserPictsAdapter(this.getActivity(), gridView, data, application.getNetworkState());
-			ifFinishLoad = true;
+		if (data != null) {
+			this.pictList = data;
+			this.progressBar.setVisibility(View.INVISIBLE);
+			
+			DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
+			if (ifFinishLoad == false) {
+				adapter = new UserPictsAdapter(this.getActivity(), gridView, data, application.getNetworkState());
+				ifFinishLoad = true;
+			}
+			this.gridView.setAdapter(adapter);
+			this.gridView.setVisibility(View.VISIBLE);
 		}
-		this.gridView.setAdapter(adapter);
-		this.gridView.setVisibility(View.VISIBLE);
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Picture>> arg0) {
 		// TODO Auto-generated method stub
+		this.adapter = null;
+		this.pictList = null;
+		
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.gridView.setVisibility(View.INVISIBLE);
+		
+		ifFinishLoad = false;
+	}
+	
+	public void resetLoader() {
 		this.adapter = null;
 		this.pictList = null;
 		
@@ -238,7 +254,9 @@ public class UserPictsFragment extends BaseUserFragment
 			}).setNegativeButton(R.string.cancel, null).show();
 			break;
 		case R.id.user_index_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 		default:
 			break;
 		}

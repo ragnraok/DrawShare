@@ -63,7 +63,7 @@ public class UserPictureNetRenderer extends NetRender<Picture>{
 				pictureList.add(picture);
 			}
 			return pictureList;
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

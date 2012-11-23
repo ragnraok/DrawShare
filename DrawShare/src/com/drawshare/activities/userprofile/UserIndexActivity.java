@@ -317,9 +317,14 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		//Log.d(Constant.LOG_TAG, "onResume");
-		//this.getSupportLoaderManager().getLoader(0).reset();
-		//this.getSupportLoaderManager().getLoader(0).startLoading();
+		if (this.application.getNetworkState()) {
+			Log.d(Constant.LOG_TAG, "onResume");
+			this.getSupportLoaderManager().getLoader(0).reset();
+			this.getSupportLoaderManager().getLoader(0).startLoading();
+		}
+		else {
+			Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 
@@ -355,6 +360,9 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 					}
 				}, DrawShareConstant.USER_INDEX_AVATAR_SIZE);
 			}
+		}
+		else {
+			Toast.makeText(this, getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -414,6 +422,8 @@ public class UserIndexActivity extends BaseFragmentActivity implements OnTabChan
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return null;
+			} catch (Exception e) {
 				return null;
 			}
 		}

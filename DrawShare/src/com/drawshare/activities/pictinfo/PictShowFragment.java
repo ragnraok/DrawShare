@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
@@ -40,7 +41,6 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 	private static String date = null;
 	 
 	private boolean netStatus = false;
-	private boolean ifLoadFinish = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 	@Override
 	public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
 		// TODO Auto-generated method stub
-		//if (ifLoadFinish == false) {
+		if (data != null) {
 			this.pict = data;
 			this.pictImageView.setImageBitmap(this.pict);
 			//Log.d(Constant.LOG_TAG, "set the pictBitmap");
@@ -119,8 +119,10 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 			
 			this.progressBar.setVisibility(View.INVISIBLE);
 			this.pictImageView.setVisibility(View.VISIBLE);
-			ifLoadFinish = true;
-		//}
+		}
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
@@ -130,7 +132,6 @@ public class PictShowFragment extends BaseFragment implements LoaderCallbacks<Bi
 		
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.pictImageView.setVisibility(View.INVISIBLE);
-		ifLoadFinish = false;
 	}
 	
 	private static class PictLoader extends AsyncTaskLoader<Bitmap> {

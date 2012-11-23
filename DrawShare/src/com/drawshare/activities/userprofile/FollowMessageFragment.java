@@ -96,14 +96,19 @@ public class FollowMessageFragment extends BaseFragment implements LoaderCallbac
 	public void onLoadFinished(Loader<ArrayList<FollowMessage>> loader,
 			ArrayList<FollowMessage> data) {
 		// TODO Auto-generated method stub
-		this.progressBar.setVisibility(View.INVISIBLE);
-		
-		this.messageList = data;
-		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		if (this.messageList != null) {
-			this.adapter = new FollowMessageAdapter(this.getActivity(), listView, messageList, application.getNetworkState());
-			this.listView.setAdapter(adapter);
-			this.listView.setVisibility(View.VISIBLE);
+		if (data != null) {
+			this.progressBar.setVisibility(View.INVISIBLE);
+			
+			this.messageList = data;
+			DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
+			if (this.messageList != null) {
+				this.adapter = new FollowMessageAdapter(this.getActivity(), listView, messageList, application.getNetworkState());
+				this.listView.setAdapter(adapter);
+				this.listView.setVisibility(View.VISIBLE);
+			}
+		} 
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
 		}
 	}
 

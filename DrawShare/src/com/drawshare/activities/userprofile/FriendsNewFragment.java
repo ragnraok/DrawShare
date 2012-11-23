@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
@@ -107,23 +108,36 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 	public void onLoadFinished(Loader<ArrayList<FriendActivity>> loader,
 			ArrayList<FriendActivity> data) {
 		// TODO Auto-generated method stub
-		this.friendNews = data;
-		Log.d(Constant.LOG_TAG, "the data.size is " + data.size());
-		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		if (ifFinishLoad == false) {
-			adapter = new FriendsNewAdapter(this, listView, data, application.getNetworkState());
-			ifFinishLoad = true;
+		if (data != null) {
+			this.friendNews = data;
+			Log.d(Constant.LOG_TAG, "the data.size is " + data.size());
+			DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
+			if (ifFinishLoad == false) {
+				adapter = new FriendsNewAdapter(this, listView, data, application.getNetworkState());
+				ifFinishLoad = true;
+			}
+			this.listView.setAdapter(adapter);
+			
+			this.progressBar.setVisibility(View.INVISIBLE);
+			this.listView.setVisibility(View.VISIBLE);
 		}
-		this.listView.setAdapter(adapter);
-		
-		this.progressBar.setVisibility(View.INVISIBLE);
-		this.listView.setVisibility(View.VISIBLE);
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<FriendActivity>> arg0) {
 		// TODO Auto-generated method stub
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.listView.setVisibility(View.INVISIBLE);
+		
+		this.friendNews = null;
+		this.ifFinishLoad = false;
+	}
+	
+	public void resetLoader() {
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.listView.setVisibility(View.INVISIBLE);
 		
@@ -210,7 +224,9 @@ public class FriendsNewFragment extends BaseUserFragment implements LoaderCallba
 			}).setNegativeButton(R.string.cancel, null).show();
 			break;
 		case R.id.user_index_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 		default:
 			break;
 		}

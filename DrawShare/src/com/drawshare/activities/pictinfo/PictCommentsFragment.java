@@ -7,9 +7,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.sax.Element;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.drawshare.R;
+import com.drawshare.Request.Constant;
 import com.drawshare.Request.exceptions.AuthFailException;
 import com.drawshare.Request.exceptions.PictureNotExistException;
 import com.drawshare.Request.exceptions.PictureOrUserNotExistException;
@@ -48,7 +51,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 	private PictCommentAdapter adapter = null;
 	
 	private ProgressDialog progressDialog = null;
-	private boolean ifLoadFinish = false;
+	private static boolean ifLoadFinish = false;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -115,26 +118,43 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		this.commentList = data;
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		if (data != null) {
+			Log.d(Constant.LOG_TAG, "the data is not null");
 			if (ifLoadFinish == false) {
+				//Log.d(Constant.LOG_TAG, "ifLoadFinish is False");
 				this.adapter = new PictCommentAdapter(this.getActivity(), this.listView, data, application.getNetworkState());
 				this.listView.setAdapter(adapter);
-				ifLoadFinish = true;
+				Log.d(Constant.LOG_TAG, "set the adapter");
+				//ifLoadFinish = true;
+				this.progressBar.setVisibility(View.INVISIBLE);
+				this.listView.setVisibility(View.VISIBLE);
 			}
 		}
-		
-		this.progressBar.setVisibility(View.INVISIBLE);
-		this.listView.setVisibility(View.VISIBLE);
+		else {
+			Log.d(Constant.LOG_TAG, "the data is null");
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Comment>> arg0) {
 		// TODO Auto-generated method stub
-		
+
+		Log.d(Constant.LOG_TAG, "onLoaderReset");
 		// reset the adapter
 		this.commentList = null;
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.listView.setVisibility(View.INVISIBLE);
-		this.ifLoadFinish = false;
+		ifLoadFinish = false;
+		//Log.d(Constant.LOG_TAG, "set ifLoadFinish to false");
+		this.adapter = null;
+	}
+	
+	public void resetLoader() {
+		this.commentList = null;
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.listView.setVisibility(View.INVISIBLE);
+		ifLoadFinish = false;
+		this.adapter = null;
 	}
 	
 	private static class PictCommentLoader extends AsyncTaskLoader<ArrayList<Comment>> {
@@ -155,7 +175,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 			// TODO Auto-generated method stub
 			//return null;
 			PictCommentNetRenderer renderer = new PictCommentNetRenderer(this.pictId);
-			
+			//ifLoadFinish = false;
 			try {
 				this.data = renderer.renderToList();
 				if (this.data != null) {
@@ -174,6 +194,7 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 			// TODO Auto-generated method stub
 			super.onReset();
 			this.data = null;
+			
 		}
 
 		@Override
@@ -213,7 +234,9 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 							if ((Boolean)msg.obj) {
 								Toast.makeText(PictCommentsFragment.this.getActivity(), 
 										getString(R.string.comment_success), Toast.LENGTH_LONG).show();
-								PictCommentsFragment.this.getLoaderManager().restartLoader(0, null, PictCommentsFragment.this);
+								pictCommentEditText.setText("");
+								getLoaderManager().getLoader(0).reset();
+								getLoaderManager().getLoader(0).startLoading();
 							}
 							else {
 								Toast.makeText(PictCommentsFragment.this.getActivity(), 
@@ -259,7 +282,9 @@ public class PictCommentsFragment extends BaseFragment implements LoaderCallback
 		//return false;
 		switch (item.getItemId()) {
 		case R.id.base_fragment_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 			break;
 		}
 		return true;

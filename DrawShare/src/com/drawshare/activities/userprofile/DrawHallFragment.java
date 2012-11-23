@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -34,6 +37,7 @@ import com.drawshare.render.netRenderer.HotestPictNetRenderer;
 import com.drawshare.render.object.Picture;
 import com.drawshare.util.DrawShareUtil;
 
+//@SuppressLint("NewApi")
 public class DrawHallFragment extends BaseUserFragment implements LoaderCallbacks<ArrayList<Picture>> {
 
 	private Button searchButton = null;
@@ -49,6 +53,16 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		//new StrictMode.ThreadPolicy.Builder().detectAll();
+	}
+	
+	
+	
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
 		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
 		netStatus = application.getNetworkState();
 		if (netStatus) {
@@ -59,7 +73,9 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 					Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
+
+
 
 	@Override
 	public void onPause() {
@@ -117,21 +133,36 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 	public void onLoadFinished(Loader<ArrayList<Picture>> loader,
 			ArrayList<Picture> data) {
 		// TODO Auto-generated method stub
-		this.progressBar.setVisibility(View.INVISIBLE);
-		
-		this.drawHallPicts = data;
-		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		if (ifFinishLoad == false) {
-			this.adapter = new DrawHallAdapter(this.getActivity(), pictsGridView, data, application.getNetworkState());
-			ifFinishLoad = true;
+		if (data != null) {
+			this.progressBar.setVisibility(View.INVISIBLE);
+			
+			this.drawHallPicts = data;
+			DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
+			if (ifFinishLoad == false) {
+				this.adapter = new DrawHallAdapter(this.getActivity(), pictsGridView, data, application.getNetworkState());
+				ifFinishLoad = true;
+			}
+			this.pictsGridView.setAdapter(adapter);
+			this.pictsGridView.setVisibility(View.VISIBLE);
 		}
-		this.pictsGridView.setAdapter(adapter);
-		this.pictsGridView.setVisibility(View.VISIBLE);
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Picture>> arg0) {
 		// TODO Auto-generated method stub
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.pictsGridView.setVisibility(View.INVISIBLE);
+		
+		this.drawHallPicts = null;
+		this.adapter = null;
+		
+		ifFinishLoad = false;
+	}
+	
+	public void resetLoader() {
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.pictsGridView.setVisibility(View.INVISIBLE);
 		
@@ -157,7 +188,6 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 			// TODO Auto-generated method stub
 			//return null;
 			HotestPictNetRenderer renderer = new HotestPictNetRenderer(20);
-			
 			this.pictList = renderer.renderToList();
 			
 			if (pictList != null) {
@@ -171,6 +201,7 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 			// TODO Auto-generated method stub
 			super.onReset();
 			this.pictList = null;
+		
 		}
 
 		@Override
@@ -207,7 +238,9 @@ public class DrawHallFragment extends BaseUserFragment implements LoaderCallback
 			}).setNegativeButton(R.string.cancel, null).show();
 			break;
 		case R.id.user_index_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 		default:
 			break;
 		}

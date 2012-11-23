@@ -28,7 +28,7 @@ public class AsyncImageLoader {
 	
 	private final Handler handler = new Handler();
 	private static HashMap<String, SoftReference<Bitmap>> ramImageCache = new HashMap<String, SoftReference<Bitmap>>();
-	private ExecutorService executorService = Executors.newFixedThreadPool(10);
+	private ExecutorService executorService = Executors.newFixedThreadPool(7);
 	
 	
 	public interface ImageLoadListener {

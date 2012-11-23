@@ -21,6 +21,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drawshare.R;
 import com.drawshare.Request.Constant;
@@ -163,6 +164,9 @@ public class PictForkVersionFragment extends BaseFragment
 			this.forkGridView.setVisibility(View.VISIBLE);
 			this.forkProgressBar.setVisibility(View.INVISIBLE);
 		}
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 		if (sourcePict != null) {
 				String createDateString = new SimpleDateFormat("yyyy-MM-dd").format(sourcePict.createDate);
 				this.sourceCreateDateTextView.setText(createDateString);
@@ -200,15 +204,27 @@ public class PictForkVersionFragment extends BaseFragment
 					}
 				}, DrawShareConstant.PICT_FORK_SOURCE_AVATAR_SIZE);		
 		}
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Picture>> arg0) {
 		// TODO Auto-generated method stub
 		this.forkPictList = null;
-		this.sourcePict = null;
-		this.ifLoadFinish = false;
-		this.ifLoadSourceFinish = false;
+		sourcePict = null;
+		ifLoadFinish = false;
+		ifLoadSourceFinish = false;
+	}
+	
+	public void resetLoader() {
+		this.forkPictList = null;
+		sourcePict = null;
+		ifLoadFinish = false;
+		ifLoadSourceFinish = false;
+		this.forkGridView.setVisibility(View.INVISIBLE);
+		this.forkProgressBar.setVisibility(View.VISIBLE);
 	}
 	
 	private static class PictForkVersionLoader extends AsyncTaskLoader<ArrayList<Picture>> {
@@ -280,7 +296,9 @@ public class PictForkVersionFragment extends BaseFragment
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.base_fragment_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 			break;
 		}
 		return true;

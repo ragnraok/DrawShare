@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -341,8 +342,12 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						// TODO Auto-generated method stub
 						super.handleMessage(msg);
 						progressDialog.dismiss();
-						if ((Boolean) msg.obj)
+						if ((Boolean) msg.obj) {
 							Toast.makeText(UserProfileActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+							avatarImageView.setImageBitmap(newAvatar);
+							followedAvatarImageView.setImageBitmap(newAvatar);
+							followerAvatarImageView.setImageBitmap(newAvatar);
+						}							
 						else {
 							Toast.makeText(UserProfileActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
 						}

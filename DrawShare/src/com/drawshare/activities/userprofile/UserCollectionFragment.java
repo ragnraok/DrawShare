@@ -143,22 +143,36 @@ public class UserCollectionFragment extends BaseUserFragment implements LoaderCa
 	@Override
 	public void onLoadFinished(Loader<ArrayList<Picture>> loader, ArrayList<Picture> data) {
 		// TODO Auto-generated method stub
-		this.progressBar.setVisibility(View.INVISIBLE);
-		
-		DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
-		if (ifFinishLoad == false) {
-			adapter = new UserCollectionAdapter(this.getActivity(), gridView, data, application.getNetworkState(), this.ifMyself);
-			ifFinishLoad = true;
+		if (data != null) {
+			this.progressBar.setVisibility(View.INVISIBLE);
+			
+			DrawShareApplication application = (DrawShareApplication) this.getActivity().getApplication();
+			if (ifFinishLoad == false) {
+				adapter = new UserCollectionAdapter(this.getActivity(), gridView, data, application.getNetworkState(), this.ifMyself);
+				ifFinishLoad = true;
+			}
+			this.gridView.setAdapter(adapter);
+			this.gridView.setVisibility(View.VISIBLE);
+			
+			this.pictList = data;
 		}
-		this.gridView.setAdapter(adapter);
-		this.gridView.setVisibility(View.VISIBLE);
-		
-		this.pictList = data;
+		else {
+			Toast.makeText(this.getActivity(), getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<ArrayList<Picture>> arg0) {
 		// TODO Auto-generated method stub
+		this.progressBar.setVisibility(View.VISIBLE);
+		this.gridView.setVisibility(View.INVISIBLE);
+		
+		this.adapter = null;
+		this.pictList = null;
+		this.ifFinishLoad  = false;
+	}
+	
+	public void resetLoader() {
 		this.progressBar.setVisibility(View.VISIBLE);
 		this.gridView.setVisibility(View.INVISIBLE);
 		
@@ -217,7 +231,9 @@ public class UserCollectionFragment extends BaseUserFragment implements LoaderCa
 	}
 	
 	private void reload() {
-		getLoaderManager().restartLoader(0, null, this);
+		getLoaderManager().getLoader(0).reset();
+		this.resetLoader();
+		getLoaderManager().getLoader(0).startLoading();
 	}
 	
 	public class UserCollectionAdapter extends BaseAsyncAdapter<Picture>  {
@@ -363,7 +379,9 @@ public class UserCollectionFragment extends BaseUserFragment implements LoaderCa
 			}).setNegativeButton(R.string.cancel, null).show();
 			break;
 		case R.id.user_index_menu_reload:
-			this.getLoaderManager().restartLoader(0, null, this);
+			this.getLoaderManager().getLoader(0).reset();
+			this.resetLoader();
+			this.getLoaderManager().getLoader(0).startLoading();
 		default:
 			break;
 		}
