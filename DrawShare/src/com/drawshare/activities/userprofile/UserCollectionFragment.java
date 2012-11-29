@@ -379,9 +379,11 @@ public class UserCollectionFragment extends BaseUserFragment implements LoaderCa
 			}).setNegativeButton(R.string.cancel, null).show();
 			break;
 		case R.id.user_index_menu_reload:
-			this.getLoaderManager().getLoader(0).reset();
-			this.resetLoader();
-			this.getLoaderManager().getLoader(0).startLoading();
+			if (netStatus) {
+				this.getLoaderManager().getLoader(0).reset();
+				this.resetLoader();
+				this.getLoaderManager().getLoader(0).startLoading();
+			}
 		default:
 			break;
 		}

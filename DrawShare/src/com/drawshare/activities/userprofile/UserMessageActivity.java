@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 
 import com.drawshare.R;
@@ -46,6 +47,10 @@ public class UserMessageActivity extends BaseFragmentActivity implements OnTabCh
         this.tabHost.setCurrentTab(0);
         
         tabHost.setOnTabChangedListener(this);
+        
+        if (!this.application.getNetworkState()) {
+        	Toast.makeText(this, this.getResources().getString(R.string.network_unavailable), Toast.LENGTH_LONG).show();
+        }
     }
     
     private void findAllView() {

@@ -73,7 +73,8 @@ public class FollowMessageFragment extends BaseFragment implements LoaderCallbac
 		if (this.adapter != null) {
 			this.adapter.stopLoad();
 		}
-		this.getLoaderManager().getLoader(0).stopLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -83,7 +84,8 @@ public class FollowMessageFragment extends BaseFragment implements LoaderCallbac
 		if (this.adapter != null) {
 			this.adapter.resumeLoad();
 		}
-		this.getLoaderManager().getLoader(0).startLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override

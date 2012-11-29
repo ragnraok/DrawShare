@@ -76,7 +76,8 @@ public class ForkMessageFragment extends BaseFragment implements LoaderCallbacks
 		if (this.adapter != null) {
 			this.adapter.stopLoad();
 		}
-		this.getLoaderManager().getLoader(0).stopLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).stopLoading();
 	}
 
 	@Override
@@ -86,7 +87,8 @@ public class ForkMessageFragment extends BaseFragment implements LoaderCallbacks
 		if (this.adapter != null) {
 			this.adapter.resumeLoad();
 		}
-		this.getLoaderManager().getLoader(0).startLoading();
+		if (netStatus)
+			this.getLoaderManager().getLoader(0).startLoading();
 	}
 
 	@Override

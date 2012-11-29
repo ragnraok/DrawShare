@@ -53,6 +53,13 @@ public class SplashScreenActivity extends BaseActivity {
 					//nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
 					nextIntent = new Intent(SplashScreenActivity.this, HotestPictureActivity.class);
 					//nextIntent = new Intent(SplashScreenActivity.this, RegisterActivity.class);
+					/*
+					nextIntent = new Intent(SplashScreenActivity.this, UserIndexActivity.class);
+					UserNameHandler.setUserName(SplashScreenActivity.this, "ddd");
+					ApiKeyHandler.setApiKey(SplashScreenActivity.this, "123");
+					UserIdHandler.setUserId(SplashScreenActivity.this, "123");
+					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.USER_ID, 1);
+					nextIntent.putExtra(DrawShareConstant.EXTRA_KEY.IF_MYSELF, true);*/
 				}
 				startActivity(nextIntent);
 				finish();
